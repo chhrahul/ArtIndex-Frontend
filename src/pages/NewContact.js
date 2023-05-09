@@ -24,7 +24,7 @@ export default function NewContact() {
     const [files, setfiles] = React.useState();
     const [tags, setTags] = React.useState([]);
     const [tagLabel, setTagLabel] = React.useState([]);
-    const [success, setSuccess] = React.useState();
+
 
     const handleTags = {
         tags,
@@ -36,16 +36,13 @@ export default function NewContact() {
 
     function handleChange(e) {
         let response = ""
-
         let filesItem = e.target.files;
         let fileReader = new FileReader();
         fileReader.readAsDataURL(filesItem[0]);
-
         fileReader.onload = (event) => {
             response = fileReader.result
             setfiles(response)
         }
-
     }
 
 
@@ -115,13 +112,10 @@ export default function NewContact() {
                     <div className="mt-16 ml-16 mr-16 mb-16">
                         <div className="">
                             <div className="inline-flex">
-                                {/* <div className="w-28">
-                                    <img className="w-28 h-28 rounded-full" {...handleImages} src={file} alt="Girl in a jacket" />
-                                    <input type="file" onChange={handleChange} className="w-28 mt-4" />
-                                </div> */}
+
                                 <form onSubmit={handleSubmit(onSubmit)} className=' inline-flex'>
                                     <div className="w-28">
-                                        <img className="w-28 h-28 rounded-full" {...handleImages} src={files ? files : '/profile.png'} alt="Profile Image" />
+                                        <img className="w-28 h-28 rounded-full" {...handleImages} src={files ? files : '/profile.png'} alt="Profile" />
                                         <input type="file" onChange={handleChange} className="w-28 mt-4" />
                                     </div>
                                     <div className=''>
@@ -159,20 +153,11 @@ export default function NewContact() {
                                                             message: "invalid email address"
                                                         }
                                                     })} className="text-black  border-2 border-blue-200 mt-3 bg-white focus:ring-2 focus:outline-none focus:ring-blue-500  rounded-lg text-md px-4 dark:bg-blue-600 w-60 ml-2" placeholder="E-mail" />
-                                                    {/* <span className='mt-3 ml-1'><CiCircleRemove size={20} color='DodgerBlue' /></span> */}
+                                                   
 
                                                 </div>
                                                 {errors.Email && <span className='text-red-500 ml-12'>{errors.Email?.message}</span>}
-                                                {/* <div className='flex mt-4 justify-between items-center'>
-                                                    <span className='mt-6 mr-4'><IoMdMail size={30} color='gray' /></span>
-                                                    <select className="mt-4 text-black  border-2 border-blue-200  bg-white hover:bg-white focus:ring-2 focus:outline-none focus:ring-blue-500 font-bold rounded-lg text-md px-4 py-2  text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                                                        <option >Work</option>
-                                                        <option >Personal</option>
-                                                    </select>
-                                                    <input type="text" className="text-black  border-2 border-blue-200 mt-3 bg-white focus:ring-2 focus:outline-none focus:ring-blue-500 rounded-lg text-md px-4 dark:bg-blue-600 w-60  ml-2" {...register("EmailSecond")} placeholder="E-mail" />
-                                                    <span className='mt-3 ml-1'><CiCircleRemove size={20} color='DodgerBlue' /></span>
-
-                                                </div> */}
+                                       
                                                 <ul>
                                                     {fields.map((item, index) => (
                                                         <li key={item.id}>
@@ -378,7 +363,7 @@ export default function NewContact() {
                                                     {/* <IoIosCheckmarkCircleOutline size={28} color='DodgerBlue' /> */}
                                                     <span className="">
                                                         <TagInput {...handleTags} className="" labelField={tagLabel} />
-                                                        <span className='cursor-pointer absolute right-side'><input type="checkbox" className="text-white border-blue-600 bg-blue-600 hover:bg-blue-600 checked:bg-blue-600 dark:bg-blue-600 focus:ring-offset-2 focus:ring-0 focus:border-blue-600  font-medium rounded-full text-sm px-4 py-4 text-center mr-1 mb-1" defaultChecked={true} onClick={handleOnClick}></input></span>
+                                                        {/* <span className='cursor-pointer absolute right-side'><input type="checkbox" className="text-white border-blue-600 bg-blue-600 hover:bg-blue-600 checked:bg-blue-600 dark:bg-blue-600 focus:ring-offset-2 focus:ring-0 focus:border-blue-600  font-medium rounded-full text-sm px-4 py-4 text-center mr-1 mb-1" defaultChecked={true} onClick={handleOnClick}></input></span> */}
                                                     </span>
 
                                                     <Modal show={showModal} size="sm" onClose={handleOnClose}>

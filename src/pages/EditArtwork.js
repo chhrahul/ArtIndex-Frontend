@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import MyDropzone from '../components/DropZone.js'
 import TagInput from '../components/TagInput';
 
-export default function AddArtwork() {
+export default function EditArtwork() {
     const [files, setFiles] = React.useState([]);
     const [tags, setTags] = React.useState([]);
     const [success, setSuccess] = React.useState();
@@ -13,28 +13,27 @@ export default function AddArtwork() {
     const [disabled, setDisabled] = React.useState(false);
     const { register, handleSubmit, formState: { errors } } = useForm();
     const navigate = useNavigate();
-    {console.log('files-',files)}
     const onSubmit = data => {
         data.tags = tags;
         data.image = files;
 
         async function saveData() {
+            console.log(data)
+            // const result = await AxiosInstance({
+            //     'url': '/add-artwork',
+            //     'method': 'post',
+            //     'data': data
+            // })
+            // setDisabled(true);
+            // if (result.status === 200) {
+            //     console.log(result.status)
+            //     setSuccess('Data added succesfully')
+            //     setloader(true)
+            //     setTimeout(() => {
+            //         navigate("/artwork");
+            //     }, 3000);
 
-            const result = await AxiosInstance({
-                'url': '/add-artwork',
-                'method': 'post',
-                'data': data
-            })
-            setDisabled(true);
-            if (result.status === 200) {
-                console.log(result.status)
-                setSuccess('Data added succesfully')
-                setloader(true)
-                setTimeout(() => {
-                    navigate("/artwork");
-                }, 3000);
-
-            }
+            // }
         }
         saveData()
     };
@@ -56,7 +55,7 @@ export default function AddArtwork() {
             <div className="max-[612px]:pt-8 pt-20 sm:ml-48 min-[612px]:top-20 bg-gray-200 h-full " >
                 {/* {success} */}
 
-                <h2 className="dark:text-black text-3xl  mb-4 px-6" >Add Artwork</h2>
+                <h2 className="dark:text-black text-3xl  mb-4 px-6" >Edit Artwork</h2>
                 <div className="p-4 border-1 border-blue-400 border-dashed mx-6 rounded-lg dark:border-blue-700 h-full top-20 bg-white">
                     <h2 className="text-sm font-bold text-black mb-4">Upload Image</h2>
 

@@ -72,7 +72,7 @@ select {
 }
 
 .dropZoneImg {
-  height: unset !important;
+  height: 210px !important;
 }
 .hauser{
   width: 87.666667% !important;
@@ -161,4 +161,13 @@ line-height: 45px;
 .mg-auto{
   margin:0 auto;
 
+}
+.background-bnnr{
+  background-color: rgb(43 59 255);
+}
+.feature-background{
+  background-color:#f0f0f0
+}
+.footer-background{
+  background-color:rgb(30 25 25);
 }
