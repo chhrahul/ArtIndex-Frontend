@@ -10,7 +10,7 @@ function TagInput(props) {
 
     const delimiters = [KeyCodes.comma, KeyCodes.enter, KeyCodes.tab];
 
-    const { tags, setTags, tagLabel, setTagLabel } = props
+    const { tags, setTags, tagLabel } = props
 
     const handleDelete = i => {
         setTags(tags.filter((tag, index) => index !== i));

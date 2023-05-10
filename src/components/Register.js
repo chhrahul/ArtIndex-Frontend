@@ -45,10 +45,8 @@ export default function Register(props) {
             const { data, status } = result.data
             if (status) {
                 setAuthType('')
-                console.log(data)
                 alert('User added succesfully')
                 setTimeout(() => {
-                    console.log('Hii')
                     handleOnClose()
                 }, 3000);
             } else {

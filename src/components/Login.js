@@ -29,15 +29,15 @@ export default function Login(props) {
             } else {
                 const userData = result.data;
                 const LoginData = userData.data;
-                console.log(LoginData[0]._id)
+                //console.log(LoginData[0]._id)
                if(userData.message == 'Login successfull'){
                 //setIsSubmitted(true)
-                localStorage.setItem('userId', JSON.stringify(LoginData[0]._id));
+                localStorage.setItem('userId', LoginData[0]._id);
                 localStorage.setItem('userEmail', JSON.stringify(LoginData[0].email));
                 localStorage.setItem('userName', JSON.stringify(LoginData[0].name));
                 navigate("/artwork");
                }
-                alert(userData.message)
+                //alert(userData.message)
             }
 
         }

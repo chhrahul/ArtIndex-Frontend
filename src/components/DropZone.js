@@ -3,39 +3,39 @@ import { useDropzone } from 'react-dropzone'
 
 function MyDropzone(props) {
     const { files, setFiles } = props
-    const [filesData, setFilefilesData] = React.useState([])
+
     const img = {
         width: '100%',
         height: '100%'
     };
-    let filesArray = ''
-    const baseStyle = {
-        flex: 1,
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        padding: '20px',
-        borderWidth: 2,
-        borderRadius: 2,
-        borderColor: 'rgb(139 137 137)',
-        borderStyle: 'dashed',
-        backgroundColor: '#fafafa',
-        color: '#bdbdbd',
-        outline: 'none',
-        transition: 'border .24s ease-in-out'
-    };
+    let filesArray = files
+    // const baseStyle = {
+    //     flex: 1,
+    //     display: 'flex',
+    //     flexDirection: 'column',
+    //     alignItems: 'center',
+    //     padding: '20px',
+    //     borderWidth: 2,
+    //     borderRadius: 2,
+    //     borderColor: 'rgb(139 137 137)',
+    //     borderStyle: 'dashed',
+    //     backgroundColor: '#fafafa',
+    //     color: '#bdbdbd',
+    //     outline: 'none',
+    //     transition: 'border .24s ease-in-out'
+    // };
 
-    const focusedStyle = {
-        borderColor: '#2196f3'
-    };
+    // const focusedStyle = {
+    //     borderColor: '#2196f3'
+    // };
 
-    const acceptStyle = {
-        borderColor: '#00e676'
-    };
+    // const acceptStyle = {
+    //     borderColor: '#00e676'
+    // };
 
-    const rejectStyle = {
-        borderColor: '#ff1744'
-    };
+    // const rejectStyle = {
+    //     borderColor: '#ff1744'
+    // };
 
     const encodeImageFileAsURL = async (file) => {
         let response = ""
@@ -61,10 +61,7 @@ function MyDropzone(props) {
     };
     
     const { getRootProps,
-        getInputProps,
-        isFocused,
-        isDragAccept,
-        isDragReject } = useDropzone({
+        getInputProps } = useDropzone({
             accept: {
                 'image/*': []
             },
@@ -79,7 +76,7 @@ function MyDropzone(props) {
 
             }
         });
-
+      
     const thumbs = files.map((file, index) => (
         <>
                     <span className='col-span-1 '>
@@ -87,7 +84,7 @@ function MyDropzone(props) {
                 <img
                     src={file[0]}
                     style={img}
-
+                    key={file.id}
                     className="dropZoneImg h-28"
                     alt="" />
             </span>
@@ -96,21 +93,21 @@ function MyDropzone(props) {
     ));
 
 
-    const style = React.useMemo(() => ({
-        ...baseStyle,
-        ...(isFocused ? focusedStyle : {}),
-        ...(isDragAccept ? acceptStyle : {}),
-        ...(isDragReject ? rejectStyle : {})
-    }), [
-        isFocused,
-        isDragAccept,
-        isDragReject
-    ]);
+    // const style = React.useMemo(() => ({
+    //     ...baseStyle,
+    //     ...(isFocused ? focusedStyle : {}),
+    //     ...(isDragAccept ? acceptStyle : {}),
+    //     ...(isDragReject ? rejectStyle : {})
+    // }), [
+    //     isFocused,
+    //     isDragAccept,
+    //     isDragReject
+    // ]);
 
     React.useEffect(() => {
         // Make sure to revoke the data uris to avoid memory leaks, will run on unmount
         return () => files.forEach(file => URL.revokeObjectURL(file.preview));
-    }, []);
+    }, [files]);
 
     return (
         <>

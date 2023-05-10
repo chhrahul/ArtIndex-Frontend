@@ -17,6 +17,7 @@ export default function AddArtwork() {
     const onSubmit = data => {
         data.tags = tags;
         data.image = files;
+        data.userId = localStorage.getItem("userId")
 
         async function saveData() {
 
@@ -27,7 +28,7 @@ export default function AddArtwork() {
             })
             setDisabled(true);
             if (result.status === 200) {
-                console.log(result.status)
+                //console.log(result.status)
                 setSuccess('Data added succesfully')
                 setloader(true)
                 setTimeout(() => {
@@ -159,7 +160,7 @@ export default function AddArtwork() {
 
                                         <input type="text" className="bg-white border-2 hover:bg-white border-blue-200 text-gray-800 font-bold py-2 px-4 w-14" placeholder='90' {...register("dimensionWidth")} />
 
-                                        <input type="text" className="bg-white border-r-2 border-t-2 border-b-2 border-blue-200 hover:bg-white text-gray-800 font-bold py-2 px-4  rounded-r-lg w-14" placeholder='D' />
+                                        <input type="text" className="bg-white border-r-2 border-t-2 border-b-2 border-blue-200 hover:bg-white text-gray-800 font-bold py-2 px-4  rounded-r-lg w-14" placeholder='D' readonly/>
 
                                     </div>
 

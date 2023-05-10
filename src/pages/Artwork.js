@@ -18,7 +18,7 @@ export default function Artwork() {
 
     const [showModal, setShowModal] = React.useState(false);
     const [showModal1, setShowModal1] = React.useState(false);
-    const [showAlertDelete, setshowAlertDelete] = React.useState(false);
+  
     const [getResult, setResult] = React.useState([]);
     const [DeleteID, setDeleteID] = React.useState();
     const [renderData, setrenderData] = React.useState([]);
@@ -30,13 +30,11 @@ export default function Artwork() {
     const [clearserach, setclearserach] = React.useState(false);
     let APIData = getResult
 
-
+    const navigate = useNavigate();
     const handleOnClick = (row) => {
 
         setmodaldata(row)
-      
-        console.log('modaldata', modaldata)
-        console.log('row', showModal)
+
         setShowModal(true)
     }
 
@@ -98,7 +96,7 @@ export default function Artwork() {
         })
         if (filteredData.length > 0) {
             setrenderData(filteredData)
-            console.log(filteredData)
+        
         }
         if (SearchValue === 'status') {
             setrenderData(getResult)
@@ -127,18 +125,38 @@ export default function Artwork() {
     const ResetSearch = () => {
         setrenderData(getResult)
         ref.current.value = '';
-        console.log('reset data')
         setclearserach(false)
 
     }
 
 
     const fetchInfo = () => {
-        return axios.get('http://127.0.0.1:3000/api/v1/get-artwork').then((res) => {
-            setResult(res.data.data)
-            setloader(false)
+        // return axios.get('http://127.0.0.1:3000/api/v1/get-artwork').then((res) => {
+        //     setResult(res.data.data)
+        //     setloader(false)
+        // }
+        // );
+        const userId=localStorage.getItem("userId")
+        var data = JSON.stringify({ 'id': userId })
+        
+        async function getData() {
+
+            const result = await AxiosInstance(
+                {
+                    'url': '/get-artwork',
+                    'method': 'post',
+                    'data': data
+                }
+            )
+           
+            if (result) {
+         
+                setResult(result.data.data)
+                 setloader(false)
+            }
+            
         }
-        );
+        getData()
 
     };
 
@@ -160,7 +178,7 @@ export default function Artwork() {
             'method': 'post',
             'data': data
         })
-        const { message, status } = result.data
+        const { status } = result.data
         if (status) {
             setShowModal1(false)
             fetchInfo();
@@ -175,7 +193,9 @@ export default function Artwork() {
         const EditData = getResult.find(apidata => {
             return apidata._id === id
         })
-        console.log(EditData)
+        navigate("/artwork/edit", { state: EditData });
+        //console.log(EditData)
+      
     }
 
     return (
@@ -274,7 +294,7 @@ export default function Artwork() {
                                         <div className="mt-5 mb-5">
                                             <h2 className="text-2xl font-extrabold dark:text-white">{data.Title}</h2>
                                             <p className="my-2 text-md text-gray-700 mb-16">{data.Description}</p>
-                                            <a href="/" className="underline my-2 text-md text-gray-700">{data.acrylicAndOil}</a> | <a href="/" className="underline my-2 text-md text-gray-700">{data.availability == 'avail' ? 'Availabile' : ''}{data.availability == 'notavail' ? 'Not Availabile' : ' '}</a> | <a href="/" className="underline my-2 text-md text-gray-700">${data.salery}</a>
+                                            <a href="/" className="underline my-2 text-md text-gray-700">{data.acrylicAndOil}</a> | <a href="/" className="underline my-2 text-md text-gray-700">{data.availability === 'avail' ? 'Availabile' : ''}{data.availability === 'notavail' ? 'Not Availabile' : ' '}</a> | <a href="/" className="underline my-2 text-md text-gray-700">${data.salery}</a>
                                         </div>
                                     </div>
                                     <div className="col-span-1 ... flex types">
@@ -366,7 +386,7 @@ export default function Artwork() {
                                             <div className="col-span-2 ...">
                                                 <div className="mt-5 mb-5 ml-8">
                                                     <span className='flex'><p className='text-lg font-extrabold ml-2'>{modaldata.Title}</p>
-                                                        <span className='top-5 right-12 absolute cursor-pointer'> <FiEdit2 /></span>
+                                                        <span className='top-5 right-12 absolute cursor-pointer' onClick={() => EditRow(modaldata._id)}> <FiEdit2 /></span>
                                                         <span className='top-4 right-4 absolute cursor-pointer' color="gray" onClick={handleOnClose}>X</span>
                                                     </span>
                                                     <p className='text-sm ml-2'>{modaldata.Description}</p>

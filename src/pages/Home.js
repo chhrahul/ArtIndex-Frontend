@@ -4,7 +4,6 @@ import Login from '../components/Login';
 import Register from '../components/Register';
 export default function Home() {
 
-
     const [showModal, setShowModal] = React.useState(false);
     const [authType, setAuthType] = React.useState('');
 
@@ -28,6 +27,11 @@ export default function Home() {
         handleOnClose
     }
 
+    const isLogin = () => {
+        const userId = localStorage.getItem("userId")
+        return userId ? true : false
+    }
+
 
     return (
         <>
@@ -35,10 +39,13 @@ export default function Home() {
                 <nav className="min-[320px]:invisible min-[620px]:visible bg-white px-2 sm:px-4 py-4 dark:bg-gray-900 fixed w-full z-20 top-0 left-0">
                     <div className=" flex flex-wrap items-center justify-between w-4/5 mg-auto">
                         <h2 className="text-2xl font-bold dark:text-black text-blue-600">Art Index</h2>
-                        <p className='flex'>
-                            <p className='text-sm font-bold py-2 mr-10 cursor-pointer' onClick={handleLogin} >Log In</p>
-                            <p className='text-sm font-bold py-2 px-8 bg-emerald-300 rounded-full cursor-pointer' onClick={handleJoin}>/Join</p>
-                        </p>
+                        {isLogin() == true ? '' : (
+                            <p className='flex'>
+                                <p className='text-sm font-bold py-2 mr-10 cursor-pointer' onClick={handleLogin} >Log In</p>
+                                <p className='text-sm font-bold py-2 px-8 bg-emerald-300 rounded-full cursor-pointer' onClick={handleJoin}>/Join</p>
+                            </p>
+                        )}
+
                     </div>
                 </nav>
                 <Modal show={showModal} size="3xl" onClose={handleOnClose} className=''>
@@ -64,10 +71,12 @@ export default function Home() {
                             <p className='text-white mt-10'>Simplifying the way we look at art, our CRM</p>
                             <p className='text-white '>platform serves all ranges of artists,galleries,</p>
                             <p className='text-white '>and collectors.</p>
-                            <p className='flex mt-10'>
-                                <p className='text-sm cursor-pointer text-black border-2 border-emerald-300 font-bold py-2 px-8 bg-emerald-300 rounded-full  mr-10' onClick={handleJoin}>/Join</p>
-                                <p className='text-sm cursor-pointer text-white font-bold py-2 px-8   border-2 border-emerald-300 rounded-full' onClick={handleLogin}>Log In</p>
-                            </p>
+                            {isLogin() == true ? '' : (
+                                <p className='flex mt-10'>
+                                    <p className='text-sm cursor-pointer text-black border-2 border-emerald-300 font-bold py-2 px-8 bg-emerald-300 rounded-full  mr-10' onClick={handleJoin}>/Join</p>
+                                    <p className='text-sm cursor-pointer text-white font-bold py-2 px-8   border-2 border-emerald-300 rounded-full' onClick={handleLogin}>Log In</p>
+                                </p>
+                            )}
                         </div>
                         <div className='pb-20 pt-20 col-span-1 mg-auto'>
                             <img className='' src='/Banner.jpeg' alt=''></img>

@@ -13,6 +13,11 @@ import { AxiosInstance } from '../utils';
 
 export default function NewContact() {
     const [showModal, setShowModal] = React.useState(false);
+    const [Loading, setloader] = React.useState(false);
+    const [disabled, setDisabled] = React.useState(false);
+    const [files, setfiles] = React.useState();
+    const [tags, setTags] = React.useState([]);
+    const [tagLabel, setTagLabel] = React.useState([]);
 
     const handleOnClick = () => {
         setShowModal(true)
@@ -20,10 +25,6 @@ export default function NewContact() {
     const handleOnClose = () => {
         setShowModal(false)
     }
-
-    const [files, setfiles] = React.useState();
-    const [tags, setTags] = React.useState([]);
-    const [tagLabel, setTagLabel] = React.useState([]);
 
 
     const handleTags = {
@@ -68,13 +69,14 @@ export default function NewContact() {
     });
     const { fields: fieldsForAddress, append: appendForAddress, remove: removeForAddress } = useFieldArray({
         control,
-        name: "address"
+        name: "addresses"
     });
     const navigate = useNavigate();
     const onSubmit = data => {
-
-        data.image = files;
-
+        data.Tags = tags;
+        data.ProfileImage = files;
+        data.userId = localStorage.getItem("userId")
+   
         async function getData() {
             const result = await AxiosInstance(
                 {
@@ -83,12 +85,13 @@ export default function NewContact() {
                     'data': data
                 }
             )
+            setDisabled(true);
             if (result.status === 200) {
-                console.log(result.status)
-                alert('Data added succesfully')
+                setloader(true)
+                // alert('Data added succesfully')
                 setTimeout(() => {
                     navigate("/contact");
-                  }, 3000);
+                }, 3000);
             }
         }
         getData()
@@ -106,10 +109,26 @@ export default function NewContact() {
                 <div className="min-[480px]:grid grid-cols-6">
                     <div className='min-[480px]:flex col-span-5 ...'>
                         <h2 className="dark:text-black text-3xl  mb-4 px-6" >New Contact</h2>
+                        {Loading ? (<>
+                            <div className="items-center">
+
+                                <div className="absolute -translate-x-1/2 -translate-y-1/2 top-3/4 left-1/2">
+                                    <div role="status">
+                                        <svg aria-hidden="true" class="opacity-1 w-8 h-8 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor" /><path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentFill" /></svg>
+                                        <span class="sr-only">Loading...</span>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </>
+
+                        ) : ''}
+
                     </div>
                 </div>
                 <div className="p-4 border-1 border-blue-400 border-dashed mx-6 rounded-lg dark:border-blue-700 h-full top-20 bg-white">
-                    <div className="mt-16 ml-16 mr-16 mb-16">
+                    <div className={Loading ? 'mt-16 ml-16 mr-16 mb-16 opacity-20' : 'mt-16 ml-16 mr-16 mb-16'}>
                         <div className="">
                             <div className="inline-flex">
 
@@ -153,20 +172,25 @@ export default function NewContact() {
                                                             message: "invalid email address"
                                                         }
                                                     })} className="text-black  border-2 border-blue-200 mt-3 bg-white focus:ring-2 focus:outline-none focus:ring-blue-500  rounded-lg text-md px-4 dark:bg-blue-600 w-60 ml-2" placeholder="E-mail" />
-                                                   
+
 
                                                 </div>
                                                 {errors.Email && <span className='text-red-500 ml-12'>{errors.Email?.message}</span>}
-                                       
+
                                                 <ul>
                                                     {fields.map((item, index) => (
                                                         <li key={item.id}>
                                                             <div className='flex mt-4 justify-between items-center'>
                                                                 <span className='mt-6 mr-4'><IoMdMail size={30} color='gray' /></span>
-                                                                <select name={`emails.${index}.type`} className="mt-4 text-black  border-2 border-blue-200  bg-white hover:bg-white focus:ring-2 focus:outline-none focus:ring-blue-500 font-bold rounded-lg text-md px-4 py-2  text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" control={control}>
-                                                                    <option value="work">Work</option>
-                                                                    <option value="personal">Personal</option>
-                                                                </select>
+
+                                                                <Controller
+                                                                    render={({ field }) => <select  {...field} className="mt-4 text-black  border-2 border-blue-200  bg-white hover:bg-white focus:ring-2 focus:outline-none focus:ring-blue-500 font-bold rounded-lg text-md px-4 py-2  text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" control={control}>
+                                                                        <option value="work">Work</option>
+                                                                        <option value="personal">Personal</option>
+                                                                    </select>}
+                                                                    name={`emails.${index}.typeof`}
+                                                                    control={control}
+                                                                />
                                                                 <Controller
                                                                     render={({ field }) => <input className="text-black  h-11 border-2 border-blue-200 mt-3 bg-white focus:ring-2 focus:outline-none focus:ring-blue-500 rounded-lg text-md px-4 dark:bg-blue-600 w-60 ml-2" {...field} placeholder='E-mail' />}
                                                                     name={`emails.${index}.email`}
@@ -179,7 +203,7 @@ export default function NewContact() {
                                                 </ul>
 
                                                 <button className="text-sm font-bold text-blue-500 ml-16 mt-4 mb-2" type="button"
-                                                    onClick={() => append({ email: "", type: "work" })}>+ Add Email</button>
+                                                    onClick={() => append({ email: "", typeof: "" })}>+ Add Email</button>
 
                                                 <div className='flex mt-2 justify-between items-center'>
                                                     <span className='mt-6 mr-4'><IoIosCall size={30} color='gray' /></span>
@@ -188,11 +212,10 @@ export default function NewContact() {
                                                         <option >Personal</option>
                                                     </select>
                                                     <input type="number"  {...register("PhoneNumber", { required: true, maxLength: 10 })} className="text-black  border-2 border-blue-200 mt-3 bg-white focus:ring-2 focus:outline-none focus:ring-blue-500  rounded-lg text-md px-4 dark:bg-blue-600 w-60  ml-2" placeholder="Phone Number" />
-                                                    {/* <span className='mt-3 ml-1'><CiCircleRemove size={20} color='DodgerBlue' /></span> */}
+
 
                                                 </div>
                                                 {errors.PhoneNumber && <span className='text-red-500 ml-12'> {errors.PhoneNumber?.type === 'required' ? 'Phone Number is required' : 'Phone number must not be more than 10 digits'}</span>}
-                                                {/* <p className="text-sm font-bold text-blue-500 ml-16 mt-4 mb-2">+ Add Phone Number</p> */}
 
 
                                                 <ul>
@@ -200,20 +223,22 @@ export default function NewContact() {
                                                         <li key={item.id}>
                                                             <div className='flex mt-4 justify-between items-center'>
                                                                 <span className='mt-6 mr-4'><IoIosCall size={30} color='gray' /></span>
-                                                                <select className="mt-4 text-black  border-2 border-blue-200  bg-white hover:bg-white focus:ring-2 focus:outline-none focus:ring-blue-500 font-bold rounded-lg text-md px-4 py-2  text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                                                                    <option >Work</option>
-                                                                    <option >Personal</option>
-                                                                </select>
+
+
+                                                                <Controller
+                                                                    render={({ field }) => <select {...field} className="mt-4 text-black  border-2 border-blue-200  bg-white hover:bg-white focus:ring-2 focus:outline-none focus:ring-blue-500 font-bold rounded-lg text-md px-4 py-2  text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                                                        <option value="Work">Work</option>
+                                                                        <option value="Personal">Personal</option>
+                                                                    </select>}
+                                                                    name={`phoneNumber.${index}.typeof`}
+                                                                    control={control}
+                                                                />
                                                                 <Controller
                                                                     render={({ field }) => <input className="text-black  h-11 border-2 border-blue-200 mt-3 bg-white focus:ring-2 focus:outline-none focus:ring-blue-500 rounded-lg text-md px-4 dark:bg-blue-600 w-60 ml-2" {...field} placeholder='Phone Number' />}
                                                                     name={`phoneNumber.${index}.phone`}
                                                                     control={control}
                                                                 />
-                                                                {/*<Controller
-                                                            render={({ field1 }) => <input className="text-black h-11 border-2 border-blue-200 mt-3 bg-white focus:ring-2 focus:outline-none focus:ring-blue-500 rounded-lg text-md px-4 dark:bg-blue-600 w-60 ml-2" {...field1}  placeholder='Phone Number'/>}
-                                                            name={`test1.${index1}.phone`} 
-                                                            control={control}
-                                                            /> */}
+
                                                                 <button type="button" onClick={() => removeForPhone(index)}><CiCircleRemove size={20} color='DodgerBlue' /></button>
                                                             </div>
                                                         </li>
@@ -221,7 +246,7 @@ export default function NewContact() {
                                                 </ul>
 
                                                 <button className="text-sm font-bold text-blue-500 ml-16 mt-4 mb-2" type="button"
-                                                    onClick={() => appendForPhone({ phone: "", typeoOF: "work" })}>+ Add Phone Number</button>
+                                                    onClick={() => appendForPhone({ phone: "", typeof: "" })}>+ Add Phone Number</button>
 
                                                 <div className='flex mt-2 justify-between items-center'>
                                                     <span className='mt-6 mr-4'><IoIosLink size={30} color='gray' /></span>
@@ -234,26 +259,26 @@ export default function NewContact() {
 
                                                 </div>
                                                 {errors.Website && <span className='text-red-500 ml-12'>Website is required</span>}
-                                                {/* <p className="text-sm font-bold text-blue-500 ml-16 mt-4 mb-2"> + Add Website</p> */}
                                                 <ul>
                                                     {fieldsForWebsite?.map((item, index) => (
                                                         <li key={item.id}>
                                                             <div className='flex mt-4 justify-between items-center'>
                                                                 <span className='mt-6 mr-4'><IoIosLink size={30} color='gray' /></span>
-                                                                <select className="mt-4 text-black  border-2 border-blue-200 bg-white hover:bg-white focus:ring-2 focus:outline-none focus:ring-blue-500 font-bold rounded-lg text-md px-4 py-2  text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                                                                    <option >Work</option>
-                                                                    <option >Personal</option>
-                                                                </select>
+
+                                                                <Controller
+                                                                    render={({ field }) => <select {...field} className="mt-4 text-black  border-2 border-blue-200 bg-white hover:bg-white focus:ring-2 focus:outline-none focus:ring-blue-500 font-bold rounded-lg text-md px-4 py-2  text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                                                        <option value="work">Work</option>
+                                                                        <option value="personal">Personal</option>
+                                                                    </select>}
+                                                                    name={`websites.${index}.typeoOF`}
+                                                                    control={control}
+                                                                />
                                                                 <Controller
                                                                     render={({ field }) => <input className="text-black  h-11 border-2 border-blue-200 mt-3 bg-white focus:ring-2 focus:outline-none focus:ring-blue-500 rounded-lg text-md px-4 dark:bg-blue-600 w-60 ml-2" {...field} placeholder='Website' />}
                                                                     name={`websites.${index}.website`}
                                                                     control={control}
                                                                 />
-                                                                {/* <Controller
-                                                                    render={({ field2 }) => <input className="text-black  border-2 border-blue-200 mt-3 bg-white focus:ring-2 focus:outline-none focus:ring-blue-500 rounded-lg text-md px-4 dark:bg-blue-600 w-60 ml-2 h-11" {...field2}  placeholder='Website'/>}
-                                                                    name={`test2.${index}.webistes`} 
-                                                                    control={control}
-                                                                    /> */}
+
                                                                 <button type="button" onClick={() => removeForWebsite(index)}><CiCircleRemove size={20} color='DodgerBlue' /></button>
                                                             </div>
                                                         </li>
@@ -261,7 +286,7 @@ export default function NewContact() {
                                                 </ul>
 
                                                 <button className="text-sm font-bold text-blue-500 ml-16 mt-4 mb-2" type="button"
-                                                    onClick={() => appendForWebsite({ website: "", typeoOF: "work" })}>+ Add Website</button>
+                                                    onClick={() => appendForWebsite({ website: "", typeoOF: "" })}>+ Add Website</button>
 
                                                 <div className="ml-12 min-[480px]:grid grid-cols-2 gap-2 mt-8">
                                                     <div className="">
@@ -355,7 +380,7 @@ export default function NewContact() {
                                                 </ul>
 
                                                 <button className="text-sm font-bold text-blue-500 ml-16 mt-4 mb-2" type="button"
-                                                    onClick={() => appendForAddress({ address: "", type: "work" })}>+ Add Address</button>
+                                                    onClick={() => appendForAddress({ address: "", addrestype: "" })}>+ Add Address</button>
 
 
 
@@ -416,7 +441,7 @@ export default function NewContact() {
                                                 </div>
 
 
-                                                <button type="submit" className="ml-12 flex items-center gap-1 p-2 font-semibold text-white bg-blue-600 rounded-md hover:bg-blue-800">
+                                                <button type="submit" disabled={disabled} className="ml-12 flex items-center gap-1 p-2 font-semibold text-white bg-blue-600 rounded-md hover:bg-blue-800">
                                                     Add contact
                                                 </button>
 

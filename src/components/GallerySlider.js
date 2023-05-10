@@ -15,7 +15,7 @@ export default function GallerySlider(props) {
     }, [image]);
      
   
-    console.log('ImageArray',ImageArray)
+   // console.log('ImageArray',ImageArray)
     const images = [
         {
             original: '/rose.jpg',
@@ -30,8 +30,8 @@ export default function GallerySlider(props) {
             thumbnail: '/rose.jpg',
         }
     ];
-    console.log('image',image);
-    console.log('images',images);
+    //console.log('image',image);
+    //console.log('images',images);
     return (
         <div className="wrapper">
             <ImageGallery showPlayButton={false}  items={ImageArray} />

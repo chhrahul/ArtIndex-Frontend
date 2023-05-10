@@ -6,7 +6,7 @@ import { MdViewAgenda } from "react-icons/md";
 import { AiOutlineEllipsis } from "react-icons/ai";
 import { IoMdArrowDropdown } from "react-icons/io";
 import { IoMdArrowDropup } from "react-icons/io";
-import axios from "axios";
+import { AxiosInstance } from '../utils'
 export default function ArtworkListing() {
     const [getResult, setResult] = React.useState([]);
     const [searchInput, setSearchInput] = React.useState('');
@@ -17,12 +17,37 @@ export default function ArtworkListing() {
     const [Loading, setloader] = React.useState(true);
     const [clearserach, setclearserach] = React.useState(false);
     const APIData = getResult
+    // const fetchInfo = () => {
+    //     return axios.get('http://127.0.0.1:3000/api/v1/get-artwork').then((res) => {
+    //         setResult(res.data.data)
+    //         setloader(false)
+    //     }
+    //     );
+    // };
     const fetchInfo = () => {
-        return axios.get('http://127.0.0.1:3000/api/v1/get-artwork').then((res) => {
-            setResult(res.data.data)
-            setloader(false)
+       
+        const userId=localStorage.getItem("userId")
+        var data = JSON.stringify({ 'id': userId })
+        
+        async function getData() {
+
+            const result = await AxiosInstance(
+                {
+                    'url': '/get-artwork',
+                    'method': 'post',
+                    'data': data
+                }
+            )
+           
+            if (result) {
+         
+                setResult(result.data.data)
+                 setloader(false)
+            }
+            
         }
-        );
+        getData()
+
     };
 
     React.useEffect(() => {
@@ -87,11 +112,9 @@ export default function ArtworkListing() {
         const filteredData = getResult.filter(apidata => {
             return apidata.availability === SearchValue
         })
-        console.log(SearchValue)
-        if (filteredData.length > 0) {
+       
             setrenderData(filteredData)
-            console.log(filteredData)
-        }
+   
         if(SearchValue === 'status'){
             setrenderData(getResult)
         }
@@ -101,7 +124,6 @@ export default function ArtworkListing() {
     const ResetSearch = () => {
         setrenderData(getResult)
         ref.current.value = '';
-        console.log('reset data')
         setclearserach(false)
 
     }
@@ -222,7 +244,7 @@ export default function ArtworkListing() {
                                             </div>
                                             <div className="col-span-1 ... flex">
                                                 <div className="heading mt-7 ml-10">
-                                                    <AiOutlineEllipsis size={32} />
+                                                    <span className='cursor-pointer'><AiOutlineEllipsis size={32} /></span>
                                                 </div>
 
                                             </div>
