@@ -292,17 +292,17 @@ export default function NewContact() {
                                                     <div className="">
                                                         <p className="text-sm font-bold text-gray-700 ml-5">Birthday</p>
                                                         <div className="inline-flex mr-4 mt-4 mb-4">
-                                                            <input type="text" className="bg-white border-l-2 border-t-2 border-b-2 hover:bg-white border-blue-200  text-gray-500 py-2 px-4  rounded-l-lg w-14" {...register("BirthDateMonth")} placeholder='M' />
-                                                            <input type="text" className="bg-white border-2 hover:bg-white border-blue-200 text-gray-500 py-2 px-4 w-14" {...register("BirthDateDay")} placeholder='D' />
-                                                            <input type="text" className="bg-white border-r-2 border-t-2 border-b-2 border-blue-200 hover:bg-white text-gray-500  py-2 px-4  rounded-r-lg w-14" {...register("BirthDateYear")} placeholder='YY' />
+                                                            <input type="number" className="bg-white border-l-2 border-t-2 border-b-2 hover:bg-white border-blue-200  text-gray-500 py-2 px-4  rounded-l-lg w-14" {...register("BirthDateMonth")} placeholder='M'  min="1" max="12"/>
+                                                            <input type="number" className="bg-white border-2 hover:bg-white border-blue-200 text-gray-500 py-2 px-4 w-14" {...register("BirthDateDay")} placeholder='D' />
+                                                            <input type="number" className="bg-white border-r-2 border-t-2 border-b-2 border-blue-200 hover:bg-white text-gray-500  py-2 px-4  rounded-r-lg w-14" {...register("BirthDateYear")} placeholder='YY' />
                                                         </div>
                                                     </div>
                                                     <div className="">
                                                         <p className="text-sm font-bold text-gray-700 ml-5">Death Date</p>
                                                         <div className="inline-flex mr-4 mt-4 mb-4">
-                                                            <input type="text" className="bg-white border-l-2 border-t-2 border-b-2 hover:bg-white border-blue-200  text-gray-500 py-2 px-4  rounded-l-lg w-14" {...register("DeathDateMonth")} placeholder='M' />
-                                                            <input type="text" className="bg-white border-2 hover:bg-white border-blue-200 text-gray-500 py-2 px-4 w-14" {...register("DeathDateDay")} placeholder='D' />
-                                                            <input type="text" className="bg-white border-r-2 border-t-2 border-b-2 border-blue-200 hover:bg-white text-gray-500  py-2 px-4  rounded-r-lg w-14" {...register("DeathDateYear")} placeholder='YY' />
+                                                            <input type="number" className="bg-white border-l-2 border-t-2 border-b-2 hover:bg-white border-blue-200  text-gray-500 py-2 px-4  rounded-l-lg w-14" {...register("DeathDateMonth")} placeholder='M'  min="1" max="12"/>
+                                                            <input type="number" className="bg-white border-2 hover:bg-white border-blue-200 text-gray-500 py-2 px-4 w-14" {...register("DeathDateDay")} placeholder='D' />
+                                                            <input type="number" className="bg-white border-r-2 border-t-2 border-b-2 border-blue-200 hover:bg-white text-gray-500  py-2 px-4  rounded-r-lg w-14" {...register("DeathDateYear")} placeholder='YY' />
                                                         </div>
                                                     </div>
                                                 </div>

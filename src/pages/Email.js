@@ -53,11 +53,11 @@ export default function Email() {
                 </div>
                 <div className='grid grid-cols-12 gap-0'>
                     <div className='col-span-1 w-8 ml-5 mt-6'>
-                        <a href='/email/send'><HiOutlinePencil size={26} className='ml-2 my-6'/></a>              
-                        <a href='/emails'><FiInbox size={26} className='ml-2 my-6'/></a>
-                        <span className=''><FiFileText size={26} className='ml-2 my-6'/></span>
-                        <span className=''><FiSend size={26} className='ml-2 my-6'/></span>
-                        <span className=''><FiArchive size={26} className='ml-2 my-6'/></span>
+                        <a href='/email/send'><HiOutlinePencil size={26} className='ml-2 my-6' /></a>
+                        <a href='/emails'><FiInbox size={26} className='ml-2 my-6' /></a>
+                        <span className=''><FiFileText size={26} className='ml-2 my-6' /></span>
+                        <span className=''><FiSend size={26} className='ml-2 my-6' /></span>
+                        <span className=''><FiArchive size={26} className='ml-2 my-6' /></span>
                     </div>
                     <div className="col-span-11 p-4 border-1 border-blue-400 border-dashed mr-6  dark:border-blue-700 h-full top-20 bg-white">
 
@@ -80,9 +80,9 @@ export default function Email() {
                                                 <span className='flex items-center mt-3'><span className='mr-2 fill-blue-500'><FaLock className='fill-blue-500' /></span>PRIVATE</span>
                                             </td>
                                             <td className="px-6 pb-2" >
-                                            <span className='font-bold'>8:57PM</span>
+                                                <span className='font-bold'>8:57PM</span>
                                             </td>
-                                        
+
                                         </tr>
                                         <tr className="bg-white dark:bg-gray-800 text-gray-700">
                                             <td className="pl-0 pr-0 w-8 pb-2">
@@ -98,9 +98,9 @@ export default function Email() {
                                                 <span className='flex items-center mt-3'><span className='mr-2 fill-blue-500'><FaLock className='fill-blue-500' /></span>PRIVATE</span>
                                             </td>
                                             <td className="px-6 pb-2">
-                                            <span className='font-bold'>8:57PM</span>
+                                                <span className='font-bold'>8:57PM</span>
                                             </td>
-                                        
+
                                         </tr>
                                         <tr className="bg-white dark:bg-gray-800 text-gray-700">
                                             <td className="pl-0 pr-0 w-8 pb-2">
@@ -116,9 +116,9 @@ export default function Email() {
                                                 <span className='flex items-center mt-3'><span className='mr-2 fill-blue-500'><FaLock className='fill-blue-500' /></span>PRIVATE</span>
                                             </td>
                                             <td className="px-6 pb-2">
-                                            <span className='font-bold'>8:57PM</span>
+                                                <span className='font-bold'>8:57PM</span>
                                             </td>
-                                        
+
                                         </tr>
                                         <tr className="bg-white dark:bg-gray-800 text-gray-700">
                                             <td className="pl-0 pr-0 w-8 pb-2">
@@ -134,9 +134,9 @@ export default function Email() {
                                                 <span className='flex items-center mt-3'><span className='mr-2 fill-blue-500'><FaLock className='fill-blue-500' /></span>PRIVATE</span>
                                             </td>
                                             <td className="px-6 pb-2">
-                                            <span className='font-bold'>8:57PM</span>
+                                                <span className='font-bold'>8:57PM</span>
                                             </td>
-                                        
+
                                         </tr>
                                         <tr className="bg-white dark:bg-gray-800 text-gray-700">
                                             <td className="pl-0 pr-0 w-8 pb-2">
@@ -152,9 +152,9 @@ export default function Email() {
                                                 <span className='flex items-center mt-3'><span className='mr-2 fill-blue-500'><FaLock className='fill-blue-500' /></span>PRIVATE</span>
                                             </td>
                                             <td className="px-6 pb-2">
-                                            <span className='font-bold'>8:57PM</span>
+                                                <span className='font-bold'>8:57PM</span>
                                             </td>
-                                        
+
                                         </tr>
                                         <tr className="bg-white dark:bg-gray-800 text-gray-700">
                                             <td className="pl-0 pr-0 w-8 pb-2">
@@ -170,9 +170,9 @@ export default function Email() {
                                                 <span className='flex items-center mt-3'><span className='mr-2 fill-blue-500'><FaLock className='fill-blue-500' /></span>PRIVATE</span>
                                             </td>
                                             <td className="px-6 pb-2">
-                                            <span className='font-bold'>8:57PM</span>
+                                                <span className='font-bold'>8:57PM</span>
                                             </td>
-                                        
+
                                         </tr>
                                         <tr className="bg-white dark:bg-gray-800 text-gray-700">
                                             <td className="pl-0 pr-0 w-8 pb-2">
@@ -188,9 +188,9 @@ export default function Email() {
                                                 <span className='flex items-center mt-3'><span className='mr-2 fill-blue-500'><FaLock className='fill-blue-500' /></span>PRIVATE</span>
                                             </td>
                                             <td className="px-6 pb-2">
-                                            <span className='font-bold'>8:57PM</span>
+                                                <span className='font-bold'>8:57PM</span>
                                             </td>
-                                        
+
                                         </tr>
                                         <tr className="bg-white dark:bg-gray-800 text-gray-700">
                                             <td className="pl-0 pr-0 w-8 pb-2">
@@ -206,9 +206,9 @@ export default function Email() {
                                                 <span className='flex items-center mt-3'><span className='mr-2 fill-blue-500'><FaLock className='fill-blue-500' /></span>PRIVATE</span>
                                             </td>
                                             <td className="px-6 pb-2">
-                                            <span className='font-bold'>8:57PM</span>
+                                                <span className='font-bold'>8:57PM</span>
                                             </td>
-                                        
+
                                         </tr>
                                         <tr className="bg-white dark:bg-gray-800 text-gray-700">
                                             <td className="pl-0 pr-0 w-8 pb-2">
@@ -224,9 +224,9 @@ export default function Email() {
                                                 <span className='flex items-center mt-3'><span className='mr-2 fill-blue-500'><FaLock className='fill-blue-500' /></span>PRIVATE</span>
                                             </td>
                                             <td className="px-6 pb-2">
-                                            <span className='font-bold'>8:57PM</span>
+                                                <span className='font-bold'>8:57PM</span>
                                             </td>
-                                        
+
                                         </tr>
                                         <tr className="bg-white dark:bg-gray-800 text-gray-700">
                                             <td className="pl-0 pr-0 w-8 pb-2">
@@ -242,9 +242,9 @@ export default function Email() {
                                                 <span className='flex items-center mt-3'><span className='mr-2 fill-blue-500'><FaLock className='fill-blue-500' /></span>PRIVATE</span>
                                             </td>
                                             <td className="px-6 pb-2">
-                                            <span className='font-bold'>8:57PM</span>
+                                                <span className='font-bold'>8:57PM</span>
                                             </td>
-                                        
+
                                         </tr>
                                         <tr className="bg-white dark:bg-gray-800 text-gray-700">
                                             <td className="pl-0 pr-0 w-8 pb-2">
@@ -260,20 +260,20 @@ export default function Email() {
                                                 <span className='flex items-center mt-3'><span className='mr-2 fill-blue-500'><FaLock className='fill-blue-500' /></span>PRIVATE</span>
                                             </td>
                                             <td className="px-6 pb-2">
-                                            <span className='font-bold'>8:57PM</span>
+                                                <span className='font-bold'>8:57PM</span>
                                             </td>
-                                        
+
                                         </tr>
-                                        
+
 
 
                                     </tbody>
                                 </table>
                                 <hr className="min-[480px]:ml-8 h-px my-4 ml-16 bg-gray-700 border border-gray-300 dark:bg-gray-700"></hr>
                                 <span className='flex justify-between'>
-                                    <span className='flex items-center ml-8 '><span><FaAngleLeft/></span><span className='ml-2 font-bold'>Newer</span></span>
+                                    <span className='flex items-center ml-8 '><span><FaAngleLeft /></span><span className='ml-2 font-bold'>Newer</span></span>
                                     <span className='ml-8 font-bold mr-2'>50-95 of 1,734</span>
-                                    <span className='flex items-center'><span className='ml-8 font-bold mr-2'>Older</span><span><FaAngleRight/></span></span>
+                                    <span className='flex items-center'><span className='ml-8 font-bold mr-2'>Older</span><span><FaAngleRight /></span></span>
                                 </span>
                             </div>
                         </div>

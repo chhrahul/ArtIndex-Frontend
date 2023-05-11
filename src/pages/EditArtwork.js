@@ -9,7 +9,7 @@ export default function EditArtwork() {
 
     const [files, setFiles] = React.useState([]);
     const [tags, setTags] = React.useState([]);
-   
+
     const [Loading, setloader] = React.useState(false);
     const [disabled, setDisabled] = React.useState(false);
     const { register, handleSubmit, formState: { errors } } = useForm();
@@ -18,11 +18,11 @@ export default function EditArtwork() {
     const location = useLocation();
     const data = location.state;
 
-    React.useEffect(()=>{
+    React.useEffect(() => {
         setFiles(data.image)
         setTags(data.tags)
 
-    },[data])
+    }, [data])
 
     const onSubmit = data1 => {
         data1.tags = tags;
@@ -31,8 +31,8 @@ export default function EditArtwork() {
         async function saveData() {
 
             const dataEdit = JSON.stringify(data1);
-     
-            
+
+
             const result = await AxiosInstance({
                 'url': '/update-artwork',
                 'method': 'post',
@@ -40,7 +40,7 @@ export default function EditArtwork() {
             })
             setDisabled(true);
             if (result.status === 200) {
-           
+
                 setloader(true)
                 setTimeout(() => {
                     navigate("/artwork");
@@ -61,14 +61,16 @@ export default function EditArtwork() {
         tags,
         setTags,
     }
-
+    const Cancel = () => {
+        navigate("/artwork");
+    }
     return (
 
         <>
 
             <div className="max-[612px]:pt-8 pt-20 sm:ml-48 min-[612px]:top-20 bg-gray-200 h-full " >
                 {/* {success} */}
-                
+
                 {data ? (<><h2 className="dark:text-black text-3xl  mb-4 px-6" >Edit Artwork</h2>
                     <div className="p-4 border-1 border-blue-400 border-dashed mx-6 rounded-lg dark:border-blue-700 h-full top-20 bg-white">
                         <h2 className="text-sm font-bold text-black mb-4">Upload Image</h2>
@@ -91,7 +93,7 @@ export default function EditArtwork() {
                         ) : ''}
                         <div className={Loading ? 'w-full relative opacity-20' : 'w-full relative'}>
                             <form onSubmit={handleSubmit(onSubmit)} id="artWorkForm">
-                            <input type="hidden" {...register("id")} className="w-full text-black  border-2 border-blue-200 mt-3 bg-white focus:ring-2 focus:outline-none focus:ring-blue-500 font-bold rounded-lg text-md px-4 py-2.5  dark:bg-blue-600"  defaultValue={data._id} />
+                                <input type="hidden" {...register("id")} className="w-full text-black  border-2 border-blue-200 mt-3 bg-white focus:ring-2 focus:outline-none focus:ring-blue-500 font-bold rounded-lg text-md px-4 py-2.5  dark:bg-blue-600" defaultValue={data._id} />
                                 <MyDropzone {...handleImages} multiple={true} />
                                 <div className='min-[480px]:grid grid-cols-2 gap-12'>
                                     <div className=" ">
@@ -139,11 +141,11 @@ export default function EditArtwork() {
                                             <div className="">
                                                 <p className="text-sm font-bold text-gray-700 ml-5">Creation Date</p>
                                                 <div className="inline-flex mr-4 mt-4 mb-4">
-                                                    <input type="text" className="bg-white font-bold border-l-2 border-t-2 border-b-2 hover:bg-white border-blue-200  text-black py-2 px-4  rounded-l-lg w-12" placeholder='M' {...register("creationMonth")} defaultValue={data.creationMonth} />
+                                                    <input type="number" className="bg-white font-bold border-l-2 border-t-2 border-b-2 hover:bg-white border-blue-200  text-black py-2 px-4  rounded-l-lg w-12" placeholder='M' {...register("creationMonth")} defaultValue={data.creationMonth}  min="1" max="12"/>
 
-                                                    <input type="text" className="bg-white font-bold border-2 hover:bg-white border-blue-200 text-black py-2 px-4 w-12" placeholder='D' {...register("creationDay")} defaultValue={data.creationDay} />
+                                                    <input type="number" className="bg-white font-bold border-2 hover:bg-white border-blue-200 text-black py-2 px-4 w-12" placeholder='D' {...register("creationDay")} defaultValue={data.creationDay} />
 
-                                                    <input type="text" className="bg-white font-bold border-r-2 border-t-2 border-b-2 border-blue-200 hover:bg-white text-black  py-2 px-4  rounded-r-lg w-14" placeholder='YY' {...register("creationYear")} defaultValue={data.creationYear} />
+                                                    <input type="number" className="bg-white font-bold border-r-2 border-t-2 border-b-2 border-blue-200 hover:bg-white text-black  py-2 px-4  rounded-r-lg w-14" placeholder='YY' {...register("creationYear")} defaultValue={data.creationYear} />
 
                                                 </div>
                                                 <p className="text-sm font-bold text-gray-700 ml-5">Signature</p>
@@ -207,7 +209,7 @@ export default function EditArtwork() {
                                             <div className="px-4 py-2 bg-white rounded-xl dark:bg-gray-800">
 
                                                 <ul className="flex flex-wrap text-sm font-medium text-center text-gray-500 dark:text-gray-400 mb-14">
-                                                   
+
 
                                                 </ul>
                                             </div>
@@ -224,7 +226,7 @@ export default function EditArtwork() {
                                 <div className="col float-right ml-5"><button disabled={disabled} className='btn btn-success btn-form btn-form-submit' form="artWorkForm" onClick={() => {
 
                                 }}>Update</button></div>
-                                <div className="col float-right "><button className='btn btn-success btn-form btn-form-cancel'>Cancel</button></div>
+                                <div className="col float-right "><button onClick={Cancel} className='btn btn-success btn-form btn-form-cancel'>Cancel</button></div>
 
                             </div>
 

@@ -12,7 +12,7 @@ export default function Calendar() {
     return (
         <>
 
-        
+
 
             <div className="min-[480px]:pt-10 sm:ml-48 min-[480px]:top-10 bg-gray-200 h-full" >
                 <div className="min-[480px]:grid grid-cols-6">

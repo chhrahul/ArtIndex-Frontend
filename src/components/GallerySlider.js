@@ -8,14 +8,14 @@ export default function GallerySlider(props) {
     const [imageData, setimageData] = React.useState([]);
     const ImageArray = []
     React.useEffect(() => {
-        image.map((data, index) =>  
+        image.map((data, index) =>
             // setimageData (data[0])
-            ImageArray.push({'original':data[0],'thumbnail':data[0]})
-        ); 
+            ImageArray.push({ 'original': data[0], 'thumbnail': data[0] })
+        );
     }, [image]);
-     
-  
-   // console.log('ImageArray',ImageArray)
+
+
+    // console.log('ImageArray',ImageArray)
     const images = [
         {
             original: '/rose.jpg',
@@ -34,7 +34,7 @@ export default function GallerySlider(props) {
     //console.log('images',images);
     return (
         <div className="wrapper">
-            <ImageGallery showPlayButton={false}  items={ImageArray} />
+            <ImageGallery showPlayButton={false} items={ImageArray} />
         </div>
     )
 }

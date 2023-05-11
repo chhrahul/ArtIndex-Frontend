@@ -1,12 +1,12 @@
 import React from 'react'
 import { useLocation } from 'react-router-dom'
+import { IoLogOutOutline } from "react-icons/io5";
 import {
-    NavLink,useNavigate
+    NavLink, useNavigate
 } from 'react-router-dom';
 export default function Sidebar() {
     const location = useLocation();
     //console.log(location.pathname.includes('artwork'));
-
     if (location.pathname.includes('artwork')) {
         // console.log('Here');   
     }
@@ -78,7 +78,7 @@ export default function Sidebar() {
                         </li>
                         <li>
                             <NavLink to="/income" className={({ isActive }) => (isActive ? 'active' : 'inactive').concat(" ", "flex items-center p-2 text-sm font-semibold text-black-900  dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700")}>
-                                <svg className="h-5 w-5 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor">  
+                                <svg className="h-5 w-5 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                                 </svg>
 
@@ -108,7 +108,8 @@ export default function Sidebar() {
                         </li>
                         <li>
                             <NavLink to="/home" className={({ isActive }) => (isActive ? 'active' : 'inactive').concat(" ", "flex items-center p-2 text-sm font-semibold text-black-900  dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700")} onClick={signout} >
-                                <svg className="h-5 w-5 text-black" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">  <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />  <circle cx="8.5" cy="8.5" r="1.5" />  <polyline points="21 15 16 10 5 21" /></svg>
+                                <IoLogOutOutline size={26}/>
+                                {/* <svg className="h-5 w-5 text-black" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">  <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />  <circle cx="8.5" cy="8.5" r="1.5" />  <polyline points="21 15 16 10 5 21" /></svg> */}
                                 <span className="flex-1 ml-3 whitespace-nowrap">Logout</span>
                             </NavLink>
                         </li>

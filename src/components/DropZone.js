@@ -59,7 +59,7 @@ function MyDropzone(props) {
         ]);
 
     };
-    
+
     const { getRootProps,
         getInputProps } = useDropzone({
             accept: {
@@ -72,14 +72,14 @@ function MyDropzone(props) {
                     filesArray = [...filesArray, newFile]
                 }))
                 setFiles([...filesArray])
-               
+
 
             }
         });
-      
+
     const thumbs = files.map((file, index) => (
         <>
-                    <span className='col-span-1 '>
+            <span className='col-span-1 '>
                 <span className="cutBtn float-right cursor-pointer " onClick={() => removeImage(index)}>x</span>
                 <img
                     src={file[0]}

@@ -55,8 +55,8 @@ const classes = {
 };
 
 const getBorder = theme => (`1px solid ${theme.palette.mode === 'light'
-    ? lighten(alpha(theme.palette.divider, 1), 0.88)
-    : darken(alpha(theme.palette.divider, 1), 0.68)
+  ? lighten(alpha(theme.palette.divider, 1), 0.88)
+  : darken(alpha(theme.palette.divider, 1), 0.68)
   }`);
 
 const DayScaleCell = props => (
@@ -303,7 +303,7 @@ const AppointmentContent = (({ ...restProps }) => (
 const FlexibleSpace = (({ ...restProps }) => (
   <StyledToolbarFlexibleSpace {...restProps} className={classes.flexibleSpace}>
     <div className={classes.flexContainer}>
-     
+
     </div>
   </StyledToolbarFlexibleSpace>
 ));

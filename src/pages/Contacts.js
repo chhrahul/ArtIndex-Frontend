@@ -53,14 +53,14 @@ export default function Contacts() {
         }
 
     }
-    const CompanyClick = () =>{
+    const CompanyClick = () => {
 
         const strAscendingcmpny = [...APIData].sort((a, b) =>
-        a.Company > b.Company ? 1 : -1,
-      );
-  
-      setResult(strAscendingcmpny)
-      setcompanyArrow(false)
+            a.Company > b.Company ? 1 : -1,
+        );
+
+        setResult(strAscendingcmpny)
+        setcompanyArrow(false)
 
         if (companyArrow === false) {
 
@@ -72,16 +72,16 @@ export default function Contacts() {
             setResult(strDescendingName)
 
         }
-  
+
     }
-    const TitleClick = () =>{
+    const TitleClick = () => {
 
         const strAscendingTitle = [...APIData].sort((a, b) =>
-        a.Title > b.Title ? 1 : -1,
-      );
-  
-      setResult(strAscendingTitle)
-      setTitlearrow(false)
+            a.Title > b.Title ? 1 : -1,
+        );
+
+        setResult(strAscendingTitle)
+        setTitlearrow(false)
 
         if (Titlearrow === false) {
 
@@ -93,12 +93,11 @@ export default function Contacts() {
             setResult(strDescendingName)
 
         }
-  
+
     }
-    
-    const fetchInfo = () => 
-    {
-        const userId=localStorage.getItem("userId")
+
+    const fetchInfo = () => {
+        const userId = localStorage.getItem("userId")
         var data = JSON.stringify({ 'id': userId })
         // return axios.get('http://127.0.0.1:3000/api/v1/get-contacts').then((res) => {
         //     setResult(res.data.data)
@@ -114,16 +113,16 @@ export default function Contacts() {
                     'data': data
                 }
             )
-           
+
             if (result) {
                 //console.log(result.data.data)
                 setResult(result.data.data)
-                 setloader(false)
+                setloader(false)
             }
-            
+
         }
         getData()
-       
+
 
 
 
@@ -150,14 +149,14 @@ export default function Contacts() {
     }
     //console.log(apidataresult)
     const EditRow = async (id) => {
-     
+
         const EditData = getResult.find(apidata => {
             return apidata._id === id
         })
         //console.log(EditData)
-       navigate("/contact/edit", { state: EditData });
+        navigate("/contact/edit", { state: EditData });
         //console.log(EditData)
-      
+
     }
 
     return (
@@ -175,9 +174,9 @@ export default function Contacts() {
                                     <svg aria-hidden="true" className="w-4 h-4 text-white dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clipRule="evenodd"></path></svg>
                                 </div>
                                 <input type="text" ref={ref} id="artworkSearch" className="bg-blue-500 border-2 border-blue-500 text-white text-sm rounded-full focus:ring-blue-500 focus:border-blue-500 block  pl-10 p-1.5  text-white placeholder-white dark:placeholder-white dark:text-white dark:focus:ring-blue-500 dark:focus:bg-blue-500 hover:bg-blue-500 dark:bg-blue-500 dark:text-white" placeholder="" onChange={(e) => searchItems(e.target.value)} />
-                               {clearserach?(<button type="button" className="absolute inset-y-0 right-0 flex items-center pr-2" onClick={() => ResetSearch()}>
+                                {clearserach ? (<button type="button" className="absolute inset-y-0 right-0 flex items-center pr-2" onClick={() => ResetSearch()}>
                                     <svg className="h-5 w-5  text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">  <circle cx="12" cy="12" r="10" />  <line x1="15" y1="9" x2="9" y2="15" />  <line x1="9" y1="9" x2="15" y2="15" /></svg>
-                                </button>):''}
+                                </button>) : ''}
                             </div>
 
                         </form>
@@ -203,32 +202,23 @@ export default function Contacts() {
                 <div className="filters mb-4">
                     <div className='min-[480px]:flex '>
                         <input type="text" id="voice" className="ml-8 w-36 placeholder-gray-400 bg-transparent border-2 border-gray-300 text-gary text-sm rounded-full focus:ring-gary-400 focus:border-gray-400 block  pl-7 pr-7 p-1  placeholder-text-gray dark:focus:ring-gray-500 dark:focus:border-gray-500" placeholder="Group Email" readOnly />
-                        <span className="text-sm font-semibold mr-4 ml-6 flex items-center mt-1"><IoFilterOutline className='mr-2'/> Filter:</span>
-                        {/* <select className="text-sm font-semibold bg-transparent mr-2 border-none max-[480px]:ml-4" >
-                            <option>Company</option>
-                            <option>One</option>
-                            <option>Two</option>
-                        </select>
-                        <select className="text-sm font-semibold bg-transparent mr-2 border-none max-[480px]:ml-4" >
-                            <option>Title</option>
-                            <option>One</option>
-                            <option>Two</option>
-                        </select> */}
+                        <span className="text-sm font-semibold mr-4 ml-6 flex items-center mt-1"><IoFilterOutline className='mr-2' /> Filter:</span>
+                    
                         <button className="text-sm font-semibold bg-transparent mr-6 border-none flex mt-2" onClick={() => NameClick()}> Name<span className='mt-1 ml-1'>{NameArrow ? (<IoMdArrowDropdown />) : (<IoMdArrowDropup />)}</span></button>
                         <button className="text-sm font-semibold bg-transparent mr-6 border-none flex mt-2" onClick={() => CompanyClick()}> Company<span className='mt-1 ml-1'>{companyArrow ? (<IoMdArrowDropdown />) : (<IoMdArrowDropup />)}</span></button>
                         <button className="text-sm font-semibold bg-transparent mr-6 border-none flex mt-2" onClick={() => TitleClick()}> Title<span className='mt-1 ml-1'>{Titlearrow ? (<IoMdArrowDropdown />) : (<IoMdArrowDropup />)}</span></button>
-                    
-                    
+
+
                     </div>
                 </div>
-             
+
 
                 <div className="p-4 border-1 border-blue-400 border-dashed mx-6 rounded-lg dark:border-blue-700 h-full top-20 bg-white">
                     <div className="mt-8 ml-2 mr-2 mb-8">
                         <div className="relative overflow-x-auto">
                             <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                            {Loading ? (<>
-                                        <div className=" items-center h-64 w-full">
+                                {Loading ? (<>
+                                    <div className=" items-center h-64 w-full">
 
                                         <div className="absolute -translate-x-1/2 -translate-y-1/2 top-2/4 left-1/2">
                                             <div role="status">
@@ -239,11 +229,11 @@ export default function Contacts() {
                                                 <span className="sr-only">Loading...</span>
                                             </div>
                                         </div>
-                                        </div>
-                                        
-                                    </>
+                                    </div>
 
-                                    ) : ''}
+                                </>
+
+                                ) : ''}
                                 <thead className="text-sm underline text-gray-900  dark:text-gray-400">
                                     <tr>
                                         <th></th>
@@ -268,121 +258,65 @@ export default function Contacts() {
                                     </tr>
                                 </thead>
                                 <tbody>
-                               
+
                                     {
-                                       filteredResults.length > 0 ?(
-                                        filteredResults && filteredResults.map((data, index)=>{
-                                            return (
-                                                <tr className="bg-white dark:bg-gray-800 text-gray-700">
-                                                    <td className="pl-0 pr-0 w-10 py-4"><input type="checkbox" className="ml-10 mr-10 outline-none text-blue-500 max-[768px]:ml-6 max-[768px]:mb-2 border-2 border-blue-500 mt-3 focus:bg-blue-500 focus:text-blue-500 bg-white text-md" name="medium" />
-                                                    </td>
-                                                    <td className="pr-6 py-4 flex">
+                                        filteredResults.length > 0 ? (
+                                            filteredResults && filteredResults.map((data, index) => {
+                                                return (
+                                                    <tr className="bg-white dark:bg-gray-800 text-gray-700">
+                                                        <td className="pl-0 pr-0 w-10 py-4"><input type="checkbox" className="ml-10 mr-10 outline-none text-blue-500 max-[768px]:ml-6 max-[768px]:mb-2 border-2 border-blue-500 mt-3 focus:bg-blue-500 focus:text-blue-500 bg-white text-md" name="medium" />
+                                                        </td>
+                                                        <td className="pr-6 py-4 flex">
+                                                            <img className="h-12 rounded-full w-12" src={data.ProfileImage ? data.ProfileImage : '/profile.png'} alt="Girl in a jacket" />
+                                                            <p className="ml-6 mt-4 text-base  font-bold text-black">{data.FirstName} {data.MiddleName} {data.LastName}</p>
+                                                        </td>
+                                                        <td className="px-6 py-4">
+                                                            {data.Email}
+                                                        </td>
+                                                        <td className="px-6 py-4">
+                                                            {data.PhoneNumber}
+                                                        </td>
+                                                        <td className="px-6 py-4">
+                                                            {data.Title}
+                                                        </td>
+                                                        <td className="px-6 py-4">
+                                                            {data.Company}
+                                                        </td>
+                                                        <td><span className='cursor-pointer' onClick={() => EditRow(data._id)}> <FiEdit2 /> </span></td>
+                                                    </tr>
+                                                );
+                                            })
+                                        ) : (
+                                            getResult && getResult.map((data1, index) => {
+                                                return (
+                                                    <tr className="bg-white dark:bg-gray-800 text-gray-700">
+                                                        <td className="pl-0 pr-0 w-10 py-4"><input type="checkbox" className="ml-10 mr-10 outline-none text-blue-500 max-[768px]:ml-6 max-[768px]:mb-2 border-2 border-blue-500 mt-3 focus:bg-blue-500 focus:text-blue-500 bg-white text-md" name="medium" />
+                                                        </td>
+                                                        <td className="pr-6 py-4 flex">
 
-                                                        <img className="h-12 rounded-full w-12" src={data.image ? data.image : '/rose.jpg'} alt="Girl in a jacket" />
-                                                        <p className="ml-6 mt-4 text-base  font-bold text-black">{data.FirstName} {data.MiddleName} {data.LastName}</p>
-                                                    </td>
-                                                    <td className="px-6 py-4">
-                                                        {data.Email}
-                                                    </td>
-                                                    <td className="px-6 py-4">
-                                                        {data.PhoneNumber}
-                                                    </td>
-                                                    <td className="px-6 py-4">
-                                                        {data.Title}
-                                                    </td>
-                                                    <td className="px-6 py-4">
-                                                        {data.Company}
-                                                    </td>
-                                                    <td><span className='cursor-pointer' onClick={() => EditRow(data._id)}> <FiEdit2 /> </span></td>
-                                                </tr>
-                                            );
-                                                })
-                                       ):(
-                                        getResult && getResult.map((data1, index)=>{
-                                            return (
-                                                <tr className="bg-white dark:bg-gray-800 text-gray-700">
-                                                    <td className="pl-0 pr-0 w-10 py-4"><input type="checkbox" className="ml-10 mr-10 outline-none text-blue-500 max-[768px]:ml-6 max-[768px]:mb-2 border-2 border-blue-500 mt-3 focus:bg-blue-500 focus:text-blue-500 bg-white text-md" name="medium" />
-                                                    </td>
-                                                    <td className="pr-6 py-4 flex">
-
-                                                        <img className="h-12 rounded-full w-12" src={data1.image ? data1.image : '/rose.jpg'} alt="Girl in a jacket" />
-                                                        <p className="ml-6 mt-4 text-base  font-bold text-black">{data1.FirstName} {data1.MiddleName} {data1.LastName}</p>
-                                                    </td>
-                                                    <td className="px-6 py-4">
-                                                        {data1.Email}
-                                                    </td>
-                                                    <td className="px-6 py-4">
-                                                        {data1.PhoneNumber}
-                                                    </td>
-                                                    <td className="px-6 py-4">
-                                                        {data1.Title}
-                                                    </td>
-                                                    <td className="px-6 py-4">
-                                                        {data1.Company}
-                                                    </td>
-                                                    <td><span className='cursor-pointer'  onClick={() => EditRow(data1._id)}> <FiEdit2 /> </span></td>
-                                                </tr>
-                                            );
-                                                })
-                                       ) 
+                                                        <img className="h-12 rounded-full w-12" src={data1.ProfileImage ? data1.ProfileImage : '/profile.png'} alt="Girl in a jacket" />
+                                                            <p className="ml-6 mt-4 text-base  font-bold text-black">{data1.FirstName} {data1.MiddleName} {data1.LastName}</p>
+                                                        </td>
+                                                        <td className="px-6 py-4">
+                                                            {data1.Email}
+                                                        </td>
+                                                        <td className="px-6 py-4">
+                                                            {data1.PhoneNumber}
+                                                        </td>
+                                                        <td className="px-6 py-4">
+                                                            {data1.Title}
+                                                        </td>
+                                                        <td className="px-6 py-4">
+                                                            {data1.Company}
+                                                        </td>
+                                                        <td><span className='cursor-pointer' onClick={() => EditRow(data1._id)}> <FiEdit2 /> </span></td>
+                                                    </tr>
+                                                );
+                                            })
+                                        )
                                     }
-                                 
 
 
-                                    {/* {filteredResults && filteredResults.map((data, index) => {
-                                        return (
-                                            <tr className="bg-white dark:bg-gray-800 text-gray-700">
-                                                <td className="pl-0 pr-0 w-10 py-4"><input type="checkbox" className="ml-10 mr-10 outline-none text-blue-500 max-[768px]:ml-6 max-[768px]:mb-2 border-2 border-blue-500 mt-3 focus:bg-blue-500 focus:text-blue-500 bg-white text-md" name="medium" />
-                                                </td>
-                                                <td className="pr-6 py-4 flex">
-
-                                                    <img className="h-12 rounded-full w-12" src={data.image ? data.image : '/rose.jpg'} alt="Girl in a jacket" />
-                                                    <p className="ml-6 mt-4 text-base  font-bold text-black">{data.FirstName} {data.MiddleName} {data.LastName}</p>
-                                                </td>
-                                                <td className="px-6 py-4">
-                                                    {data.Email}
-                                                </td>
-                                                <td className="px-6 py-4">
-                                                    {data.PhoneNumber}
-                                                </td>
-                                                <td className="px-6 py-4">
-                                                    {data.Title}
-                                                </td>
-                                                <td className="px-6 py-4">
-                                                    {data.Company}
-                                                </td>
-                                                <td><span className=''> <FiEdit2 /> </span></td>
-                                            </tr>
-                                        );
-                                    })} 
-
-
-                                   {getResult.data && getResult.data.map((data, index) => {
-                                        return (
-                                            <tr className="bg-white dark:bg-gray-800 text-gray-700">
-                                                <td className="pl-0 pr-0 w-10 py-4"><input type="checkbox" className="ml-10 mr-10 outline-none text-blue-500 max-[768px]:ml-6 max-[768px]:mb-2 border-2 border-blue-500 mt-3 focus:bg-blue-500 focus:text-blue-500 bg-white text-md" name="medium" />
-                                                </td>
-                                                <td className="pr-6 py-4 flex">
-
-                                                    <img className="h-12 rounded-full w-12" src={data.image ? data.image : '/rose.jpg'} alt="Girl in a jacket" />
-                                                    <p className="ml-6 mt-4 text-base  font-bold text-black">{data.FirstName} {data.MiddleName} {data.LastName}</p>
-                                                </td>
-                                                <td className="px-6 py-4">
-                                                    {data.Email}
-                                                </td>
-                                                <td className="px-6 py-4">
-                                                    {data.PhoneNumber}
-                                                </td>
-                                                <td className="px-6 py-4">
-                                                    {data.Title}
-                                                </td>
-                                                <td className="px-6 py-4">
-                                                    {data.Company}
-                                                </td>
-                                                <td><span className=''> <FiEdit2 /> </span></td>
-                                            </tr>
-                                        );
-                                    })} */}
                                 </tbody>
                             </table>
                         </div>
