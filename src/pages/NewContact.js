@@ -412,15 +412,15 @@ export default function NewContact() {
                                                                         <p className='font-thin  italic text-sm mt-1 ml-3' >Unlabeled</p>
                                                                     </span>
                                                                     <span className='flex '>
-                                                                        <input type="radio" balue="unlabled" onChange={handleTagChange} name="tagLabel" className="text-white border-blue-600 bg-blue-600 checked:bg-blue-600 hover:bg-blue-600 focus:ring-0 focus:ring-offset-0 focus:ring-none font-medium rounded-full text-sm px-4 py-4 text-center mr-1 mb-1"></input>
+                                                                        <input type="radio" value="unlabled" onChange={handleTagChange} name="tagLabel" className="text-white border-blue-600 bg-blue-600 checked:bg-blue-600 hover:bg-blue-600 focus:ring-0 focus:ring-offset-0 focus:ring-none font-medium rounded-full text-sm px-4 py-4 text-center mr-1 mb-1"></input>
                                                                         <p className='font-thin  italic text-sm mt-1 ml-3' >Unlabeled</p>
                                                                     </span>
                                                                     <span className='flex '>
-                                                                        <input type="radio" balue="unlabled" onChange={handleTagChange} name="tagLabel" className="text-white border-fuchsia-400 bg-fuchsia-400 checked:bg-fuchsia-400 hover:bg-fuchsia-400 focus:ring-0 focus:ring-offset-0 focus:ring-none font-medium rounded-full text-sm px-4 py-4 text-center mr-1 mb-1"></input>
+                                                                        <input type="radio" value="unlabled" onChange={handleTagChange} name="tagLabel" className="text-white border-fuchsia-400 bg-fuchsia-400 checked:bg-fuchsia-400 hover:bg-fuchsia-400 focus:ring-0 focus:ring-offset-0 focus:ring-none font-medium rounded-full text-sm px-4 py-4 text-center mr-1 mb-1"></input>
                                                                         <p className='font-thin  italic text-sm mt-1 ml-3' >Unlabeled</p>
                                                                     </span>
                                                                     <span className='flex '>
-                                                                        <input type="radio" balue="unlabled" onChange={handleTagChange} name="tagLabel" className="text-white border-stone-400 bg-stone-400 checked:bg-stone-400 hover:bg-stone-400 focus:ring-0 focus:ring-offset-0 focus:ring-none  font-medium rounded-full text-sm px-4 py-4 text-center mr-1 mb-1 "></input>
+                                                                        <input type="radio" value="unlabled" onChange={handleTagChange} name="tagLabel" className="text-white border-stone-400 bg-stone-400 checked:bg-stone-400 hover:bg-stone-400 focus:ring-0 focus:ring-offset-0 focus:ring-none  font-medium rounded-full text-sm px-4 py-4 text-center mr-1 mb-1 "></input>
                                                                         <p className='font-thin  italic text-sm mt-1 ml-3' >Unlabeled</p>
                                                                     </span>
                                                                     <span className='flex cursor-pointer ' onClick={handleOnClose}>

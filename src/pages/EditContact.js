@@ -11,14 +11,14 @@ import TagInput from '../components/TagInput';
 import { AxiosInstance } from '../utils';
 
 export default function EditContact() {
-  const [files, setfiles] = React.useState();
+  const [files, setfiles] = React.useState('');
   const [tags, setTags] = React.useState([]);
   const [tagLabel, setTagLabel] = React.useState([]);
   const [Loading, setloader] = React.useState(false);
   const [disabled, setDisabled] = React.useState(false);
   const location = useLocation();
   const data = location.state;
-  
+
   React.useEffect(() => {
     if (data.ProfileImage) {
       setfiles(data.ProfileImage)
@@ -26,35 +26,32 @@ export default function EditContact() {
     setTags(data.Tags)
 
     data.phoneNumber && data.phoneNumber.map((phone, index) => {
-      if(phone.phone){
+      if (phone.phone) {
         setValue(`phoneNumber.${index}.phone`, phone.phone);
         setValue(`phoneNumber.${index}.typeof`, phone.typeof);
       }
-     
-      //console.log(phone.phone)
-
     })
     data.emails && data.emails.map((emails, index) => {
-      if(emails.email){
+      if (emails.email) {
         setValue(`emails.${index}.email`, emails.email);
         setValue(`emails.${index}.typeof`, emails.typeof);
-      }   
+      }
     })
     data.websites && data.websites.map((websites, index) => {
-      if(websites.website){
+      if (websites.website) {
         setValue(`websites.${index}.website`, websites.website);
         setValue(`websites.${index}.typeoOF`, websites.typeof);
-      }   
+      }
     })
     data.addresses && data.addresses.map((addresses, index) => {
-      if(addresses.streetaddress1){
+      if (addresses.streetaddress1) {
         setValue(`addresses.${index}.addrestype`, addresses.addrestype);
         setValue(`addresses.${index}.streetaddress1`, addresses.streetaddress1);
         setValue(`addresses.${index}.streetaddress2`, addresses.streetaddress2);
         setValue(`addresses.${index}.city`, addresses.city);
         setValue(`addresses.${index}.state`, addresses.state);
         setValue(`addresses.${index}.zip`, addresses.zip);
-      }   
+      }
     })
   }, [data])
   const [showModal, setShowModal] = React.useState(false);
@@ -115,11 +112,11 @@ export default function EditContact() {
     data.Tags = tags;
     data.ProfileImage = files;
     console.log(data.phoneNumber)
-    
+
     async function saveData() {
       const dataEdit = JSON.stringify(data);
 
-    
+
       const result = await AxiosInstance(
         {
           'url': '/update-contacts',
@@ -130,7 +127,7 @@ export default function EditContact() {
       setDisabled(true);
       if (result.status === 200) {
         setloader(true)
-       
+
         setTimeout(() => {
           navigate("/contact");
         }, 3000);
@@ -175,23 +172,40 @@ export default function EditContact() {
               <form onSubmit={handleSubmit(onSubmit)} className=' inline-flex'>
                 <div className="w-28">
                   <img className="w-28 h-28 rounded-full" {...handleImages} src={files ? files : '/profile.png'} alt="Profile" />
-                  <input type="file" onChange={handleChange} className="w-28 mt-4" />
+                  <input type="file"
+                    onChange={handleChange}
+                    className="w-28 mt-4" />
                 </div>
                 <div className=''>
 
 
                   <div className="ml-12  inline-flex  mt-4 mb-4 w-full">
                     <input type="hidden" {...register("id")} className="w-full text-black  border-2 border-blue-200 mt-3 bg-white focus:ring-2 focus:outline-none focus:ring-blue-500 font-bold rounded-lg text-md px-4 py-2.5  dark:bg-blue-600" defaultValue={data._id} />
-                    <input type="text" className="bg-white text-black leading-5 border-l-2 border-t-2 border-b-2 hover:bg-white border-blue-200   py-2.5 px-8  pr-16 rounded-l-lg" placeholder='First Name' name="username"
-                      id="validationCustom01" {...register("FirstName", { required: true })} defaultValue={data.FirstName} />
-                    <input type="text"  {...register("MiddleName")} className="bg-white leading-5 border-2 hover:bg-white border-blue-200  py-2.5 px-7 text-black" placeholder='Middle Name' defaultValue={data.MiddleName} />
-                    <input type="text" {...register("LastName", { required: true })} className="bg-white leading-5 border-r-2 border-t-2 border-b-2 border-blue-200 hover:bg-white   py-2.5 px-8  pr-16 rounded-r-lg text-black" placeholder='Last Name' defaultValue={data.LastName} />
+                    <input type="text"
+                      className="bg-white text-black leading-5 border-l-2 border-t-2 border-b-2 hover:bg-white border-blue-200 py-2.5 px-8  pr-16 rounded-l-lg"
+                      placeholder='First Name'
+                      name="username"
+                      id="validationCustom01"
+                      {...register("FirstName", { required: true })} defaultValue={data.FirstName} />
+                    <input type="text"
+                      {...register("MiddleName")}
+                      className="bg-white leading-5 border-2 hover:bg-white border-blue-200  py-2.5 px-7 text-black" placeholder='Middle Name'
+                      defaultValue={data.MiddleName} />
+                    <input type="text"
+                      {...register("LastName", { required: true })}
+                      className="bg-white leading-5 border-r-2 border-t-2 border-b-2 border-blue-200 hover:bg-white   py-2.5 px-8  pr-16 rounded-r-lg text-black"
+                      placeholder='Last Name'
+                      defaultValue={data.LastName} />
                   </div>
                   {errors.FirstName && <span className='text-red-500 ml-12'>First Name is required</span>}
                   {errors.LastName && <span className='text-red-500 ml-12'>Last Name is required</span>}
                   <div className="min-[480px]:grid grid-cols-6 gap-10 mt-4">
                     <div className='col-span-3'>
-                      <input type="text" {...register("Title", { required: true })} className="hauser ml-12 bg-white leading-5 border-2  hover:bg-white border-blue-200  py-2.5 px-4  rounded-lg text-black" placeholder='Curator' defaultValue={data.Title} />
+                      <input type="text"
+                        {...register("Title", { required: true })}
+                        className="hauser ml-12 bg-white leading-5 border-2  hover:bg-white border-blue-200  py-2.5 px-4  rounded-lg text-black"
+                        placeholder='Curator'
+                        defaultValue={data.Title} />
 
                       {errors.Title && <span className='text-red-500 ml-12'>Curator is required</span>}
 
@@ -277,7 +291,7 @@ export default function EditContact() {
                         {fieldsForPhone?.map((item, index) => (
                           <li key={item.id}>
                             <div className='flex mt-4 justify-between items-center'>
-                              <span className='mt-6 mr-4'><IoIosCall size={30} color='gray'/></span>
+                              <span className='mt-6 mr-4'><IoIosCall size={30} color='gray' /></span>
                               <Controller
                                 render={({ field }) => <select {...field} className="mt-4 text-black  border-2 border-blue-200  bg-white hover:bg-white focus:ring-2 focus:outline-none focus:ring-blue-500 font-bold rounded-lg text-md px-4 py-2  text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                                   <option value="Work">Work</option>
@@ -289,7 +303,7 @@ export default function EditContact() {
                               <Controller
                                 render={({ field }) => <input type="number" className="text-black  h-11 border-2 border-blue-200 mt-3 bg-white focus:ring-2 focus:outline-none focus:ring-blue-500 rounded-lg text-md px-4 dark:bg-blue-600 w-60 ml-2" {...field} placeholder='Phone Number' />}
                                 name={`phoneNumber.${index}.phone`}
-                             
+
                                 control={control}
                               />
                               <button type="button" onClick={() => removeForPhone(index)}><CiCircleRemove size={20} color='DodgerBlue' /></button>
@@ -307,10 +321,14 @@ export default function EditContact() {
                           <option >Work</option>
                           <option >Personal</option>
                         </select>
-                        <input type="text" {...register("Website", { required: true })} className="w-64 text-black  border-2 border-blue-200 mt-3 bg-white focus:ring-2 focus:outline-none focus:ring-blue-500  rounded-lg text-md px-4 dark:bg-blue-600 ml-2" placeholder="Website" defaultValue={data.Website} />
-                   
+                        <input type="text"
+                          {...register("Website", { required: true })}
+                          className="w-64 text-black  border-2 border-blue-200 mt-3 bg-white focus:ring-2 focus:outline-none focus:ring-blue-500  rounded-lg text-md px-4 dark:bg-blue-600 ml-2"
+                          placeholder="Website"
+                          defaultValue={data.Website} />
+
                       </div>
-                      {errors.Website && <span className='text-red-500 ml-12'>Website is required</span>} 
+                      {errors.Website && <span className='text-red-500 ml-12'>Website is required</span>}
                       <ul>
                         {fieldsForWebsite?.map((item, index) => (
                           <li key={item.id}>
@@ -345,21 +363,42 @@ export default function EditContact() {
                           <div className="inline-flex mr-4 mt-4 mb-4">
                             <input type="text" className="bg-white border-l-2 border-t-2 border-b-2 hover:bg-white border-blue-200  text-black py-2 px-4  rounded-l-lg w-14" {...register("BirthDateMonth")} placeholder='M' defaultValue={data.BirthDateMonth} min="1" max="12" />
                             <input type="text" className="bg-white border-2 hover:bg-white border-blue-200 text-black py-2 px-4 w-14" {...register("BirthDateDay")} placeholder='D' defaultValue={data.BirthDateDay} />
-                            <input type="text" className="bg-white border-r-2 border-t-2 border-b-2 border-blue-200 hover:bg-white text-black  py-2 px-4  rounded-r-lg w-14" {...register("BirthDateYear")} placeholder='YY' defaultValue={data.BirthDateYear} />
+                            <input type="text"
+                              className="bg-white border-r-2 border-t-2 border-b-2 border-blue-200 hover:bg-white text-black  py-2 px-4  rounded-r-lg w-14"
+                              {...register("BirthDateYear")}
+                              placeholder='YY'
+                              defaultValue={data.BirthDateYear} />
                           </div>
                         </div>
                         <div className="">
                           <p className="text-sm font-bold text-gray-700 ml-5">Death Date</p>
                           <div className="inline-flex mr-4 mt-4 mb-4">
-                            <input type="text" className="bg-white border-l-2 border-t-2 border-b-2 hover:bg-white border-blue-200  text-black py-2 px-4  rounded-l-lg w-14" {...register("DeathDateMonth")} placeholder='M' defaultValue={data.DeathDateMonth} min="1" max="12" />
-                            <input type="text" className="bg-white border-2 hover:bg-white border-blue-200 text-black py-2 px-4 w-14" {...register("DeathDateDay")} placeholder='D' defaultValue={data.DeathDateDay} />
-                            <input type="text" className="bg-white border-r-2 border-t-2 border-b-2 border-blue-200 hover:bg-white text-black  py-2 px-4  rounded-r-lg w-14" {...register("DeathDateYear")} placeholder='YY' defaultValue={data.DeathDateYear} />
+                            <input type="text"
+                              className="bg-white border-l-2 border-t-2 border-b-2 hover:bg-white border-blue-200  text-black py-2 px-4  rounded-l-lg w-14"
+                              {...register("DeathDateMonth")}
+                              placeholder='M'
+                              defaultValue={data.DeathDateMonth}
+                              min="1" max="12" />
+                            <input type="text"
+                              className="bg-white border-2 hover:bg-white border-blue-200 text-black py-2 px-4 w-14"
+                              {...register("DeathDateDay")}
+                              placeholder='D'
+                              defaultValue={data.DeathDateDay} />
+                            <input type="text"
+                              className="bg-white border-r-2 border-t-2 border-b-2 border-blue-200 hover:bg-white text-black  py-2 px-4  rounded-r-lg w-14"
+                              {...register("DeathDateYear")}
+                              placeholder='YY'
+                              defaultValue={data.DeathDateYear} />
                           </div>
                         </div>
                       </div>
                     </div>
                     <div className='col-span-3'>
-                      <input type="text"  {...register("Company", { required: true })} className="hauser ml-12 bg-white leading-5 border-2  hover:bg-white border-blue-200  text-black py-2.5 px-4  rounded-lg" placeholder='Hauser & Wirth' defaultValue={data.Company} />
+                      <input type="text"
+                        {...register("Company", { required: true })}
+                        className="hauser ml-12 bg-white leading-5 border-2  hover:bg-white border-blue-200  text-black py-2.5 px-4  rounded-lg"
+                        placeholder='Hauser & Wirth'
+                        defaultValue={data.Company} />
                       {errors.Company && <span className='text-red-500 ml-12'>Hauser is required</span>}
                       <div className='flex mt-2'>
                         <span className='mt-6 mr-4'><IoIosHome size={30} color='gray' /></span>
@@ -368,11 +407,30 @@ export default function EditContact() {
                           <option value="personal">Personal</option>
                         </select>
                         <div className="ml-2 mt-4">
-                          <input type="text"  {...register("StreetAddress1", { required: true })} className="w-full text-black bg-white border-b-2 border-l-2  border-r-2  border-t-2 border-blue-200 focus:outline-0  italic rounded-t-lg text-md px-4 py-2 " placeholder="Street address line 1" defaultValue={data.StreetAddress1} />
-                          <input type="text"  {...register("StreetAddress2")} className="w-full text-black bg-white border-t-0 border-b-2  border-l-2  border-r-2 border-blue-200  focus:outline-0  italic  text-md px-4 py-2" placeholder="Street address line 2" defaultValue={data.StreetAddress2} />
-                          <input type="text"  {...register("City")} className="w-full text-black bg-white border-t-0 border-b-2  border-l-2  border-r-2 border-blue-200 focus:outline-0  italic  text-md px-4 py-2" placeholder="New York" defaultValue={data.City} />
-                          <input type="text"  {...register("State")} className="bg-white border-l-2 border-t-0 border-b-2 hover:bg-white border-blue-200 italic text-black py-2 px-4 border-t-none rounded-b-lg  rounded-r-none w-1/2" placeholder="NY" defaultValue={data.State} />
-                          <input type="text"  {...register("Zip", { required: true })} className="bg-white border-r-2 border-t-0 border-b-2 hover:bg-white border-blue-200 italic text-black py-2 px-4 border-t-none rounded-b-lg  rounded-l-none w-1/2" placeholder="10011" defaultValue={data.Zip} />
+                          <input type="text"
+                            {...register("StreetAddress1", { required: true })}
+                            className="w-full text-black bg-white border-b-2 border-l-2  border-r-2  border-t-2 border-blue-200 focus:outline-0  italic rounded-t-lg text-md px-4 py-2 "
+                            placeholder="Street address line 1" defaultValue={data.StreetAddress1} />
+                          <input type="text"
+                            {...register("StreetAddress2")}
+                            className="w-full text-black bg-white border-t-0 border-b-2  border-l-2  border-r-2 border-blue-200  focus:outline-0  italic  text-md px-4 py-2"
+                            placeholder="Street address line 2"
+                            defaultValue={data.StreetAddress2} />
+                          <input type="text"
+                            {...register("City")}
+                            className="w-full text-black bg-white border-t-0 border-b-2  border-l-2  border-r-2 border-blue-200 focus:outline-0  italic  text-md px-4 py-2"
+                            placeholder="New York"
+                            defaultValue={data.City} />
+                          <input type="text"
+                            {...register("State")}
+                            className="bg-white border-l-2 border-t-0 border-b-2 hover:bg-white border-blue-200 italic text-black py-2 px-4 border-t-none rounded-b-lg  rounded-r-none w-1/2"
+                            placeholder="NY"
+                            defaultValue={data.State} />
+                          <input type="text"
+                            {...register("Zip", { required: true })}
+                            className="bg-white border-r-2 border-t-0 border-b-2 hover:bg-white border-blue-200 italic text-black py-2 px-4 border-t-none rounded-b-lg  rounded-l-none w-1/2"
+                            placeholder="10011"
+                            defaultValue={data.Zip} />
                         </div>
 
                       </div>
@@ -385,15 +443,12 @@ export default function EditContact() {
                             <div className='flex mt-4 '>
                               <span className='mt-6 mr-4'><IoIosHome size={30} color='gray' /></span>
 
-
                               <Controller
                                 render={({ field }) => <select className="h-12 mt-4 text-black  border-2 border-blue-200  bg-white hover:bg-white focus:ring-2 focus:outline-none focus:ring-blue-500 font-bold rounded-lg text-md px-4 py-2  text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"  {...field} > <option value="work">Work</option>
                                   <option value="personal">Personal</option></select>}
                                 name={`addresses.${index}.addrestype`}
                                 control={control}
                               />
-
-
 
                               <div className="ml-2 mt-4">
                                 <Controller
@@ -429,15 +484,15 @@ export default function EditContact() {
                       </ul>
 
                       <button className="text-sm font-bold text-blue-500 ml-16 mt-4 mb-2" type="button"
-                        onClick={() => appendForAddress({ addrestype: "", streetaddress1: "", streetaddress2: "" , city: "", state: "", zip: ""})}>+ Add Address</button>
+                        onClick={() => appendForAddress({ addrestype: "", streetaddress1: "", streetaddress2: "", city: "", state: "", zip: "" })} >+ Add Address</button>
 
 
 
                       <div className="min-[480px]:ml-12 mt-6 hauser  mb-4 border-2 border-blue-200  rounded-xl bg-white dark:bg-white dark:border-blue-600">
-                        {/* <IoIosCheckmarkCircleOutline size={28} color='DodgerBlue' /> */}
+
                         <span className="">
                           <TagInput {...handleTags} className="" labelField={tagLabel} />
-                          {/* <span className='cursor-pointer absolute right-side'><input type="checkbox" className="text-white border-blue-600 bg-blue-600 hover:bg-blue-600 checked:bg-blue-600 dark:bg-blue-600 focus:ring-offset-2 focus:ring-0 focus:border-blue-600  font-medium rounded-full text-sm px-4 py-4 text-center mr-1 mb-1" defaultChecked={true} onClick={handleOnClick}></input></span> */}
+
                         </span>
 
                         <Modal show={showModal} size="sm" onClose={handleOnClose}>
@@ -445,31 +500,61 @@ export default function EditContact() {
                             <div className="space-y-6 w-34">
                               <div className='ml-2 mr-2 bg-white'>
                                 <span className='flex'>
-                                  <input type="radio" value="important" onChange={handleTagChange} name="tagLabel" className="text-white border-red-400 bg-red-400 checked:bg-red-400 hover:bg-red-500 focus:ring-0 focus:ring-offset-2 focus:border-red-400 focus:bg-red-400   font-medium rounded-full text-sm px-4 py-4 text-center mr-1 mb-1 "></input>
+                                  <input type="radio"
+                                    value="important"
+                                    onChange={handleTagChange}
+                                    name="tagLabel"
+                                    className="text-white border-red-400 bg-red-400 checked:bg-red-400 hover:bg-red-500 focus:ring-0 focus:ring-offset-2 focus:border-red-400 focus:bg-red-400   font-medium rounded-full text-sm px-4 py-4 text-center mr-1 mb-1 "></input>
                                   <p className='font-bold text-sm mt-1 ml-3' >Important</p>
                                 </span>
                                 <span className='flex '>
-                                  <input type="radio" value="personal" onChange={handleTagChange} name="tagLabel" className="text-white border-amber-500 bg-amber-500 hover:bg-amber-500 checked:bg-amber-500 dark:bg-amber-500 focus:ring-offset-2 focus:ring-0 focus:border-amber-500  font-medium rounded-full text-sm px-4 py-4 text-center mr-1 mb-1 "></input>
+                                  <input type="radio"
+                                    value="personal"
+                                    onChange={handleTagChange}
+                                    name="tagLabel"
+                                    className="text-white border-amber-500 bg-amber-500 hover:bg-amber-500 checked:bg-amber-500 dark:bg-amber-500 focus:ring-offset-2 focus:ring-0 focus:border-amber-500  font-medium rounded-full text-sm px-4 py-4 text-center mr-1 mb-1 "></input>
                                   <p className='font-bold text-sm mt-1 ml-3' >Personal</p>
                                 </span>
                                 <span className='flex '>
-                                  <input type="radio" value="goals2020" onChange={handleTagChange} name="tagLabel" className="text-white border-yellow-300 bg-yellow-300 checked:bg-yellow-300 hover:bg-yellow-300 focus:ring-0 focus:ring-offset-0 focus:ring-none font-medium rounded-full text-sm px-4 py-4 text-center mr-1 mb-1 "></input>
+                                  <input type="radio"
+                                    value="goals2020"
+                                    onChange={handleTagChange}
+                                    name="tagLabel"
+                                    className="text-white border-yellow-300 bg-yellow-300 checked:bg-yellow-300 hover:bg-yellow-300 focus:ring-0 focus:ring-offset-0 focus:ring-none font-medium rounded-full text-sm px-4 py-4 text-center mr-1 mb-1 ">
+
+                                  </input>
                                   <p className='font-bold text-sm mt-1 ml-3' >2020 Goals</p>
                                 </span>
                                 <span className='flex '>
-                                  <input type="radio" value="unlabled" onChange={handleTagChange} name="tagLabel" className="text-white border-emerald-400 bg-emerald-400 checked:bg-emerald-400 hover:bg-emerald-400 focus:ring-0 focus:ring-offset-0 focus:ring-none font-medium rounded-full text-sm px-4 py-4 text-center mr-1 mb-1 "></input>
+                                  <input type="radio"
+                                    value="unlabled"
+                                    onChange={handleTagChange}
+                                    name="tagLabel"
+                                    className="text-white border-emerald-400 bg-emerald-400 checked:bg-emerald-400 hover:bg-emerald-400 focus:ring-0 focus:ring-offset-0 focus:ring-none font-medium rounded-full text-sm px-4 py-4 text-center mr-1 mb-1 "></input>
                                   <p className='font-thin  italic text-sm mt-1 ml-3' >Unlabeled</p>
                                 </span>
                                 <span className='flex '>
-                                  <input type="radio" balue="unlabled" onChange={handleTagChange} name="tagLabel" className="text-white border-blue-600 bg-blue-600 checked:bg-blue-600 hover:bg-blue-600 focus:ring-0 focus:ring-offset-0 focus:ring-none font-medium rounded-full text-sm px-4 py-4 text-center mr-1 mb-1"></input>
+                                  <input type="radio"
+                                    value="unlabled"
+                                    onChange={handleTagChange}
+                                    name="tagLabel"
+                                    className="text-white border-blue-600 bg-blue-600 checked:bg-blue-600 hover:bg-blue-600 focus:ring-0 focus:ring-offset-0 focus:ring-none font-medium rounded-full text-sm px-4 py-4 text-center mr-1 mb-1"></input>
                                   <p className='font-thin  italic text-sm mt-1 ml-3' >Unlabeled</p>
                                 </span>
                                 <span className='flex '>
-                                  <input type="radio" balue="unlabled" onChange={handleTagChange} name="tagLabel" className="text-white border-fuchsia-400 bg-fuchsia-400 checked:bg-fuchsia-400 hover:bg-fuchsia-400 focus:ring-0 focus:ring-offset-0 focus:ring-none font-medium rounded-full text-sm px-4 py-4 text-center mr-1 mb-1"></input>
+                                  <input type="radio"
+                                    value="unlabled"
+                                    onChange={handleTagChange}
+                                    name="tagLabel"
+                                    className="text-white border-fuchsia-400 bg-fuchsia-400 checked:bg-fuchsia-400 hover:bg-fuchsia-400 focus:ring-0 focus:ring-offset-0 focus:ring-none font-medium rounded-full text-sm px-4 py-4 text-center mr-1 mb-1"></input>
                                   <p className='font-thin  italic text-sm mt-1 ml-3' >Unlabeled</p>
                                 </span>
                                 <span className='flex '>
-                                  <input type="radio" balue="unlabled" onChange={handleTagChange} name="tagLabel" className="text-white border-stone-400 bg-stone-400 checked:bg-stone-400 hover:bg-stone-400 focus:ring-0 focus:ring-offset-0 focus:ring-none  font-medium rounded-full text-sm px-4 py-4 text-center mr-1 mb-1 "></input>
+                                  <input type="radio"
+                                    value="unlabled"
+                                    onChange={handleTagChange}
+                                    name="tagLabel"
+                                    className="text-white border-stone-400 bg-stone-400 checked:bg-stone-400 hover:bg-stone-400 focus:ring-0 focus:ring-offset-0 focus:ring-none  font-medium rounded-full text-sm px-4 py-4 text-center mr-1 mb-1 "></input>
                                   <p className='font-thin  italic text-sm mt-1 ml-3' >Unlabeled</p>
                                 </span>
                                 <span className='flex cursor-pointer ' onClick={handleOnClose}>

@@ -11,14 +11,11 @@ import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 export default function SendEmail() {
     return (
         <>
-
-
-
             <div className="min-[480px]:pt-10 sm:ml-48 min-[480px]:top-20 bg-gray-200 h-full min-[480px]:ml-40" >
                 <div className="min-[480px]:grid grid-cols-6 min-[480px]:ml-16">
                     <div className='min-[480px]:flex col-span-5 ...'>
-                        <h2 className="dark:text-black text-3xl  mb-4 pl-6" >Email </h2>
-                        <form className="flex items-center">
+                        <h2 className="dark:text-black text-3xl mb-4 pl-6">Email</h2>
+                        {/* <form className="flex items-center">
                             <label htmlFor="voice-search" className="sr-only">Search</label>
                             <div className="relative min-[480px]:ml-8  max-[480px]:ml-2">
                                 <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
@@ -30,29 +27,27 @@ export default function SendEmail() {
                                 </button>
                             </div>
 
-                        </form>
+                        </form> */}
                     </div>
 
                 </div>
                 <hr className="min-[480px]:ml-24 h-px my-2  bg-gray-700 border border-gray-300 dark:bg-gray-700"></hr>
                 <div className='min-[480px]:grid grid-cols-12 gap-0 mb-10'>
                     <div className='col-span-1 w-8 ml-5 mt-6 max-[480px]:flex'>
-                        <a href='/email/send'><HiOutlinePencil size={26} className='ml-2 my-6' /></a>
-                        <a href='/emails'><FiInbox size={26} className='ml-2 my-6' /></a>
-                        <span className=''><FiFileText size={26} className='ml-2 my-6' /></span>
-                        <span className=''><FiSend size={26} className='ml-2 my-6' /></span>
-                        <span className=''><FiArchive size={26} className='ml-2 my-6' /></span>
+                        <a href='/email/send'><HiOutlinePencil size={26} className='ml-2 my-6'/></a>
+                        <a href='/emails'><FiInbox size={26} className='ml-2 my-6'/></a>
+                        <span className=''><FiFileText size={26} className='ml-2 my-6'/></span>
+                        <span className=''><FiSend size={26} className='ml-2 my-6'/></span>
+                        <span className=''><FiArchive size={26} className='ml-2 my-6'/></span>
                     </div>
                     <div className="col-span-11 max-[480px]:col-span-10 mb-10 p-4 border-1 border-blue-400 border-dashed mr-6  dark:border-blue-700 h-full top-20 bg-white">
-
-                        <div className="mt-8  mr-2 mb-8">
+                        <div className="mt-8 mr-2 mb-8">
                             <div className="ml-2 mt-4">
-
                                 <form>
                                     <div className="w-full mb-4 border-2 border-blue-300 rounded-lg bg-gray-50 dark:bg-blue-500 dark:border-gray-600">
-                                        <div className=" bg-white rounded-t-lg dark:bg-gray-800">
+                                        <div className="bg-white rounded-t-lg dark:bg-gray-800">
                                             <label htmlFor="comment" className="sr-only">Your comment</label>
-                                            <input type="text" className="w-full text-black bg-white border-b-2 border-l-0  border-r-0  border-t-0 border-blue-200 focus:outline-0  italic rounded-t-lg text-md px-4 py-2 " name="to" placeholder="To: " />
+                                            <input type="email" className="w-full text-black bg-white border-b-2 border-l-0  border-r-0  border-t-0 border-blue-200 focus:outline-0  italic rounded-t-lg text-md px-4 py-2 " name="to" placeholder="To: " />
                                             <input type="text" className="w-full text-black bg-white border-t-0 border-b-2  border-l-0  border-r-0 border-blue-200  focus:outline-0  italic  text-md px-4 py-2" name="subject" placeholder="Subject:" />
                                             <Editor
                                                 toolbarClassName="toolbarClassName"
@@ -62,12 +57,9 @@ export default function SendEmail() {
                                             />
                                         </div>
                                         <div className="min-[480px]:flex items-center justify-between px-3 border-t-2 border-blue-300 dark:border-blue-300">
-
                                             <div className="min-[480px]:flex pl-0 space-x-1 sm:pl-2">
-                                                {/* <button type="button" className="inline-flex justify-center items-center p-1 text-black rounded cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600">
-                                                    
-                                                    <BsFileFont size={20} color='black'/>
-                                                
+                                                {/* <button type="button" className="inline-flex justify-center items-center p-1 text-black rounded cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600">        
+                                                    <BsFileFont size={20} color='black'/>                                            
                                                     <select className="text-sm font-bold text-black bg-transparent mr-6 border-none" >
                                                         <option>Formatting</option>
                                                         <option>One</option>
@@ -76,39 +68,34 @@ export default function SendEmail() {
                                                 </button> */}
                                                 <span className="inline-flex justify-center items-center p-1 text-black rounded cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600">
                                                     <BsFileEarmark className='' size={20} color='black' />
-                                                    <select className="text-sm font-bold text-black bg-transparent mr-6 border-none" >
-                                                        <option>Template</option>
-                                                        <option>One</option>
-                                                        <option>Two</option>
+                                                    <select className="text-sm cursor-pointer focus:ring-0 font-bold text-black bg-transparent mr-6 border-none" >
+                                                        <option value='Template'>Template</option>
+                                                        <option vaue='One'>One</option>
+                                                        <option vaue='Two'>Two</option>
                                                     </select>
                                                 </span>
-                                                <button type="button" className="inline-flex justify-center items-center p-1 text-black rounded cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600">
+                                                <span className="cursor-pointer inline-flex justify-center items-center p-1 text-black rounded cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600">
                                                     <BsFilePlus size={20} color='black' />
-                                                    <select className="text-sm font-bold text-black bg-transparent mr-6 border-none" >
-                                                        <option>Fields</option>
-                                                        <option>One</option>
-                                                        <option>Two</option>
+                                                    <select className="cursor-pointer text-sm focus:ring-0  font-bold text-black bg-transparent mr-6 border-none " >
+                                                        <option value='Fields'>Fields</option>
+                                                        <option value='One'>One</option>
+                                                        <option value='Two'>Two</option>
                                                     </select>
-                                                </button>
+                                                </span>
                                             </div>
                                         </div>
                                     </div>
                                 </form>
-
                             </div>
                             <div className='ml-2 mt-6 flex items-center justify-between'>
-                                <button type="button" className="text-gray bg-transparent border-2 border-green-400 focus:outline-none focus:ring-4 focus:ring-green-400 font-medium rounded-full text-sm px-4 py-1 text-center mr-8 mb-2">Attach</button>
+                                <label type="button" for="getFile" onclick="document.getElementById('getFile').click()" className="cursor-pointer  text-gray bg-transparent border-2 border-green-400 focus:outline-none focus:ring-4 focus:ring-green-400 font-medium rounded-full text-sm px-4 py-1 text-center mr-8 mb-2" >Attach</label>
+                                <input type="file" id="getFile" className='hidden'/>
                                 <span className='min-[480px]:flex'>
-                                    <button type="button" className="text-white bg-slate-400 border-2 border-slate-400 focus:outline-none focus:ring-4 focus:ring-blue-500 font-medium rounded-full text-sm px-6 py-1 text-center mr-6 mb-2 dark:bg-blue-500 dark:hover:bg-blue-500 dark:focus:ring-blue-500">Discard</button>
-                                    <button type="button" className="text-white bg-green-400 border-2 border-green-400 focus:outline-none focus:ring-4 focus:ring-blue-500 font-medium rounded-full text-sm px-6 py-1 text-center mr-2 mb-2 dark:bg-blue-500 dark:hover:bg-blue-500 dark:focus:ring-blue-500">Send</button>
+                                    <button type="button" className="cursor-pointer text-white bg-slate-400 border-2 border-slate-400 focus:outline-none focus:ring-4 focus:ring-slate-400 font-medium rounded-full text-sm px-6 py-1 text-center mr-6 mb-2 dark:border-slate-400 dark:hover:bg-slate-400 dark:focus:ring-slate-400" >Discard</button>
+                                    <button type="button" className="cursor-pointer text-white bg-green-400 border-2 border-green-400 focus:outline-none focus:ring-4 focus:ring-green-400 font-medium rounded-full text-sm px-6 py-1 text-center mr-2 mb-2 dark:bg-green-400 dark:hover:bg-green-400 dark:focus:ring-green-400" >Send</button>
                                 </span>
                             </div>
-                            {/* <Editor
-                        toolbarClassName="toolbarClassName"
-                        wrapperClassName="wrapperClassName"
-                        editorClassName="editorClassName"
-                        wrapperStyle={{ width: 800, border: "1px solid black" }}
-                    /> */}
+
                         </div>
                     </div>
                 </div>
