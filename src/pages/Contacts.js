@@ -16,7 +16,6 @@ export default function Contacts() {
     const [Titlearrow, setTitlearrow] = React.useState(true);
     const [clearserach, setclearserach] = React.useState(false);
     const [Loading, setloader] = React.useState(true);
-
     const APIData = getResult
     const navigate = useNavigate();
     const searchItems = (searchValue) => {
@@ -33,79 +32,54 @@ export default function Contacts() {
         }
     }
     const NameClick = () => {
-
         const strAscendingName = [...APIData].sort((a, b) =>
             a.FirstName > b.FirstName ? 1 : -1,
         );
-
         setResult(strAscendingName)
         setNameArrow(false)
-
         if (NameArrow === false) {
-
             setNameArrow(true)
-
             const strDescendingName = [...APIData].sort((a, b) =>
                 a.FirstName > b.FirstName ? -1 : 1,
             );
             setResult(strDescendingName)
-
         }
-
     }
     const CompanyClick = () => {
 
         const strAscendingcmpny = [...APIData].sort((a, b) =>
             a.Company > b.Company ? 1 : -1,
         );
-
         setResult(strAscendingcmpny)
         setcompanyArrow(false)
-
         if (companyArrow === false) {
-
             setcompanyArrow(true)
-
             const strDescendingName = [...APIData].sort((a, b) =>
                 a.Company > b.Company ? -1 : 1,
             );
             setResult(strDescendingName)
-
         }
-
     }
     const TitleClick = () => {
-
         const strAscendingTitle = [...APIData].sort((a, b) =>
             a.Title > b.Title ? 1 : -1,
         );
-
         setResult(strAscendingTitle)
         setTitlearrow(false)
 
         if (Titlearrow === false) {
-
             setTitlearrow(true)
-
             const strDescendingName = [...APIData].sort((a, b) =>
                 a.Title > b.Title ? -1 : 1,
             );
             setResult(strDescendingName)
-
         }
-
     }
 
     const fetchInfo = () => {
         const userId = localStorage.getItem("userId")
-        var data = JSON.stringify({ 'id': userId })
-        // return axios.get('http://127.0.0.1:3000/api/v1/get-contacts').then((res) => {
-        //     setResult(res.data.data)
-        //     setloader(false)
-        // }
-        // );
+        var data = JSON.stringify({ 'id': userId })  
         async function getData() {
-
             const result = await AxiosInstance(
                 {
                     'url': '/get-contacts',
@@ -113,19 +87,12 @@ export default function Contacts() {
                     'data': data
                 }
             )
-
-            if (result) {
-                //console.log(result.data.data)
+            if (result) {               
                 setResult(result.data.data)
                 setloader(false)
             }
-
         }
         getData()
-
-
-
-
     };
 
     React.useEffect(() => {
@@ -133,30 +100,18 @@ export default function Contacts() {
         setapidataresult(getResult)
     }, []);
 
-
-
-    // {getResult.data && getResult.data.map((data, index) => { 
-    //     myArray = data.Title;
-    // })}
-
     const ref = React.useRef(null);
     const ResetSearch = () => {
         setFilteredResults(apidataresult)
         ref.current.value = '';
-        //console.log('reset data')
         setclearserach(false)
-
     }
-    //console.log(apidataresult)
-    const EditRow = async (id) => {
 
+    const EditRow = async (id) => {
         const EditData = getResult.find(apidata => {
             return apidata._id === id
         })
-        //console.log(EditData)
         navigate("/contact/edit", { state: EditData });
-        //console.log(EditData)
-
     }
 
     return (
@@ -173,7 +128,7 @@ export default function Contacts() {
                                 <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                                     <svg aria-hidden="true" className="w-4 h-4 text-white dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clipRule="evenodd"></path></svg>
                                 </div>
-                                <input type="text" ref={ref} id="artworkSearch" className="bg-blue-500 border-2 border-blue-500 text-white text-sm rounded-full focus:ring-blue-500 focus:border-blue-500 block  pl-10 p-1.5  text-white placeholder-white dark:placeholder-white dark:text-white dark:focus:ring-blue-500 dark:focus:bg-blue-500 hover:bg-blue-500 dark:bg-blue-500 dark:text-white" placeholder="" onChange={(e) => searchItems(e.target.value)} />
+                                <input type="text" ref={ref} id="artworkSearch" className="bg-blue-500 border-2 border-blue-500 text-white text-sm rounded-full focus:ring-blue-500 focus:border-blue-500 block  pl-10 p-1.5  text-white placeholder-white dark:placeholder-white dark:text-white focus:ring-blue-500 focus:bg-blue-500 hover:bg-blue-500 dark:bg-blue-500 dark:text-white" placeholder="" onChange={(e) => searchItems(e.target.value)} />
                                 {clearserach ? (<button type="button" className="absolute inset-y-0 right-0 flex items-center pr-2" onClick={() => ResetSearch()}>
                                     <svg className="h-5 w-5  text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">  <circle cx="12" cy="12" r="10" />  <line x1="15" y1="9" x2="9" y2="15" />  <line x1="9" y1="9" x2="15" y2="15" /></svg>
                                 </button>) : ''}
@@ -192,7 +147,6 @@ export default function Contacts() {
                                 </div>
                                 <input type="text" id="voice" className="cursor-pointer w-32 bg-transparent border-2 border-blue-500 text-black text-sm rounded-full focus:ring-blue-500 focus:border-blue-500 block  pl-8 p-1  placeholder-white dark:placeholder-white dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" defaultValue="New Contact" readOnly />
                                 <button type="button" className="absolute inset-y-0 right-0 flex items-center pr-24">
-
                                 </button>
                             </a>
                         </div>
@@ -202,13 +156,10 @@ export default function Contacts() {
                 <div className="filters mb-4">
                     <div className='min-[480px]:flex '>
                         <input type="text" id="voice" className="ml-8 w-36 placeholder-gray-400 bg-transparent border-2 border-gray-300 text-gary text-sm rounded-full focus:ring-gary-400 focus:border-gray-400 block  pl-7 pr-7 p-1  placeholder-text-gray dark:focus:ring-gray-500 dark:focus:border-gray-500" placeholder="Group Email" readOnly />
-                        <span className="text-sm font-semibold mr-4 ml-6 flex items-center mt-1"><IoFilterOutline className='mr-2' /> Filter:</span>
-                    
+                        <span className="text-sm font-semibold mr-4 ml-6 flex items-center mt-1"><IoFilterOutline className='mr-2' /> Filter:</span>       
                         <button className="text-sm font-semibold bg-transparent mr-6 border-none flex mt-2" onClick={() => NameClick()}> Name<span className='mt-1 ml-1'>{NameArrow ? (<IoMdArrowDropdown />) : (<IoMdArrowDropup />)}</span></button>
                         <button className="text-sm font-semibold bg-transparent mr-6 border-none flex mt-2" onClick={() => CompanyClick()}> Company<span className='mt-1 ml-1'>{companyArrow ? (<IoMdArrowDropdown />) : (<IoMdArrowDropup />)}</span></button>
                         <button className="text-sm font-semibold bg-transparent mr-6 border-none flex mt-2" onClick={() => TitleClick()}> Title<span className='mt-1 ml-1'>{Titlearrow ? (<IoMdArrowDropdown />) : (<IoMdArrowDropup />)}</span></button>
-
-
                     </div>
                 </div>
 
@@ -264,7 +215,7 @@ export default function Contacts() {
                                             filteredResults && filteredResults.map((data, index) => {
                                                 return (
                                                     <tr className="bg-white dark:bg-gray-800 text-gray-700">
-                                                        <td className="pl-0 pr-0 w-10 py-4"><input type="checkbox" className="ml-10 mr-10 outline-none text-blue-500 max-[768px]:ml-6 max-[768px]:mb-2 border-2 border-blue-500 mt-3 focus:bg-blue-500 focus:text-blue-500 bg-white text-md" name="medium" />
+                                                        <td className="pl-0 pr-0 w-10 py-4"><input type="checkbox" className="focus:ring-0 ml-10 mr-10 outline-none text-blue-500 max-[768px]:ml-6 max-[768px]:mb-2 border-2 border-blue-500 mt-3 focus:bg-blue-500 focus:text-blue-500 bg-white text-md" name="medium" />
                                                         </td>
                                                         <td className="pr-6 py-4 flex">
                                                             <img className="h-12 rounded-full w-12" src={data.ProfileImage ? data.ProfileImage : '/profile.png'} alt="Girl in a jacket" />
@@ -290,7 +241,7 @@ export default function Contacts() {
                                             getResult && getResult.map((data1, index) => {
                                                 return (
                                                     <tr className="bg-white dark:bg-gray-800 text-gray-700">
-                                                        <td className="pl-0 pr-0 w-10 py-4"><input type="checkbox" className="ml-10 mr-10 outline-none text-blue-500 max-[768px]:ml-6 max-[768px]:mb-2 border-2 border-blue-500 mt-3 focus:bg-blue-500 focus:text-blue-500 bg-white text-md" name="medium" />
+                                                        <td className="pl-0 pr-0 w-10 py-4"><input type="checkbox" className="focus:ring-0 ml-10 mr-10 outline-none text-blue-500 max-[768px]:ml-6 max-[768px]:mb-2 border-2 border-blue-500 mt-3 focus:bg-blue-500 focus:text-blue-500 bg-white text-md" name="medium" />
                                                         </td>
                                                         <td className="pr-6 py-4 flex">
 

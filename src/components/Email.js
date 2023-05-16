@@ -10,7 +10,7 @@ export default function Email() {
       });
       const mailOptions = {
         from: 'chhabra.odesk.mca@gmail.com',
-        to: 'recipient@example.com',
+        to: 'kanika.softweaver@gmail.com',
         subject: 'Hello from Nodemailer',
         text: 'This is the body of the email'
       };

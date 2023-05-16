@@ -7,15 +7,20 @@ import { AiOutlineEllipsis } from "react-icons/ai";
 import { IoMdArrowDropdown } from "react-icons/io";
 import { IoMdArrowDropup } from "react-icons/io";
 import { AxiosInstance } from '../utils'
+import { Dropdown, Modal, Button } from 'flowbite-react';
+import { useNavigate } from "react-router-dom";
 export default function ArtworkListing() {
     const [getResult, setResult] = React.useState([]);
+    const [showModal1, setShowModal1] = React.useState(false);
     const [searchInput, setSearchInput] = React.useState('');
     const [renderData, setrenderData] = React.useState([]);
-    const [filteredResults, setFilteredResults] = React.useState([]);
+
     const [showTitleArrow, setTitleArrow] = React.useState(true);
     const [showPriceArrow, setPriceArrow] = React.useState(true);
     const [Loading, setloader] = React.useState(true);
     const [clearserach, setclearserach] = React.useState(false);
+    const [DeleteID, setDeleteID] = React.useState();
+
     const APIData = getResult
     // const fetchInfo = () => {
     //     return axios.get('http://127.0.0.1:3000/api/v1/get-artwork').then((res) => {
@@ -131,8 +136,44 @@ export default function ArtworkListing() {
 
         setrenderData(getResult)
     }, [getResult])
+    const navigate = useNavigate();
+    const showDeleteConfirm = (id) => {
+        setDeleteID(id)
+        setShowModal1(true)
 
+    }
+    const CloseDeleteAlert = () => {
+        setDeleteID(' ')
+        setShowModal1(false)
 
+    }
+    const deleteRow = async () => {
+
+        var data = JSON.stringify({ 'id': DeleteID })
+        const result = await AxiosInstance({
+            'url': '/delete-row',
+            'method': 'post',
+            'data': data
+        })
+        const { status } = result.data
+        if (status) {
+            setShowModal1(false)
+            fetchInfo();
+        } else {
+
+            setShowModal1(false)
+            fetchInfo();
+        }
+    }
+    const EditRow = async (id) => {
+
+        const EditData = getResult.find(apidata => {
+            return apidata._id === id
+        })
+        navigate("/artwork/edit", { state: EditData });
+        //console.log(EditData)
+
+    }
 
     return (
         <>
@@ -227,8 +268,8 @@ export default function ArtworkListing() {
                                         </div>
                                     </div>
                                     <div className="col-span-1 ... flex">
-                                        <div className="heading mt-8 ml-16">
-                                            <a href="/" className=" underline my-2 text-md text-gray-700">{data.availability == 'avail' ? 'Availabile' : ''}{data.availability == 'notavail' ? 'Not Availabile' : ' '}</a>
+                                        <div className="heading mt-8 ">
+                                            <a href="/" className=" underline my-2 text-md text-gray-700">{data.availability === 'avail' ? 'Availabile' : ''}{data.availability === 'notavail' ? 'Not Availabile' : ' '}</a>
                                         </div>
 
                                     </div>
@@ -241,7 +282,30 @@ export default function ArtworkListing() {
                                     </div>
                                     <div className="col-span-1 ... flex">
                                         <div className="heading mt-7 ml-10">
-                                            <span className='cursor-pointer'><AiOutlineEllipsis size={32} /></span>
+                                            {/* <span className='cursor-pointer'><AiOutlineEllipsis size={32} /></span> */}
+
+
+                                            <Dropdown
+                                                label={<AiOutlineEllipsis size={32} />}
+                                                dismissOnClick={false}
+                                                style={{ backgroundColor: 'transparent', color: 'black', outline: 'none', border: 'none' }}
+
+                                            >
+
+                                                <Dropdown.Item>
+                                                    <button className="cursor-pointer" onClick={() => EditRow(data._id)}>
+                                                        Edit
+                                                    </button>
+                                                </Dropdown.Item>
+                                                <Dropdown.Item>
+                                                    <button className="cursor-pointer" onClick={() => showDeleteConfirm(data._id)}>
+                                                        Delte
+                                                    </button>
+                                                </Dropdown.Item>
+
+                                            </Dropdown>
+
+
                                         </div>
 
                                     </div>
@@ -253,7 +317,31 @@ export default function ArtworkListing() {
 
                     }
 
+                    <Modal show={showModal1} size="xl" onClose={CloseDeleteAlert}>
+                        <Modal.Header>
+                            Delete Confirmation
+                        </Modal.Header>
+                        <Modal.Body>
+                            <div className="space-y-6">
+                                <h2>Are you sure you wants to delete ?</h2>
+                            </div>
+                        </Modal.Body>
+                        <Modal.Footer>
 
+                            <Button
+                                color="gray"
+                                onClick={CloseDeleteAlert}
+                            >
+                                Cancel
+                            </Button>
+                            <Button
+                                color="red"
+                                onClick={deleteRow}
+                            >
+                                Delete
+                            </Button>
+                        </Modal.Footer>
+                    </Modal>
 
 
                 </div>

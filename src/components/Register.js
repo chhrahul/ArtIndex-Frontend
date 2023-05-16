@@ -5,22 +5,17 @@ import { yupResolver } from "@hookform/resolvers/yup"
 import { AxiosInstance } from '../utils';
 import { Base64 } from "js-base64";
 export default function Register(props) {
-
     const { setAuthType, handleOnClose } = props
-
     let yupRules = {
         name: Yup.string().required('This field is required'),
         email: Yup.string().email('Please enter a valid email address').required('This field is required'),
         password: Yup.string().required('This field is required').matches(
-
             /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/,
             "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character"
         ),
         ConfirmPassword: Yup.string().oneOf([Yup.ref('password'), null], 'Passwords must match').required('This field is required')
     };
-
     const schemaValidation = Yup.object().shape(yupRules)
-
     const {
         register,
         handleSubmit,
@@ -28,8 +23,6 @@ export default function Register(props) {
     } = useForm({
         resolver: yupResolver(schemaValidation)
     });
-
-
     const onSubmit = dataSubmit => {
 
         dataSubmit.password = Base64.encode(dataSubmit.password)
@@ -42,7 +35,7 @@ export default function Register(props) {
                     'data': dataSubmit
                 }
             )
-            const { data, status } = result.data
+            const { status } = result.data
             if (status) {
                 setAuthType('')
                 alert('User added succesfully')
@@ -52,9 +45,7 @@ export default function Register(props) {
             } else {
                 setAuthType('')
                 handleOnClose()
-                // console.log(status)
-                const userData = result.data;
-                // console.log(userData.message)
+                const userData = result.data; 
                 alert(userData.message)
 
             }
@@ -62,7 +53,6 @@ export default function Register(props) {
         getData()
     };
     return (
-
         <>
             <h1 className='font-bold text-gray-700 text-xl'>Access our extensive collection of art by signing up!</h1>
             <form onSubmit={handleSubmit(onSubmit)}>
@@ -103,11 +93,11 @@ export default function Register(props) {
                 <p className='text-red-500 text-xs ml-2'>
                     {errors.ConfirmPassword && errors.ConfirmPassword.message}
                 </p>
-                <span className='flex justify-between items-center w-4/5 mg-auto'>
-
+                <span className='flex justify-between items-center w-full mg-auto'>
+                <p></p>
                     <span className='flex mt-10'>
                         <button className='text-sm cursor-pointer text-black font-bold py-2 px-8 rounded-full' >Login</button>
-                        <button type="submit" className="text-sm cursor-pointer text-black border-2 border-emerald-300 font-bold py-2 px-8 bg-emerald-300 rounded-full  mr-10">
+                        <button type="submit" className="text-sm cursor-pointer text-black border-2 border-emerald-300 font-bold py-2 px-8 bg-emerald-300 rounded-full">
                             Signup
                         </button>
                     </span>

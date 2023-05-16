@@ -206,3 +206,7 @@ span.tag-wrapper.ReactTags__tag {
 .rdw-editor-main {
   height: AUTO !important;
 }
+
+svg.ml-2.h-4.w-4 {
+  display: none;
+}
