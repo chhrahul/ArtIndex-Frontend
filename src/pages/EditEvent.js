@@ -38,13 +38,9 @@ export default function EditEvent() {
                                     </div>
                                     <div className="min-[480px]:ml-12 mt-6 w-11/12 mb-4 border-2 border-blue-200  rounded-xl bg-white dark:bg-white dark:border-blue-600">
                                         <div className="flex items-center justify-between px-3 py-2 border-b-2  border-blue-200 ">
-                                            <div className="flex flex-wrap items-center divide-blue-400 sm:divide-x dark:divide-blue-400">
-                                                <div className="flex items-center space-x-1 sm:pr-4 rounded-xl">
-                                                    <input type="text" className=" w-full text-black bg-white  focus:outline-0  italic rounded-lg text-base px-4 py-1 border-none" name="add_tag" placeholder="Add Artwork" />
 
+                                            <input type="text" className=" w-full text-black bg-white  focus:ring-0  italic rounded-lg text-base px-4 py-1 border-none" name="add_tag" placeholder="Add Artwork" />
 
-                                                </div>
-                                            </div>
                                         </div>
                                         <div className="px-4 py-2 bg-white rounded-xl dark:bg-gray-800">
                                             <ul className="flex flex-wrap text-sm font-medium text-center text-gray-500 dark:text-gray-400 mb-8">
@@ -72,13 +68,8 @@ export default function EditEvent() {
                                     <div className='flex w-full'>
                                         <span className='mt-2 mr-4'><IoPeopleSharp size={28} color='gray' /></span>
                                         <div className="w-full person mb-4 border-2 border-blue-200  rounded-xl bg-white dark:bg-white dark:border-blue-600">
-                                            <div className="flex items-center justify-between px-3 py-2 border-b-2  border-blue-200 ">
-                                                <div className="flex flex-wrap items-center divide-blue-400 sm:divide-x dark:divide-blue-400">
-                                                    <div className="flex items-center space-x-1 sm:pr-4 rounded-xl">
-                                                        <input type="text" className=" w-full text-black bg-white  focus:outline-0  italic rounded-lg text-base px-4 py-1 border-none" name="add_tag" placeholder="Add Person" />
-
-                                                    </div>
-                                                </div>
+                                            <div className="flex items-center  px-3 py-2 justify-between border-b-2  border-blue-200 ">
+                                                <input type="text" className=" w-full  text-black bg-white  focus:ring-0  italic rounded-lg text-base px-4 py-1 border-none" name="add_tag" placeholder="Add Person" />
                                             </div>
                                             <div className="px-4 py-2 bg-white rounded-xl dark:bg-gray-800">
                                                 <ul className="flex flex-wrap text-sm font-medium text-center text-gray-500 dark:text-gray-400 mb-8">
@@ -96,7 +87,13 @@ export default function EditEvent() {
                                             </div>
                                         </div>
                                     </div>
+                                    
+                                <button type="submit" className="ml-72 mt-12 flex items-center gap-1 p-2 font-semibold text-white bg-blue-600 rounded-md hover:bg-blue-800">
+                                    Update 
+                                </button>
                                 </div>
+
+
                             </div>
                         </form>
                     </div>

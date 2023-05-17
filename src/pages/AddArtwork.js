@@ -7,8 +7,7 @@ import TagInput from '../components/TagInput';
 
 export default function AddArtwork() {
     const [files, setFiles] = React.useState([]);
-    const [tags, setTags] = React.useState([]);
-  
+    const [tags, setTags] = React.useState([]); 
     const [Loading, setloader] = React.useState(false);
     const [disabled, setDisabled] = React.useState(false);
     const { register, handleSubmit, formState: { errors } } = useForm();

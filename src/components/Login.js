@@ -6,9 +6,9 @@ import { yupResolver } from "@hookform/resolvers/yup"
 import { Base64 } from "js-base64";
 import { useNavigate } from "react-router-dom";
 export default function Login(props) {
+    const [inccorectLogin, setinccorectLogin] = React.useState();
+    
 
-    
-    
     const navigate = useNavigate();
     const onSubmit = data1 => {
         async function Login() {
@@ -23,10 +23,11 @@ export default function Login(props) {
             )
             const {  status } = result.data
             if (status) {
-
-                //console.log(data)
+                //const userData = result.data;
+                
 
             } else {
+                
                 const userData = result.data;
                 const LoginData = userData.data;
                 //console.log(LoginData[0]._id)
@@ -36,6 +37,8 @@ export default function Login(props) {
                     localStorage.setItem('userEmail', JSON.stringify(LoginData[0].email));
                     localStorage.setItem('userName', JSON.stringify(LoginData[0].name));
                     navigate("/artwork");
+                }else if(userData.message === 'IncorrectPassword'){
+                    setinccorectLogin("Please enter the correct password")
                 }
                 //alert(userData.message)
             }
@@ -64,7 +67,8 @@ export default function Login(props) {
         <>
 
             <h1 className='text-center font-bold text-gray-700 text-xl'>Welcome to ArtIndex !</h1>
-            <p className='text-center text-gray-700 font-medium'>Please enter your username and passwordword to login</p>
+            <p className='text-center text-gray-700 font-medium mb-4'>Please enter your username and passwordword to login</p>
+            {inccorectLogin ? (<><span className='text-red-600 text-sm mt-10'>Please enter the correct password</span></>) : ''}
             <form onSubmit={handleSubmit(onSubmit)}>
                 <input type='text'
                     className='mt-5 rounded-md text-gray-700 italic border-2 border-blue-700 w-full py-2'
