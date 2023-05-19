@@ -4,6 +4,7 @@ import * as Yup from 'yup';
 import { yupResolver } from "@hookform/resolvers/yup"
 import { AxiosInstance } from '../utils';
 import { Base64 } from "js-base64";
+import { useNavigate } from "react-router-dom";
 export default function Register(props) {
     const { setAuthType, handleOnClose } = props
     let yupRules = {
@@ -23,33 +24,44 @@ export default function Register(props) {
     } = useForm({
         resolver: yupResolver(schemaValidation)
     });
+    const navigate = useNavigate();
     const onSubmit = dataSubmit => {
 
         dataSubmit.password = Base64.encode(dataSubmit.password)
+
+
         async function getData() {
-
-            const result = await AxiosInstance(
-                {
-                    'url': '/add-user',
-                    'method': 'post',
-                    'data': dataSubmit
-                }
-            )
-            const { status } = result.data
+          try {
+            const result = await AxiosInstance({
+              url: '/add-user',
+              method: 'post',
+              data: dataSubmit
+            });
+        
+            const { status, data, objectId } = result.data; // Destructure the response data
+        
             if (status) {
-                setAuthType('')
-                alert('User added succesfully')
-                setTimeout(() => {
-                    handleOnClose()
-                }, 3000);
+              setAuthType('');
+              //alert('User added successfully');
+              setTimeout(() => {
+                // Use the objectId here
+                localStorage.setItem('userId', objectId);
+                localStorage.setItem('userEmail', JSON.stringify(dataSubmit.email));
+                localStorage.setItem('userName', JSON.stringify(dataSubmit.name));
+                navigate('/artwork');
+              }, 3000);
             } else {
-                setAuthType('')
-                handleOnClose()
-                const userData = result.data; 
-                alert(userData.message)
-
+              setAuthType('');
+              handleOnClose();
+              alert(data.message);
             }
+          } catch (error) {
+            // Handle the error
+          }
         }
+        
+        
+        
         getData()
     };
     return (

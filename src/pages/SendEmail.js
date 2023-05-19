@@ -13,6 +13,8 @@ import { useNavigate } from "react-router-dom";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { EditorState, convertToRaw } from "draft-js";
 import draftToHtml from "draftjs-to-html";
+import { Dropdown } from 'flowbite-react';
+import { IoMdArrowDropdown } from "react-icons/io";
 export default function SendEmail() {
     const [editorState, setEditorState] = React.useState(EditorState.createEmpty());
     const [files, setFiles] = React.useState([]);
@@ -28,24 +30,34 @@ export default function SendEmail() {
     );
     const navigate = useNavigate();
     const { register, handleSubmit, formState: { errors } } = useForm();
+    const userId = localStorage.getItem("userId")
     const onSubmit = data => {
         data.Attachment = files;
         data.AttachmentName = AttachmentName;
         data.message = htmlData
+        data.userId = userId
+        console.log(data)
         async function sendEmail() {
             setloader(true)
+
             const result = await AxiosInstance({
                 'url': '/send-email',
                 'method': 'post',
                 'data': data
             })
-            if (result.status === 200) {
+            const { status, message } = result.data
+            console.log(message)
+            console.log(status)
+            if (status) {
+                console.log('200')
                 setTimeout(() => {
-                    navigate("/emails");
-                }, 3000);
+                    navigate("/emails")
+                    localStorage.setItem('emailMessage', "Email Send Successfully!!");
 
+                }, 3000);
             } else {
-                alert("Fail to send Mail")
+                console.log('400')
+                alert(message)
             }
         }
         sendEmail()
@@ -68,30 +80,16 @@ export default function SendEmail() {
                 <div className="min-[480px]:grid grid-cols-6 min-[480px]:ml-16">
                     <div className='min-[480px]:flex col-span-5 ...'>
                         <h2 className="dark:text-black text-3xl mb-4 pl-6">Email</h2>
-                        {/* <form className="flex items-center">
-                            <label htmlFor="voice-search" className="sr-only">Search</label>
-                            <div className="relative min-[480px]:ml-8  max-[480px]:ml-2">
-                                <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                                    <svg aria-hidden="true" className="w-4 h-4 text-white dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clipRule="evenodd"></path></svg>
-                                </div>
-                                <input type="text" id="voice-search" className=" bg-blue-500 border border-gray-300 text-white text-sm rounded-full focus:ring-blue-500 focus:border-blue-500 block  pl-10 p-1.5  placeholder-white dark:placeholder-white dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search" required />
-                                <button type="button" className="absolute inset-y-0 right-0 flex items-center pr-2">
-                                    <svg className="h-5 w-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">  <circle cx="12" cy="12" r="10" />  <line x1="15" y1="9" x2="9" y2="15" />  <line x1="9" y1="9" x2="15" y2="15" /></svg>
-                                </button>
-                            </div>
-
-                        </form> */}
                     </div>
-
                 </div>
                 <hr className="min-[480px]:ml-24 h-px my-2  bg-gray-700 border border-gray-300 dark:bg-gray-700"></hr>
                 <div className='min-[480px]:grid grid-cols-12 gap-0 mb-10'>
                     <div className='col-span-1 w-8 ml-5 mt-6 max-[480px]:flex'>
                         <a href='/email/send'><HiOutlinePencil size={26} className='ml-2 my-6' /></a>
                         <a href='/emails'><FiInbox size={26} className='ml-2 my-6' /></a>
-                        <span className=''><FiFileText size={26} className='ml-2 my-6' /></span>
-                        <span className=''><FiSend size={26} className='ml-2 my-6' /></span>
-                        <span className=''><FiArchive size={26} className='ml-2 my-6' /></span>
+                        <a href=''><FiFileText size={26} className='ml-2 my-6' /></a>
+                        <a href='/email/sent'><FiSend size={26} className='ml-2 my-6' /></a>
+                        <a href=''><FiArchive size={26} className='ml-2 my-6' /></a>
                     </div>
                     <div className="col-span-11 max-[480px]:col-span-10 mb-10 p-4 border-1 border-blue-400 border-dashed mr-6  dark:border-blue-700 h-full top-20 bg-white">
                         <div className="mt-8 mr-2 mb-8">
@@ -106,15 +104,11 @@ export default function SendEmail() {
                                         </div>
                                     </div>
                                 </div>
-
                             </>
-
                             ) : ''}
                             <form onSubmit={handleSubmit(onSubmit)}>
                                 {errors.toEmail && <span className='text-red-500'>The Email field is required </span>}
-
                                 <div className={Loading ? 'ml-2 mt-4 opacity-20' : 'ml-2 mt-4'}>
-
                                     <div className="w-full mb-4 border-2 border-blue-300 rounded-lg bg-gray-50 dark:bg-blue-500 dark:border-gray-600">
                                         <div className="bg-white rounded-t-lg dark:bg-gray-800">
                                             <label htmlFor="comment" className="sr-only">Your comment</label>
@@ -122,7 +116,7 @@ export default function SendEmail() {
                                             <input type="text" {...register("subject")} className="w-full text-black bg-white border-t-0 border-b-2  border-l-0  border-r-0 border-blue-200  focus:outline-0  italic  text-md px-4 py-2" placeholder="Subject:" />
                                             <Editor
                                                 toolbarClassName="toolbarClassName"
-                                                wrapperClassName="wrapperClassName"
+                                                wrapperClassName="m "
                                                 editorClassName="editorClassName"
                                                 wrapperStyle={{ height: 300 }}
                                                 toolbar={{
@@ -141,14 +135,14 @@ export default function SendEmail() {
                                             <div className="min-[480px]:flex pl-0 space-x-1 sm:pl-2">
                                                 <span className="inline-flex justify-center items-center p-1 text-black rounded cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600">
                                                     <BsFileEarmark className='' size={20} color='black' />
-                                                    <select className="text-sm cursor-pointer focus:ring-0 font-bold text-black bg-transparent mr-6 border-none" >
+                                                    <select className="text-sm cursor-pointer focus:ring-0 font-bold text-black bg-transparent border-none" >
                                                         <option value='Template'>Template</option>
                                                         <option vaue='One'>One</option>
                                                         <option vaue='Two'>Two</option>
                                                     </select>
                                                 </span>
                                                 <span className="cursor-pointer inline-flex justify-center items-center p-1 text-black rounded cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600">
-                                                    <BsFilePlus size={20} color='black' />
+                                                    {/* <BsFilePlus size={20} color='black' />
                                                     <select className="cursor-pointer text-sm focus:ring-0  font-bold text-black bg-transparent mr-6 border-none " >
                                                         <option className="cursor-pointer text-sm focus:ring-0  font-bold text-black bg-transparent mr-6 border-none " value='Fields'>Fields</option>
                                                         <option className="cursor-pointer text-sm focus:ring-0  font-bold text-black bg-transparent mr-6 border-none " value='FirstName'>FirstName</option>
@@ -157,7 +151,48 @@ export default function SendEmail() {
                                                         <option className="cursor-pointer text-sm focus:ring-0  font-bold text-black bg-transparent mr-6 border-none " value='Company'>Company</option>
                                                         <option className="cursor-pointer text-sm focus:ring-0  font-bold text-black bg-transparent mr-6 border-none " value='Email'>Email</option>
                                                         <option className="cursor-pointer text-sm focus:ring-0  font-bold text-black bg-transparent mr-6 border-none " value='Title'>Title</option>
-                                                    </select>
+                                                    </select> */}
+
+                                                    <Dropdown
+                                                        label={<><BsFilePlus size={20} color='black' /> <span className="mr-4 cursor-pointer text-sm focus:ring-0  font-bold text-black bg-transparent ml-2 border-none " value='Fields'>Fields</span><IoMdArrowDropdown/></>}
+                                                        dismissOnClick={false}
+                                                        style={{ backgroundColor: 'transparent', color: 'black', outline: 'none', border: 'none' }}
+                                                    >
+
+                                                        <Dropdown.Item>
+                                                            <button className="cursor-pointer ml-4 mr-4 text-sm focus:ring-0  font-bold text-black bg-transparent mr-6 border-none ">
+                                                                FirstName
+                                                            </button>
+                                                        </Dropdown.Item>
+
+                                                        <Dropdown.Item>
+                                                            <button className="cursor-pointer ml-4 mr-4 text-sm focus:ring-0  font-bold text-black bg-transparent mr-6 border-none ">
+                                                                LastName
+                                                            </button>
+                                                        </Dropdown.Item>
+                                                        <Dropdown.Item>
+                                                            <button className="cursor-pointer ml-4 mr-4 text-sm focus:ring-0  font-bold text-black bg-transparent mr-6 border-none ">
+                                                                City
+                                                            </button>
+                                                        </Dropdown.Item>
+                                                        <Dropdown.Item>
+                                                            <button className="cursor-pointer ml-4 mr-4 text-sm focus:ring-0  font-bold text-black bg-transparent mr-6 border-none ">
+                                                                Company
+                                                            </button>
+                                                        </Dropdown.Item>
+                                                        <Dropdown.Item>
+                                                            <button className="cursor-pointer ml-4 mr-4 text-sm focus:ring-0  font-bold text-black bg-transparent mr-6 border-none ">
+                                                                Title
+                                                            </button>
+                                                        </Dropdown.Item>
+                                                        <Dropdown.Item>
+                                                            <button className="cursor-pointer ml-4 mr-4 text-sm focus:ring-0  font-bold text-black bg-transparent mr-6 border-none ">
+                                                                Email
+                                                            </button>
+                                                        </Dropdown.Item>
+
+
+                                                    </Dropdown>
                                                 </span>
                                             </div>
                                         </div>

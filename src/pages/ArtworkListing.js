@@ -232,7 +232,7 @@ export default function ArtworkListing() {
                     </div>
                 </div>
 
-                <div className="p-4 border-1 border-blue-400 border-dashed mx-6 rounded-lg dark:border-blue-700 h-full top-20 bg-white">
+                <div className="p-4 min-h-screen border-1 border-blue-400 border-dashed mx-6 rounded-lg dark:border-blue-700 h-full top-20 bg-white">
                     {Loading ? (<>
                         <div className="relative items-center h-64 w-full">
 
@@ -248,9 +248,7 @@ export default function ArtworkListing() {
                         </div>
 
                     </>
-
-                    ) : ''}
-
+                    ) : renderData.length === 0 ? (<><p className='text-md text-center font-bold mt-20'>No records exists !!</p></>) : ''}
                     {renderData && renderData.map((data, index) => {
                         return (
                             <>
@@ -297,9 +295,10 @@ export default function ArtworkListing() {
                                                         Edit
                                                     </button>
                                                 </Dropdown.Item>
+                                                <hr />
                                                 <Dropdown.Item>
                                                     <button className="cursor-pointer" onClick={() => showDeleteConfirm(data._id)}>
-                                                        Delte
+                                                        Delete
                                                     </button>
                                                 </Dropdown.Item>
 
@@ -316,6 +315,7 @@ export default function ArtworkListing() {
                     })
 
                     }
+
 
                     <Modal show={showModal1} size="xl" onClose={CloseDeleteAlert}>
                         <Modal.Header>

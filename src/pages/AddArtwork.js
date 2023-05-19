@@ -14,6 +14,7 @@ export default function AddArtwork() {
     const navigate = useNavigate();
  
     const onSubmit = data => {
+        setloader(true)
         data.tags = tags;
         data.image = files;
         data.userId = localStorage.getItem("userId")
@@ -26,12 +27,12 @@ export default function AddArtwork() {
                 'data': data
             })
             setDisabled(true);
+           // setloader(true)
             if (result.status === 200) {
                 //console.log(result.status)
-                
-                setloader(true)
                 setTimeout(() => {
                     navigate("/artwork");
+                    localStorage.setItem('artworkMessage', "New Artwork added successfully !!");
                 }, 3000);
 
             }
@@ -130,11 +131,11 @@ export default function AddArtwork() {
                                         <div className="">
                                             <p className="text-sm font-bold text-gray-700 ml-5">Creation Date</p>
                                             <div className="inline-flex mr-4 mt-4 mb-4">
-                                                <input type="number" min="1" max="12" className="bg-white font-bold border-l-2 border-t-2 border-b-2 hover:bg-white border-blue-200  text-black py-2 px-4  rounded-l-lg w-12" placeholder='M' {...register("creationMonth")} />
+                                                <input type="text" min="1" max="12" className="bg-white font-bold border-l-2 border-t-2 border-b-2 hover:bg-white border-blue-200  text-black py-2 px-4  rounded-l-lg w-12" placeholder='M' {...register("creationMonth")} />
 
-                                                <input type="number" className="bg-white font-bold border-2 hover:bg-white border-blue-200 text-black py-2 px-4 w-12" placeholder='D' {...register("creationDay")} />
+                                                <input type="text" className="bg-white font-bold border-2 hover:bg-white border-blue-200 text-black py-2 px-4 w-12" placeholder='D' {...register("creationDay")} />
 
-                                                <input type="number" className="bg-white font-bold border-r-2 border-t-2 border-b-2 border-blue-200 hover:bg-white text-black  py-2 px-4  rounded-r-lg w-14" placeholder='YY' {...register("creationYear")} />
+                                                <input type="text" className="bg-white font-bold border-r-2 border-t-2 border-b-2 border-blue-200 hover:bg-white text-black  py-2 px-4  rounded-r-lg w-14" placeholder='YY' {...register("creationYear")} />
 
                                             </div>
                                             <p className="text-sm font-bold text-gray-700 ml-5">Signature</p>

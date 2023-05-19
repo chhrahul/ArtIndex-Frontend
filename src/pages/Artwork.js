@@ -13,12 +13,9 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { AxiosInstance } from '../utils'
 
-
 export default function Artwork() {
-
     const [showModal, setShowModal] = React.useState(false);
     const [showModal1, setShowModal1] = React.useState(false);
-
     const [getResult, setResult] = React.useState([]);
     const [DeleteID, setDeleteID] = React.useState();
     const [renderData, setrenderData] = React.useState([]);
@@ -32,62 +29,41 @@ export default function Artwork() {
 
     const navigate = useNavigate();
     const handleOnClick = (row) => {
-
         setmodaldata(row)
-
-        setShowModal(true)
+        setShowModal(true)       
     }
-
-
     const showDeleteConfirm = (id) => {
         setDeleteID(id)
         setShowModal1(true)
-
     }
     const CloseDeleteAlert = () => {
         setDeleteID(' ')
         setShowModal1(false)
-
     }
     const TitleClick = () => {
-
         const strAscendingTittle = [...APIData].sort((a, b) =>
             a.Title > b.Title ? 1 : -1,
         );
-
         setrenderData(strAscendingTittle)
         setTitleArrow(false)
-
         if (showTitleArrow === false) {
-
             setTitleArrow(true)
-
             const strDescendingTitle = [...APIData].sort((a, b) =>
                 a.Title > b.Title ? -1 : 1,
             );
             setrenderData(strDescendingTitle)
-
         }
-
     }
     const PriceClick = () => {
         const PriceAscending = [...APIData].sort((a, b) => a.salery - b.salery);
         setrenderData(PriceAscending)
         setPriceArrow(false)
-
         if (showPriceArrow === false) {
-
             setPriceArrow(true)
-
             const strDescendingPrice = [...APIData].sort((a, b) => b.salery - a.salery);
-
             setrenderData(strDescendingPrice)
-
         }
-
-
     }
-
     const StatusClick = (searchValue) => {
         // APIData.availability
         const SearchValue = searchValue
@@ -96,18 +72,15 @@ export default function Artwork() {
         })
         if (filteredData.length > 0) {
             setrenderData(filteredData)
-
         }
         if (SearchValue === 'status') {
             setrenderData(getResult)
         }
     }
-
     const handleOnClose = () => {
         setShowModal(false)
     }
     const searchItems = (searchValue) => {
-
         setSearchInput(searchValue)
         setclearserach(true)
         if (searchInput !== '') {
@@ -115,7 +88,6 @@ export default function Artwork() {
                 return Object.values(item).join('').toLowerCase().includes(searchInput.toLowerCase())
             })
             setrenderData(filteredData)
-
         }
         else {
             setrenderData(APIData)
@@ -126,10 +98,7 @@ export default function Artwork() {
         setrenderData(getResult)
         ref.current.value = '';
         setclearserach(false)
-
     }
-
-
     const fetchInfo = () => {
         // return axios.get('http://127.0.0.1:3000/api/v1/get-artwork').then((res) => {
         //     setResult(res.data.data)
@@ -138,9 +107,7 @@ export default function Artwork() {
         // );
         const userId = localStorage.getItem("userId")
         var data = JSON.stringify({ 'id': userId })
-
         async function getData() {
-
             const result = await AxiosInstance(
                 {
                     'url': '/get-artwork',
@@ -148,30 +115,21 @@ export default function Artwork() {
                     'data': data
                 }
             )
-
             if (result) {
-
                 setResult(result.data.data)
                 setloader(false)
             }
-
         }
         getData()
-
     };
-
     React.useEffect(() => {
         fetchInfo();
     }, [])
-
     React.useEffect(() => {
 
         setrenderData(getResult)
     }, [getResult])
-
-
     const deleteRow = async () => {
-
         var data = JSON.stringify({ 'id': DeleteID })
         const result = await AxiosInstance({
             'url': '/delete-row',
@@ -183,23 +141,28 @@ export default function Artwork() {
             setShowModal1(false)
             fetchInfo();
         } else {
-
             setShowModal1(false)
             fetchInfo();
         }
     }
     const EditRow = async (id) => {
-
         const EditData = getResult.find(apidata => {
             return apidata._id === id
         })
         navigate("/artwork/edit", { state: EditData });
         //console.log(EditData)
-
     }
+    const [message, setmessage] = React.useState('');
+    const artworkMessage = localStorage.getItem("artworkMessage")
 
+    React.useEffect(() => {
+        setmessage(artworkMessage)
+        setTimeout(() => {
+            setmessage('')  
+            localStorage.removeItem("artworkMessage");
+        }, 4000);
+    }, [])
     return (
-
         <>
             <div className="pt-10 sm:ml-48 top-20 bg-gray-200 h-full" >
                 <div className="grid grid-cols-6">
@@ -218,9 +181,7 @@ export default function Artwork() {
                                 {clearserach ? (<button type="button" className="absolute inset-y-0 right-0 flex items-center pr-2" onClick={() => ResetSearch()}>
                                     <svg className="h-5 w-5  text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">  <circle cx="12" cy="12" r="10" />  <line x1="15" y1="9" x2="9" y2="15" />  <line x1="9" y1="9" x2="15" y2="15" /></svg>
                                 </button>) : ''}
-
                             </div>
-
                         </form>
                     </div>
                     <div className='col-span-1 ...'>
@@ -230,14 +191,11 @@ export default function Artwork() {
                                     <svg className="h-5 w-5 text-blue-500 mb-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
                                     </svg>
-
                                 </div>
                                 <input type="text" id="voice-search" className="cursor-pointer w-32 bg-transparent border-2 border-blue-500 text-black text-sm rounded-full focus:ring-blue-500 focus:border-blue-500 block  pl-10 p-1  placeholder-white dark:placeholder-white dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" defaultValue="New Piece" readOnly />
                             </a>
                         </div>
                     </div>
-
-
                 </div>
                 <hr className="ml-5 h-px my-3 bg-gray-700 border border-gray-300 dark:bg-gray-700"></hr>
                 <div className="filters mb-3">
@@ -260,9 +218,7 @@ export default function Artwork() {
 
                     </div>
                 </div>
-
-                <div className="p-4 border-1 border-blue-400 border-dashed mx-6 rounded-lg dark:border-blue-700 h-full top-20 bg-white">
-
+                <div className="p-4 min-h-screen border-1 border-blue-400 border-dashed mx-6 rounded-lg dark:border-blue-700 h-full top-20 bg-white">
                     {Loading ? (<>
                         <div className="relative items-center h-64 w-full">
 
@@ -276,15 +232,14 @@ export default function Artwork() {
                                 </div>
                             </div>
                         </div>
-
                     </>
-
-                    ) : ''}
+                    ) : renderData.length === 0 ?(<><p className='text-md text-center font-bold mt-20'>No records exists !!</p></>):null }
                     {renderData && renderData.map((data, index) => {
                         return (
                             <>
-                                <div className="grid grid-cols-6 gap-6 relative cursor-pointer" >
-                                    <div className="col-span-1 ..." onClick={() => handleOnClick(data)}>
+                               {message ?(<h3 className='text-center font-bold mb-4 '>{message}</h3>):''}
+                                <div key={index} className="grid grid-cols-6 gap-6 relative cursor-pointer">
+                                    <div  key={index} className="col-span-1 ..."  onClick={() => handleOnClick(data)}>
                                         <div className="mt-5 mb-5 ml-4">
                                             <img className="h-40 rounded-lg w-64" src={data.image[0] ? data.image[0] : '/rose.jpg'} alt="Girl in a jacket" />
 
@@ -340,10 +295,7 @@ export default function Artwork() {
                             </>
                         );
                     })
-
                     }
-
-
                     <Modal show={showModal1} size="xl" onClose={CloseDeleteAlert}>
                         <Modal.Header>
                             Delete Confirmation
@@ -369,29 +321,24 @@ export default function Artwork() {
                             </Button>
                         </Modal.Footer>
                     </Modal>
-
-
-
-                    {modaldata ? (
-                        <>
                             <Modal show={showModal} size="4xl" onClose={handleOnClose}>
                                 <Modal.Body>
                                     <div className="space-y-6">
                                         <div className="grid grid-cols-4 ">
                                             <div className="col-span-2 ...">
                                                 <div className="mt-7 mb-5 ml-2">
-                                                    <GallerySlider image={modaldata.image} />
+                                                    <GallerySlider image={modaldata?.image} />
                                                 </div>
                                             </div>
                                             <div className="col-span-2 ...">
                                                 <div className="mt-5 mb-5 ml-8">
-                                                    <span className='flex'><p className='text-lg font-extrabold ml-2'>{modaldata.Title}</p>
-                                                        <span className='top-5 right-12 absolute cursor-pointer' onClick={() => EditRow(modaldata._id)}> <FiEdit2 /></span>
+                                                    <span className='flex'><p className='text-lg font-extrabold ml-2'>{modaldata?.Title}</p>
+                                                        <span className='top-5 right-12 absolute cursor-pointer' onClick={() => EditRow(modaldata?._id)}> <FiEdit2 /></span>
                                                         <span className='top-4 right-4 absolute cursor-pointer' color="gray" onClick={handleOnClose}>X</span>
                                                     </span>
-                                                    <p className='text-sm ml-2'>{modaldata.Description}</p>
+                                                    <p className='text-sm ml-2'>{modaldata?.Description}</p>
                                                     <div className="mt-6 mb-4">
-                                                        <a href="/" className="underline text-sm ml-2 mt-8">{modaldata.acrylicAndOil}</a> | <a href="/" className="underline mt-8 text-sm">{modaldata.availability}</a> | <a href="/" className="underline mt-8 text-sm ">${modaldata.salery}</a>
+                                                        <a href="/" className="underline text-sm ml-2 mt-8">{modaldata?.acrylicAndOil}</a> | <a href="/" className="underline mt-8 text-sm">{modaldata?.availability}</a> | <a href="/" className="underline mt-8 text-sm ">${modaldata?.salery}</a>
                                                     </div>
                                                     <div className="ml-2 flex">
                                                         <div className="heading">
@@ -401,14 +348,14 @@ export default function Artwork() {
                                                             <p className="mt-2 text-sm font-extrabold text-black">Location</p>
                                                         </div>
                                                         <div className="data">
-                                                            <p className="mt-2 text-sm  ml-3">{modaldata.Type}</p>
-                                                            <p className="mt-2 text-sm  ml-3">{modaldata.dimensionWidth}w x {modaldata.dimensionHeight}h</p>
-                                                            <p className="mt-2 text-sm  ml-3">{modaldata.natureExpression}</p>
-                                                            <p className="text-sm bg-transparent border-none" >{modaldata.Inventory}</p>
+                                                            <p className="mt-2 text-sm  ml-3">{modaldata?.Type}</p>
+                                                            <p className="mt-2 text-sm  ml-3">{modaldata?.dimensionWidth}w x {modaldata?.dimensionHeight}h</p>
+                                                            <p className="mt-2 text-sm  ml-3">{modaldata?.natureExpression}</p>
+                                                            <p className="text-sm bg-transparent border-none" >{modaldata?.Inventory}</p>
                                                         </div>
                                                     </div>
                                                     <ul className="mt-4 ml-2 flex flex-wrap text-sm text-center text-gray-500 dark:text-gray-400 mb-14">
-                                                        {modaldata.tags && modaldata.tags.map((tag, index) => {
+                                                        {modaldata?.tags && modaldata?.tags?.map((tag, index) => {
                                                             return (
                                                                 <li className="mr-2 mt-2">
                                                                     <a href="/" className="inline-block px-4 py-1.5 text-white bg-blue-600 rounded-full  " aria-current="page">{tag.text}</a>
@@ -419,20 +366,12 @@ export default function Artwork() {
 
                                                 </div>
                                             </div>
-
-
                                         </div>
                                     </div>
                                 </Modal.Body>
                             </Modal>
-                        </>) :
-                        ''}
-
-
-
                 </div>
             </div>
-
         </>
     )
 }

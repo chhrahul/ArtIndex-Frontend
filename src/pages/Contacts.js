@@ -17,6 +17,7 @@ export default function Contacts() {
     const [clearserach, setclearserach] = React.useState(false);
     const [Loading, setloader] = React.useState(true);
     const APIData = getResult
+    
     const navigate = useNavigate();
     const searchItems = (searchValue) => {
         setclearserach(true)
@@ -46,7 +47,6 @@ export default function Contacts() {
         }
     }
     const CompanyClick = () => {
-
         const strAscendingcmpny = [...APIData].sort((a, b) =>
             a.Company > b.Company ? 1 : -1,
         );
@@ -75,10 +75,9 @@ export default function Contacts() {
             setResult(strDescendingName)
         }
     }
-
     const fetchInfo = () => {
         const userId = localStorage.getItem("userId")
-        var data = JSON.stringify({ 'id': userId })  
+        var data = JSON.stringify({ 'id': userId })
         async function getData() {
             const result = await AxiosInstance(
                 {
@@ -87,26 +86,23 @@ export default function Contacts() {
                     'data': data
                 }
             )
-            if (result) {               
+            if (result) {
                 setResult(result.data.data)
                 setloader(false)
             }
         }
         getData()
     };
-
     React.useEffect(() => {
         fetchInfo();
         setapidataresult(getResult)
     }, []);
-
     const ref = React.useRef(null);
     const ResetSearch = () => {
         setFilteredResults(apidataresult)
         ref.current.value = '';
         setclearserach(false)
     }
-
     const EditRow = async (id) => {
         const EditData = getResult.find(apidata => {
             return apidata._id === id
@@ -114,10 +110,21 @@ export default function Contacts() {
         navigate("/contact/edit", { state: EditData });
     }
 
+    const [message, setmessage] = React.useState('');
+    const contactMessage = localStorage.getItem("contactMessage")
+
+    React.useEffect(() => {
+        setmessage(contactMessage)
+        setTimeout(() => {
+            setmessage('')  
+            localStorage.removeItem("contactMessage");
+
+        }, 3000);
+    }, [])
+
+
     return (
         <>
-
-
             <div className="min-[480px]:pt-10 sm:ml-48 min-[480px]:top-10 bg-gray-200 h-full" >
                 <div className="min-[480px]:grid grid-cols-6">
                     <div className='min-[480px]:flex col-span-5 ...'>
@@ -133,7 +140,6 @@ export default function Contacts() {
                                     <svg className="h-5 w-5  text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">  <circle cx="12" cy="12" r="10" />  <line x1="15" y1="9" x2="9" y2="15" />  <line x1="9" y1="9" x2="15" y2="15" /></svg>
                                 </button>) : ''}
                             </div>
-
                         </form>
                     </div>
                     <div className='col-span-1 ...'>
@@ -143,7 +149,6 @@ export default function Contacts() {
                                     <svg className="h-5 w-5 text-blue-500 mb-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
                                     </svg>
-
                                 </div>
                                 <input type="text" id="voice" className="cursor-pointer w-32 bg-transparent border-2 border-blue-500 text-black text-sm rounded-full focus:ring-blue-500 focus:border-blue-500 block  pl-8 p-1  placeholder-white dark:placeholder-white dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" defaultValue="New Contact" readOnly />
                                 <button type="button" className="absolute inset-y-0 right-0 flex items-center pr-24">
@@ -156,21 +161,19 @@ export default function Contacts() {
                 <div className="filters mb-4">
                     <div className='min-[480px]:flex '>
                         <input type="text" id="voice" className="ml-8 w-36 placeholder-gray-400 bg-transparent border-2 border-gray-300 text-gary text-sm rounded-full focus:ring-gary-400 focus:border-gray-400 block  pl-7 pr-7 p-1  placeholder-text-gray dark:focus:ring-gray-500 dark:focus:border-gray-500" placeholder="Group Email" readOnly />
-                        <span className="text-sm font-semibold mr-4 ml-6 flex items-center mt-1"><IoFilterOutline className='mr-2' /> Filter:</span>       
+                        <span className="text-sm font-semibold mr-4 ml-6 flex items-center mt-1"><IoFilterOutline className='mr-2' /> Filter:</span>
                         <button className="text-sm font-semibold bg-transparent mr-6 border-none flex mt-2" onClick={() => NameClick()}> Name<span className='mt-1 ml-1'>{NameArrow ? (<IoMdArrowDropdown />) : (<IoMdArrowDropup />)}</span></button>
                         <button className="text-sm font-semibold bg-transparent mr-6 border-none flex mt-2" onClick={() => CompanyClick()}> Company<span className='mt-1 ml-1'>{companyArrow ? (<IoMdArrowDropdown />) : (<IoMdArrowDropup />)}</span></button>
                         <button className="text-sm font-semibold bg-transparent mr-6 border-none flex mt-2" onClick={() => TitleClick()}> Title<span className='mt-1 ml-1'>{Titlearrow ? (<IoMdArrowDropdown />) : (<IoMdArrowDropup />)}</span></button>
                     </div>
                 </div>
-
-
-                <div className="p-4 border-1 border-blue-400 border-dashed mx-6 rounded-lg dark:border-blue-700 h-full top-20 bg-white">
+                <div className="p-4 min-h-screen border-1 border-blue-400 border-dashed mx-6 rounded-lg dark:border-blue-700 h-full top-20 bg-white">
                     <div className="mt-8 ml-2 mr-2 mb-8">
                         <div className="relative overflow-x-auto">
+                        {message ?(<h3 className='text-center font-bold mb-4 '>{message}</h3>):''}
                             <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                                 {Loading ? (<>
                                     <div className=" items-center h-64 w-full">
-
                                         <div className="absolute -translate-x-1/2 -translate-y-1/2 top-2/4 left-1/2">
                                             <div role="status">
                                                 <svg aria-hidden="true" className="inline w-8 h-8 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -181,10 +184,10 @@ export default function Contacts() {
                                             </div>
                                         </div>
                                     </div>
-
                                 </>
-
-                                ) : ''}
+                                ) :filteredResults && APIData && filteredResults.length === 0 && APIData.length === 0 ? (
+                                    <p className="text-md text-center font-bold mt-20">No records exist!!</p>
+                                ) : null}
                                 <thead className="text-sm underline text-gray-900  dark:text-gray-400">
                                     <tr>
                                         <th></th>
@@ -209,7 +212,6 @@ export default function Contacts() {
                                     </tr>
                                 </thead>
                                 <tbody>
-
                                     {
                                         filteredResults.length > 0 ? (
                                             filteredResults && filteredResults.map((data, index) => {
@@ -245,7 +247,7 @@ export default function Contacts() {
                                                         </td>
                                                         <td className="pr-6 py-4 flex">
 
-                                                        <img className="h-12 rounded-full w-12" src={data1.ProfileImage ? data1.ProfileImage : '/profile.png'} alt="Girl in a jacket" />
+                                                            <img className="h-12 rounded-full w-12" src={data1.ProfileImage ? data1.ProfileImage : '/profile.png'} alt="Girl in a jacket" />
                                                             <p className="ml-6 mt-4 text-base  font-bold text-black">{data1.FirstName} {data1.MiddleName} {data1.LastName}</p>
                                                         </td>
                                                         <td className="px-6 py-4">
@@ -266,18 +268,12 @@ export default function Contacts() {
                                             })
                                         )
                                     }
-
-
                                 </tbody>
                             </table>
                         </div>
                     </div>
-
-
                 </div>
             </div>
-
-
         </>
     )
 }

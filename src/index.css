@@ -210,3 +210,9 @@ span.tag-wrapper.ReactTags__tag {
 svg.ml-2.h-4.w-4 {
   display: none;
 }
+.image-gallery-slide img {
+  height: 270px !important;
+}
+.image-gallery-thumbnail-inner img{
+  height: 70px !important;
+}

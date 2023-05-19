@@ -109,6 +109,7 @@ export default function EditContact() {
   });
   const navigate = useNavigate();
   const onSubmit = data => {
+    setloader(true)
     data.Tags = tags;
     data.ProfileImage = files;
     console.log(data.phoneNumber)
@@ -124,9 +125,10 @@ export default function EditContact() {
           'data': dataEdit
         }
       )
+     
       setDisabled(true);
       if (result.status === 200) {
-        setloader(true)
+       // setloader(true)
 
         setTimeout(() => {
           navigate("/contact");

@@ -27,20 +27,16 @@ export default function EditEvent() {
                                         <input type="text" className="w-24 bg-white leading-5 border-2  hover:bg-white border-blue-200  text-gray-600 py-2.5 px-4  rounded-lg mr-3" placeholder='8:00pm' />
                                         <input type="text" className="w-28 bg-white leading-5 border-2  hover:bg-white border-blue-200  text-gray-600 py-2.5 px-4  rounded-lg mr-2" placeholder='Feb 15,2020' />
                                     </div>
-                                    <div className='flex mt-5 '>   <span className='mt-2 mr-4'><IoIosHome size={28} color='gray' /></span>
+                                    <div className='flex mt-5 '><span className='mt-2 mr-4'><IoIosHome size={28} color='gray' /></span>
                                         <input type="text" className="w-full bg-white leading-5 border-2  hover:bg-white border-blue-200  text-gray-600 py-2.5 px-4  rounded-lg" placeholder='Hauser Wirth' /></div>
-
                                     <label htmlFor="message" className="mt-5 min-[480px]:ml-12 block mb-2 text-sm font-bold text-gray-500 dark:text-white">Description</label>
                                     <div className='flex'>
                                         <span className='mt-2 mr-4'><IoReader size={28} color='gray' /></span>
-
                                         <textarea id="message" rows="4" className="italic block p-2.5 w-full text-base text-gray-900 bg-transparent rounded-lg border-2 border-blue-200 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Add Description"></textarea>
                                     </div>
                                     <div className="min-[480px]:ml-12 mt-6 w-11/12 mb-4 border-2 border-blue-200  rounded-xl bg-white dark:bg-white dark:border-blue-600">
                                         <div className="flex items-center justify-between px-3 py-2 border-b-2  border-blue-200 ">
-
                                             <input type="text" className=" w-full text-black bg-white  focus:ring-0  italic rounded-lg text-base px-4 py-1 border-none" name="add_tag" placeholder="Add Artwork" />
-
                                         </div>
                                         <div className="px-4 py-2 bg-white rounded-xl dark:bg-gray-800">
                                             <ul className="flex flex-wrap text-sm font-medium text-center text-gray-500 dark:text-gray-400 mb-8">
@@ -69,28 +65,28 @@ export default function EditEvent() {
                                         <span className='mt-2 mr-4'><IoPeopleSharp size={28} color='gray' /></span>
                                         <div className="w-full person mb-4 border-2 border-blue-200  rounded-xl bg-white dark:bg-white dark:border-blue-600">
                                             <div className="flex items-center  px-3 py-2 justify-between border-b-2  border-blue-200 ">
-                                                <input type="text" className=" w-full  text-black bg-white  focus:ring-0  italic rounded-lg text-base px-4 py-1 border-none" name="add_tag" placeholder="Add Person" />
+                                                <input type="text" className="w-full  text-black bg-white  focus:ring-0  italic rounded-lg text-base px-4 py-1 border-none" name="add_tag" placeholder="Add Person" />
                                             </div>
                                             <div className="px-4 py-2 bg-white rounded-xl dark:bg-gray-800">
                                                 <ul className="flex flex-wrap text-sm font-medium text-center text-gray-500 dark:text-gray-400 mb-8">
                                                     <li className="mr-2 flex">
-                                                        <img className="h-8 rounded-full w-8 mt-3" src="/rose.jpg" alt="Girl in a jacket" />
+                                                        <img className="h-8 rounded-full w-8 mt-3 cursor-pinter" src="/rose.jpg" alt="Girl in a jacket" />
                                                         <a href="/" className="mt-2 inline-block px-4 py-2  text-black font-bold" aria-current="page">Rose Wells</a>
-                                                        <span className='mt-5 mr-4'> <RxCross2 /></span>
+                                                        <span className='mt-5 mr-4 cursor-pinter'> <RxCross2 /></span>
                                                     </li>
                                                     <li className="mr-2 flex">
-                                                        <img className="h-8 rounded-full w-8 mt-3" src="/rose.jpg" alt="Girl in a jacket" />
+                                                        <img className="h-8 rounded-full w-8 mt-3 cursor-pinter" src="/rose.jpg" alt="Girl in a jacket" />
                                                         <a href="/" className="mt-2 inline-block px-4 py-2  text-black font-bold" aria-current="page">Dexter James</a>
-                                                        <span className='mt-5 mr-4'> <RxCross2 /></span>
+                                                        <span className='mt-5 mr-4 cursor-pinter'> <RxCross2 className='cursor-pinter' /></span>
                                                     </li>
                                                 </ul>
                                             </div>
                                         </div>
                                     </div>
-                                    
-                                <button type="submit" className="ml-72 mt-12 flex items-center gap-1 p-2 font-semibold text-white bg-blue-600 rounded-md hover:bg-blue-800">
-                                    Update 
-                                </button>
+
+                                    <button type="submit" className="ml-72 mt-12 flex items-center gap-1 p-2 font-semibold text-white bg-blue-600 rounded-md hover:bg-blue-800">
+                                        Update
+                                    </button>
                                 </div>
 
 

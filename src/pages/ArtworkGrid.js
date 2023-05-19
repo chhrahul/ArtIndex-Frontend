@@ -9,21 +9,20 @@ import { BiWallet } from "react-icons/bi";
 import { MdViewAgenda } from "react-icons/md";
 import { AxiosInstance } from '../utils'
 export default function ArtworkGrid() {
+
     const [getResult, setResult] = React.useState([]);
     const [searchInput, setSearchInput] = React.useState('');
     const [filteredResults, setFilteredResults] = React.useState([]);
     const [Loading, setloader] = React.useState(true);
     const APIData = getResult.data
+    
     // const fetchInfo = () => {
     //     return axios.get('http://127.0.0.1:3000/api/v1/get-artwork').then((res) => setResult(res.data));
     // };
     const fetchInfo = () => {
-
         const userId = localStorage.getItem("userId")
         var data = JSON.stringify({ 'id': userId })
-
         async function getData() {
-
             const result = await AxiosInstance(
                 {
                     'url': '/get-artwork',
@@ -31,23 +30,17 @@ export default function ArtworkGrid() {
                     'data': data
                 }
             )
-
             if (result) {
-
                 setResult(result.data)
                 setloader(false)
             }
-
         }
         getData()
-
     };
-
     React.useEffect(() => {
         fetchInfo();
     }, []);
     const searchItems = (searchValue) => {
-
         setSearchInput(searchValue)
         if (searchInput !== '') {
             const filteredData = APIData.filter((item) => {
@@ -59,14 +52,8 @@ export default function ArtworkGrid() {
             setFilteredResults(APIData)
         }
     }
-
-    //console.log(getResult.data)
     return (
-
         <>
-
-
-
             <div className="min-[480px]:pt-10 sm:ml-48 min-[480px]:top-20 bg-gray-200 h-full" >
                 <div className="min-[480px]:grid grid-cols-6">
                     <div className='min-[480px]:flex col-span-5 ...'>
@@ -90,9 +77,6 @@ export default function ArtworkGrid() {
 
                         </form>
                     </div>
-
-
-
                 </div>
                 <hr className="ml-5 h-px my-4 bg-gray-700 border border-gray-300 dark:bg-gray-700"></hr>
                 <div className="filters mb-4">
@@ -122,8 +106,7 @@ export default function ArtworkGrid() {
 
                     </div>
                 </div>
-
-                <div className="p-4 border-1 border-blue-400 border-dashed mx-6 rounded-lg dark:border-blue-700 h-full top-20 bg-white">
+                <div className="p-4 min-h-screen border-1 border-blue-400 border-dashed mx-6 rounded-lg dark:border-blue-700 h-full top-20 bg-white">
                     <div className="min-[480px]:grid grid-cols-4 gap-6">
                         {/* {getResult.data && getResult.data.map((data, index) => {
                                 return (
@@ -140,7 +123,6 @@ export default function ArtworkGrid() {
                             })} */}
                         {Loading ? (<>
                             <div className=" items-center h-64 w-full">
-
                                 <div className="absolute -translate-x-1/2 -translate-y-1/2 top-2/4 left-1/2">
                                     <div role="status">
                                         <svg aria-hidden="true" className="inline w-8 h-8 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -151,10 +133,10 @@ export default function ArtworkGrid() {
                                     </div>
                                 </div>
                             </div>
-
                         </>
-
-                        ) : ''}
+                        ) : filteredResults && APIData && filteredResults.length === 0 && APIData.length === 0 ? (
+                            <p className="text-md text-center font-bold mt-20">No records exist!!</p>
+                        ) : null}
 
                         {
                             filteredResults.length > 0 ? (
@@ -189,7 +171,7 @@ export default function ArtworkGrid() {
                                 })
                             )
                         }
-
+                     
                     </div>
 
 

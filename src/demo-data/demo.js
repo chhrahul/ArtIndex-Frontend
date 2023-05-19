@@ -12,7 +12,6 @@ import {
   AppointmentForm,
   Toolbar,
   DateNavigator,
-  
 } from '@devexpress/dx-react-scheduler-material-ui';
 // import { TextField } from '@material-ui/core';
 
@@ -30,7 +29,6 @@ class App extends React.Component {
       appointments: appointments,
       deletingAppointmentId: null,
     };
-
     this.currentDateChange = (currentDate) => {
       this.setState({ currentDate });
     };
@@ -39,8 +37,7 @@ class App extends React.Component {
     };
     this.commitChanges = ({ added, changed, deleted }) => {
       let { appointments } = this.state;
-
-      if (added) {
+      if (added){
         const startingAddedId =
           appointments.length > 0 ? appointments[appointments.length - 1].id + 1 : 0;
         appointments = [
@@ -48,7 +45,7 @@ class App extends React.Component {
           { id: startingAddedId, ...added },
         ];
       }
-      if (changed) {
+      if (changed){
         appointments = appointments.map((appointment) => (
           changed[appointment.id] ? { ...appointment, ...changed[appointment.id] } : appointment
         ));
@@ -56,7 +53,6 @@ class App extends React.Component {
       if (deleted !== undefined) {
         appointments = appointments.filter((appointment) => appointment.id !== deleted);
       }
-
       this.setState({ appointments, deletingAppointmentId: null });
     };
     this.deleteAppointment = () => {
@@ -67,7 +63,6 @@ class App extends React.Component {
       });
     };
   }
-
   handleCellClick = (date) => {
     const newAppointment = {
       startDate: date,
@@ -78,11 +73,9 @@ class App extends React.Component {
       appointments: [...prevState.appointments, newAppointment],
     }));
   };
-
   handleDeleteButtonClick = (appointmentId) => {
     this.deleteAppointment(appointmentId);
   };
-  
   deleteAppointment = (appointmentId) => {
     const { appointments } = this.state;
     const updatedAppointments = appointments.filter(
@@ -90,10 +83,8 @@ class App extends React.Component {
     );
     this.setState({ appointments: updatedAppointments });
   };
-
   render() {
     const { currentDate, currentViewName, appointments, deletingAppointmentId } = this.state;
-
     const AppointmentTooltipContent = ({
       appointmentData,
       onDeleteButtonClick,
@@ -101,6 +92,7 @@ class App extends React.Component {
     }) => {
       const handleDeleteButtonClick = () => {
         onDeleteButtonClick(appointmentData.id);
+        console.log(appointmentData.id)
       };
     
       return (
@@ -115,14 +107,16 @@ class App extends React.Component {
     const AppointmentFormContainer = ({ children, ...restProps }) => {
       return (
         <AppointmentForm.Container {...restProps}>
-          {children}
+          
+          {children
+          }
           {/* <TextField
             label="Location"
             name="location"
             margin="normal"
             fullWidth
-          /> */}
-          
+          /> */}        
+
         </AppointmentForm.Container>
       );
     };
@@ -138,20 +132,19 @@ class App extends React.Component {
           />
           <EditingState
             onCommitChanges={this.commitChanges}
-          />
-          
+          />      
           <Toolbar />
           <DateNavigator />
           <MonthView name="month" onCellClick={this.handleCellClick} />
           <Appointments />
           <AppointmentTooltip
-
             showOpenButton
             showDeleteButton
             contentComponent={AppointmentTooltipContent}
             showCloseButton
           />
           <AppointmentForm
+            showAllDay={false}
             showRepeat={false}
             containerComponent={AppointmentFormContainer}
           />

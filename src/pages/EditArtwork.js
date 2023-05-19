@@ -25,6 +25,7 @@ export default function EditArtwork() {
     }, [data])
 
     const onSubmit = data1 => {
+        setloader(true)
         data1.tags = tags;
         data1.image = files;
 
@@ -38,10 +39,11 @@ export default function EditArtwork() {
                 'method': 'post',
                 'data': dataEdit
             })
+            
             setDisabled(true);
             if (result.status === 200) {
 
-                setloader(true)
+               // setloader(true)
                 setTimeout(() => {
                     navigate("/artwork");
                 }, 3000);

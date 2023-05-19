@@ -5,10 +5,10 @@ import ImageGallery from 'react-image-gallery';
 
 export default function GallerySlider(props) {
     const { image } = props
-    const [imageData, setimageData] = React.useState([]);
+    //const [imageData, setimageData] = React.useState([]);
     const ImageArray = []
     React.useEffect(() => {
-        image.map((data, index) =>
+        image?.map((data, index) =>
             // setimageData (data[0])
             ImageArray.push({ 'original': data[0], 'thumbnail': data[0] })
         );

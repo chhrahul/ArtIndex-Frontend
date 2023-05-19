@@ -17,6 +17,7 @@ import React from 'react';
 import ProtectedRoute from './components/ProtectedRoute';
 import EditArtwork from './pages/EditArtwork';
 import EditContact from './pages/EditContact';
+import SentEmail from './pages/SentEmail';
 
 function App() {
 
@@ -26,7 +27,7 @@ function App() {
 
   React.useEffect(() => {
     setHomeUrl(location.pathname)
-   // console.log(location.pathname)
+    // console.log(location.pathname)
   }, [location])
 
 
@@ -51,15 +52,16 @@ function App() {
           <Route exact path="/contact/create" element={<NewContact />} />
           <Route exact path="/contact/edit" element={<EditContact />} />
           <Route exact path="/artwork" element={<Artwork />} />
-          <Route exact path="/artwork/grid" element={<ArtworkGrid />} />        
+          <Route exact path="/artwork/grid" element={<ArtworkGrid />} />
           <Route exact path="/artwork/listing" element={<ArtworkListing />} />
           <Route exact path="/artwork/create" element={<AddArtwork />} />
           <Route exact path="/artwork/edit" element={<EditArtwork />} />
           <Route exact path="/emails" element={<Email />} />
+          <Route exact path="/email/sent" element={<SentEmail />} />
           <Route exact path="/email/send" element={<SendEmail />} />
           <Route exact path="/event/edit" element={<EditEvent />} />
           <Route exact path="/calendar" element={<Calendar />} />
-          <Route exact path="/Logout"  />
+          <Route exact path="/Logout" />
         </Route>
 
         {/* <Route exact path="/artwork" element={<Artwork />} />

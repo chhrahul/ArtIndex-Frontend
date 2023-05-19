@@ -9,13 +9,23 @@ import { FaLock } from "react-icons/fa";
 import { HiOutlinePencil } from "react-icons/hi2";
 import { FaAngleLeft } from "react-icons/fa";
 import { FaAngleRight } from "react-icons/fa";
-
+import { useNavigate, useLocation } from 'react-router-dom';
 
 export default function Email() {
+   
+    const [message, setmessage] = React.useState('');
+    const EmailMessage = localStorage.getItem("emailMessage")
+
+    React.useEffect(() => {
+        setmessage(EmailMessage)
+        setTimeout(() => {
+            setmessage('')  
+            localStorage.removeItem("emailMessage");
+
+        }, 3000);
+    }, [])
     return (
         <>
-
-
             <div className="min-[480px]:pt-10 sm:ml-48 min-[480px]:top-20 bg-gray-200 h-full min-[480px]:ml-40" >
                 <div className="min-[480px]:grid grid-cols-6 ml-16">
                     <div className='min-[480px]:flex col-span-5 ...'>
@@ -31,16 +41,12 @@ export default function Email() {
                                     <svg className="h-5 w-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">  <circle cx="12" cy="12" r="10" />  <line x1="15" y1="9" x2="9" y2="15" />  <line x1="9" y1="9" x2="15" y2="15" /></svg>
                                 </button>
                             </div>
-
                         </form>
                     </div>
-
                 </div>
                 <hr className=" min-[480px]:ml-24 h-px my-2  bg-gray-700 border border-gray-300 dark:bg-gray-700"></hr>
                 <div className="filters mb-4 min-[480px]:ml-16">
-
                     <div className='flex '>
-
                         <span className="text-sm font-semibold mr-4 ml-6 flex items-center"><IoFilterOutline /> Filter:</span>
                         <select className="text-sm font-semibold bg-transparent mr-2 border-none max-[480px]:ml-4" >
                             <option>Mark</option>
@@ -55,14 +61,15 @@ export default function Email() {
                     <div className='col-span-1 w-8 ml-5 mt-6'>
                         <a href='/email/send'><HiOutlinePencil size={26} className='ml-2 my-6' /></a>
                         <a href='/emails'><FiInbox size={26} className='ml-2 my-6' /></a>
-                        <span className=''><FiFileText size={26} className='ml-2 my-6' /></span>
-                        <span className=''><FiSend size={26} className='ml-2 my-6' /></span>
-                        <span className=''><FiArchive size={26} className='ml-2 my-6' /></span>
+                        <a href=''><FiFileText size={26} className='ml-2 my-6' /></a>
+                        <a href='/email/sent'><FiSend size={26} className='ml-2 my-6' /></a>
+                        <a href=''><FiArchive size={26} className='ml-2 my-6' /></a>
                     </div>
                     <div className="col-span-11 p-4 border-1 border-blue-400 border-dashed mr-6  dark:border-blue-700 h-full top-20 bg-white">
 
                         <div className="mt-8  mr-2 mb-8">
                             <div className="relative overflow-x-auto">
+                                {message ?(<h3 className='text-center font-bold mb-4 '>{message}</h3>):''}
                                 <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400 ">
                                     <thead className="text-sm underline text-gray-900  dark:text-gray-400">
                                     </thead>
