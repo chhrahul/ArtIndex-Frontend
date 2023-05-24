@@ -255,7 +255,7 @@ export default function ArtworkListing() {
                                 <div className="min-[480px]:grid grid-cols-6 gap-6">
                                     <div className="col-span-2 ...">
                                         <div className="mt-5 mb-5 ml-4 flex">
-                                            <img className="h-16 rounded-lg w-16" src={data.image[0] ? data.image[0] : '/rose.jpg'} alt="Girl in a jacket" />
+                                            <img className="h-16 rounded-lg w-16" src={data.image[0] ? data.image[0] : '/rose.png'} alt="Girl in a jacket" />
                                             <p className="ml-8 mt-4 text-md font-extrabold   text-black">{data.Title}</p>
                                         </div>
                                     </div>

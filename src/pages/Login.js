@@ -67,7 +67,7 @@ export default function Login() {
                                         <td className="pl-0 pr-0 w-10 py-4 "><input type="checkbox" className="ml-10 text-blue-500 max-[768px]:ml-6 max-[768px]:mb-2 border-2 border-blue-500 mt-3 bg-white font-bold  text-sm" name="medium" />
                                         </td>
                                         <td className="pr-6 py-4 flex items-center">
-                                            <img className="h-10  rounded-full w-10" src="/rose.jpg" alt="Girl in a jacket" />
+                                            <img className="h-10  rounded-full w-10" src="/rose.png" alt="Girl in a jacket" />
                                             <p className="ml-6 text-xs font-bold   text-black">Rose Wells</p>
                                         </td>
                                         <td className="text-xs px-6 py-4">
@@ -89,7 +89,7 @@ export default function Login() {
                                         </td>
                                         <td className="pr-6 py-4 flex items-center">
 
-                                            <img className="h-10 rounded-full w-10" src="/rose.jpg" alt="Girl in a jacket" />
+                                            <img className="h-10 rounded-full w-10" src="/rose.png" alt="Girl in a jacket" />
                                             <p className="ml-6 text-xs font-bold   text-black">Dexter Jamer</p>
                                         </td>
                                         <td className="px-6 py-4">
@@ -111,7 +111,7 @@ export default function Login() {
                                         </td>
                                         <td className="pr-6 py-4 flex items-center">
 
-                                            <img className="h-10 rounded-full w-10" src="/rose.jpg" alt="Girl in a jacket" />
+                                            <img className="h-10 rounded-full w-10" src="/rose.png" alt="Girl in a jacket" />
                                             <p className="ml-6 text-xs font-bold   text-black">Harley Harris</p>
                                         </td>
                                         <td className="px-6 py-4">
@@ -133,7 +133,7 @@ export default function Login() {
                                         </td>
                                         <td className="pr-6 py-4 flex items-center">
 
-                                            <img className="h-10 rounded-full w-10" src="/rose.jpg" alt="Girl in a jacket" />
+                                            <img className="h-10 rounded-full w-10" src="/rose.png" alt="Girl in a jacket" />
                                             <p className="ml-6 text-xs font-bold   text-black">Charlie Lewis</p>
                                         </td>
                                         <td className="px-6 py-4">
@@ -155,7 +155,7 @@ export default function Login() {
                                         </td>
                                         <td className="pr-6 py-4 flex items-center">
 
-                                            <img className="h-10 rounded-full w-10" src="/rose.jpg" alt="Girl in a jacket" />
+                                            <img className="h-10 rounded-full w-10" src="/rose.png" alt="Girl in a jacket" />
                                             <p className="ml-6 text-xs font-bold   text-black">Liam Reynolds</p>
                                         </td>
                                         <td className="px-6 py-4">
@@ -177,7 +177,7 @@ export default function Login() {
                                         </td>
                                         <td className="pr-6 py-4 flex items-center">
 
-                                            <img className="h-10 rounded-full w-10" src="/rose.jpg" alt="Girl in a jacket" />
+                                            <img className="h-10 rounded-full w-10" src="/rose.png" alt="Girl in a jacket" />
                                             <p className="ml-6 text-xs  font-bold text-black">Trenton Hines</p>
                                         </td>
                                         <td className="px-6 py-4">
@@ -199,7 +199,7 @@ export default function Login() {
                                         </td>
                                         <td className="pr-6 py-4 flex items-center">
 
-                                            <img className="h-10 rounded-full w-10" src="/rose.jpg" alt="Girl in a jacket" />
+                                            <img className="h-10 rounded-full w-10" src="/rose.png" alt="Girl in a jacket" />
                                             <p className="ml-6 text-xs  font-bold text-black">Trenton Hines</p>
                                         </td>
                                         <td className="px-6 py-4">

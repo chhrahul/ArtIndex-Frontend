@@ -241,7 +241,7 @@ export default function Artwork() {
                                 <div key={index} className="grid grid-cols-6 gap-6 relative cursor-pointer">
                                     <div  key={index} className="col-span-1 ..."  onClick={() => handleOnClick(data)}>
                                         <div className="mt-5 mb-5 ml-4">
-                                            <img className="h-40 rounded-lg w-64" src={data.image[0] ? data.image[0] : '/rose.jpg'} alt="Girl in a jacket" />
+                                            <img className="h-40 rounded-lg w-64" src={data.image[0] ? data.image[0] : '/rose.png'} alt="Girl in a jacket" />
 
                                         </div>
                                     </div>

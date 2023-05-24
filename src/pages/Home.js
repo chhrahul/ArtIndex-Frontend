@@ -79,7 +79,7 @@ export default function Home() {
                             )}
                         </div>
                         <div className='pb-20 pt-20 col-span-1 mg-auto'>
-                            <img className='' src='/Banner.jpeg' alt=''></img>
+                            <img className='' src='/Banner.png' alt=''></img>
                         </div>
 
                     </div>
@@ -89,7 +89,7 @@ export default function Home() {
 
                     <div className='flex w-4/5 mg-auto'>
                         <div className='absolute bottom-0 left-44'>
-                            <img className='' src='/Feature1.jpeg' alt=''></img>
+                            <img className='' src='/Feature1.png' alt=''></img>
                         </div>
                         <div className='w-6/12 pt-20 pb-20 mg-auto'>
 
@@ -124,24 +124,24 @@ export default function Home() {
                             <h1 className='font-bold text-gray-600  text-3xl ml-14 pb-10'>/ Your Personal Concierge</h1>
                             <div className='flex mg-auto'>
                                 <div className='mt-6 ml-20'>
-                                    <img className='h-28 w-32' src='/Inventery.jpeg' alt=''></img>
-                                    <img className='h-28 w-32' src='/calender.jpeg' alt=''></img>
-                                    <img className='h-28 w-32' src='/security.jpeg' alt=''></img>
+                                    <img className='h-28 w-32' src='/Inventery.png' alt=''></img>
+                                    <img className='h-28 w-32' src='/calender.png' alt=''></img>
+                                    <img className='h-28 w-32' src='/security.png' alt=''></img>
                                 </div>
                                 <div className='mt-6'>
-                                    <img className='h-28 w-32' src='/invoicing.jpeg' alt=''></img>
-                                    <img className='h-28 w-32' src='/contact.jpeg' alt=''></img>
-                                    <img className='h-28 w-32 ' src='/customization.jpeg' alt=''></img>
+                                    <img className='h-28 w-32' src='/invoicing.png' alt=''></img>
+                                    <img className='h-28 w-32' src='/contact.png' alt=''></img>
+                                    <img className='h-28 w-32 ' src='/customization.png' alt=''></img>
                                 </div>
                                 <div className='mt-6'>
-                                    <img className='h-28 w-32' src='/reports.jpeg' alt=''></img>
-                                    <img className='h-28 w-32' src='/locations.jpeg' alt=''></img>
-                                    <img className='h-28 w-32' src='/communication.jpeg' alt=''></img>
+                                    <img className='h-28 w-32' src='/reports.png' alt=''></img>
+                                    <img className='h-28 w-32' src='/locations.png' alt=''></img>
+                                    <img className='h-28 w-32' src='/communication.png' alt=''></img>
                                 </div>
                             </div>
                         </div>
                         <div className='mt-28 '>
-                            <img className='h-72' src='/inverteryArt.jpeg' alt=''></img>
+                            <img className='h-72' src='/inverteryArt.png' alt=''></img>
                         </div>
 
                     </div>

@@ -114,7 +114,7 @@ export default function ArtworkGrid() {
 
                                 <div className="max-[1024px]:col-span-2 col-span-1 ...">
                                     <div className="mt-5 mb-5 ml-2 mr-2">
-                                        <img className="h-40 rounded-lg w-full" src={data.image[0] ? data.image[0] : '/rose.jpg'} alt="Girl in a jacket" />
+                                        <img className="h-40 rounded-lg w-full" src={data.image[0] ? data.image[0] : '/rose.png'} alt="Girl in a jacket" />
                                         <p className='text-md font-extrabold mt-2 ml-2'>{data.Title}</p>
 
                                     </div>
@@ -145,7 +145,7 @@ export default function ArtworkGrid() {
                                         <>
                                             <div className="max-[1024px]:col-span-2 col-span-1 ...">
                                                 <div className="mt-5 mb-5 ml-2 mr-2">
-                                                    <img className="h-40 rounded-lg w-full" src={data1.image[0] ? data1.image[0] : '/rose.jpg'} alt="Girl in a jacket" />
+                                                    <img className="h-40 rounded-lg w-full" src={data1.image[0] ? data1.image[0] : '/rose.png'} alt="Girl in a jacket" />
                                                     <p className='text-md font-extrabold mt-2 ml-2'>{data1.Title}</p>
 
                                                 </div>
@@ -160,7 +160,7 @@ export default function ArtworkGrid() {
                                         <>
                                             <div className="max-[1024px]:col-span-2 col-span-1 ...">
                                                 <div className="mt-5 mb-5 ml-2 mr-2">
-                                                    <img className="h-40 rounded-lg w-full" src={data.image[0] ? data.image[0] : '/rose.jpg'} alt="Girl in a jacket" />
+                                                    <img className="h-40 rounded-lg w-full" src={data.image[0] ? data.image[0] : '/rose.png'} alt="Girl in a jacket" />
                                                     <p className='text-md font-extrabold mt-2 ml-2'>{data.Title}</p>
 
                                                 </div>
@@ -184,60 +184,28 @@ export default function ArtworkGrid() {
 
                         <div className="max-[1024px]:col-span-2 col-span-1 ...">
                             <div className="mt-5 mb-5 ml-2 mr-2">
-                                <img className="h-40 rounded-lg w-full" src="/rose.jpg" alt="Girl in a jacket" />
+                                <img className="h-40 rounded-lg w-full" src="/rose.png" alt="Girl in a jacket" />
                                 <p className='text-md font-extrabold mt-2 ml-2'>Bat on Hearts</p>
 
                             </div>
                         </div>
                         <div className="max-[1024px]:col-span-2 col-span-1 ...">
                             <div className="mt-5 mb-5 ml-2 mr-2">
-                                <img className="h-40 rounded-lg w-full" src="/rose.jpg" alt="Girl in a jacket" />
+                                <img className="h-40 rounded-lg w-full" src="/rose.png" alt="Girl in a jacket" />
                                 <p className='text-md font-extrabold mt-2 ml-2'>Bat on Hearts</p>
 
                             </div>
                         </div>
                         <div className="max-[1024px]:col-span-2 col-span-1 ...">
                             <div className="mt-5 mb-5 ml-2 mr-2">
-                                <img className="h-40 rounded-lg w-full" src="/rose.jpg" alt="Girl in a jacket" />
+                                <img className="h-40 rounded-lg w-full" src="/rose.png" alt="Girl in a jacket" />
                                 <p className='text-md font-extrabold mt-2 ml-2'>Bat on Hearts</p>
 
                             </div>
                         </div>
                         <div className="max-[1024px]:col-span-2 col-span-1 ...">
                             <div className="mt-5 mb-5 ml-2 mr-2">
-                                <img className="h-40 rounded-lg w-full" src="/rose.jpg" alt="Girl in a jacket" />
-                                <p className='text-md font-extrabold mt-2 ml-2'>Bat on Hearts</p>
-
-                            </div>
-                        </div>
-                    
-                    </div>
-                    <div className="min-[480px]:grid grid-cols-4 gap-6">
-
-                        <div className="max-[1024px]:col-span-2 col-span-1 ...">
-                            <div className="mt-5 mb-5 ml-2 mr-2">
-                                <img className="h-40 rounded-lg w-full" src="/rose.jpg" alt="Girl in a jacket" />
-                                <p className='text-md font-extrabold mt-2 ml-2'>Bat on Hearts</p>
-
-                            </div>
-                        </div>
-                        <div className="max-[1024px]:col-span-2 col-span-1 ...">
-                            <div className="mt-5 mb-5 ml-2 mr-2">
-                                <img className="h-40 rounded-lg w-full" src="/rose.jpg" alt="Girl in a jacket" />
-                                <p className='text-md font-extrabold mt-2 ml-2'>Bat on Hearts</p>
-
-                            </div>
-                        </div>
-                        <div className="max-[1024px]:col-span-2 col-span-1 ...">
-                            <div className="mt-5 mb-5 ml-2 mr-2">
-                                <img className="h-40 rounded-lg w-full" src="/rose.jpg" alt="Girl in a jacket" />
-                                <p className='text-md font-extrabold mt-2 ml-2'>Bat on Hearts</p>
-
-                            </div>
-                        </div>
-                        <div className="max-[1024px]:col-span-2 col-span-1 ...">
-                            <div className="mt-5 mb-5 ml-2 mr-2">
-                                <img className="h-40 rounded-lg w-full" src="/rose.jpg" alt="Girl in a jacket" />
+                                <img className="h-40 rounded-lg w-full" src="/rose.png" alt="Girl in a jacket" />
                                 <p className='text-md font-extrabold mt-2 ml-2'>Bat on Hearts</p>
 
                             </div>
@@ -248,28 +216,60 @@ export default function ArtworkGrid() {
 
                         <div className="max-[1024px]:col-span-2 col-span-1 ...">
                             <div className="mt-5 mb-5 ml-2 mr-2">
-                                <img className="h-40 rounded-lg w-full" src="/rose.jpg" alt="Girl in a jacket" />
+                                <img className="h-40 rounded-lg w-full" src="/rose.png" alt="Girl in a jacket" />
                                 <p className='text-md font-extrabold mt-2 ml-2'>Bat on Hearts</p>
 
                             </div>
                         </div>
                         <div className="max-[1024px]:col-span-2 col-span-1 ...">
                             <div className="mt-5 mb-5 ml-2 mr-2">
-                                <img className="h-40 rounded-lg w-full" src="/rose.jpg" alt="Girl in a jacket" />
+                                <img className="h-40 rounded-lg w-full" src="/rose.png" alt="Girl in a jacket" />
                                 <p className='text-md font-extrabold mt-2 ml-2'>Bat on Hearts</p>
 
                             </div>
                         </div>
                         <div className="max-[1024px]:col-span-2 col-span-1 ...">
                             <div className="mt-5 mb-5 ml-2 mr-2">
-                                <img className="h-40 rounded-lg w-full" src="/rose.jpg" alt="Girl in a jacket" />
+                                <img className="h-40 rounded-lg w-full" src="/rose.png" alt="Girl in a jacket" />
+                                <p className='text-md font-extrabold mt-2 ml-2'>Bat on Hearts</p>
+
+                            </div>
+                        </div>
+                        <div className="max-[1024px]:col-span-2 col-span-1 ...">
+                            <div className="mt-5 mb-5 ml-2 mr-2">
+                                <img className="h-40 rounded-lg w-full" src="/rose.png" alt="Girl in a jacket" />
+                                <p className='text-md font-extrabold mt-2 ml-2'>Bat on Hearts</p>
+
+                            </div>
+                        </div>
+                    
+                    </div>
+                    <div className="min-[480px]:grid grid-cols-4 gap-6">
+
+                        <div className="max-[1024px]:col-span-2 col-span-1 ...">
+                            <div className="mt-5 mb-5 ml-2 mr-2">
+                                <img className="h-40 rounded-lg w-full" src="/rose.png" alt="Girl in a jacket" />
+                                <p className='text-md font-extrabold mt-2 ml-2'>Bat on Hearts</p>
+
+                            </div>
+                        </div>
+                        <div className="max-[1024px]:col-span-2 col-span-1 ...">
+                            <div className="mt-5 mb-5 ml-2 mr-2">
+                                <img className="h-40 rounded-lg w-full" src="/rose.png" alt="Girl in a jacket" />
+                                <p className='text-md font-extrabold mt-2 ml-2'>Bat on Hearts</p>
+
+                            </div>
+                        </div>
+                        <div className="max-[1024px]:col-span-2 col-span-1 ...">
+                            <div className="mt-5 mb-5 ml-2 mr-2">
+                                <img className="h-40 rounded-lg w-full" src="/rose.png" alt="Girl in a jacket" />
                                 <p className='text-md font-extrabold mt-2 ml-2'>Bat on Hearts</p>
 
                             </div>
                         </div>
                         <div className=" max-[1024px]:col-span-2 col-span-1 ...">
                             <div className="mt-5 mb-5 ml-2 mr-2">
-                                <img className="h-40 rounded-lg w-full" src="/rose.jpg" alt="Girl in a jacket" />
+                                <img className="h-40 rounded-lg w-full" src="/rose.png" alt="Girl in a jacket" />
                                 <p className='text-md font-extrabold mt-2 ml-2'>Bat on Hearts</p>
 
                             </div>

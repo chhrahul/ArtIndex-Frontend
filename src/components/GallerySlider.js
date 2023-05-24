@@ -18,16 +18,16 @@ export default function GallerySlider(props) {
     // console.log('ImageArray',ImageArray)
     const images = [
         {
-            original: '/rose.jpg',
-            thumbnail: '/rose.jpg',
+            original: '/rose.png',
+            thumbnail: '/rose.png',
         },
         {
-            original: '/rose.jpg',
-            thumbnail: '/rose.jpg',
+            original: '/rose.png',
+            thumbnail: '/rose.png',
         },
         {
-            original: '/rose.jpg',
-            thumbnail: '/rose.jpg',
+            original: '/rose.png',
+            thumbnail: '/rose.png',
         }
     ];
     //console.log('image',image);
