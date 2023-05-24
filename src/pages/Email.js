@@ -9,7 +9,7 @@ import { FaLock } from "react-icons/fa";
 import { HiOutlinePencil } from "react-icons/hi2";
 import { FaAngleLeft } from "react-icons/fa";
 import { FaAngleRight } from "react-icons/fa";
-import { useNavigate, useLocation } from 'react-router-dom';
+// import { useNavigate, useLocation } from 'react-router-dom';
 
 export default function Email() {
    
@@ -75,7 +75,8 @@ export default function Email() {
                                     </thead>
                                     <tbody>
                                         <tr className="bg-white dark:bg-gray-800 text-gray-700">
-                                            <td className="pl-0 pr-0 w-8 pb-2"><input type="checkbox" className="ml-6 text-blue-500 max-[768px]:ml-6 max-[768px]:mb-2 border-2 border-blue-500 mt-3 bg-white font-bold  text-md" name="medium" />
+                                            <td className="pl-0 pr-0 w-8 pb-2">
+                                                <input type="checkbox" className="ml-6 text-blue-500 max-[768px]:ml-6 max-[768px]:mb-2 border-2 border-blue-500 mt-3 bg-white font-bold  text-md focus:ring-0" name="medium" />
                                             </td>
                                             <td className="pr-6  flex pb-2">
                                                 <p className="ml-6 mt-4 ">Thumbtack</p>
@@ -93,7 +94,7 @@ export default function Email() {
                                         </tr>
                                         <tr className="bg-white dark:bg-gray-800 text-gray-700">
                                             <td className="pl-0 pr-0 w-8 pb-2">
-                                                <input type="checkbox" className="ml-6 text-blue-500 max-[768px]:ml-6 max-[768px]:mb-2 border-2 border-blue-500 mt-3 bg-white font-bold  text-md" name="medium" />
+                                                <input type="checkbox" className="ml-6 text-blue-500 max-[768px]:ml-6 max-[768px]:mb-2 border-2 border-blue-500 mt-3 bg-white font-bold  text-md focus:ring-0" name="medium" />
                                             </td>
                                             <td className="pr-6  flex pb-2">
                                                 <p className="ml-6 mt-4 ">Thumbtack</p>
@@ -111,7 +112,7 @@ export default function Email() {
                                         </tr>
                                         <tr className="bg-white dark:bg-gray-800 text-gray-700">
                                             <td className="pl-0 pr-0 w-8 pb-2">
-                                                <input type="checkbox" className="ml-6 text-blue-500 max-[768px]:ml-6 max-[768px]:mb-2 border-2 border-blue-500 mt-3 bg-white font-bold  text-md" name="medium" />
+                                                <input type="checkbox" className="ml-6 text-blue-500 max-[768px]:ml-6 max-[768px]:mb-2 border-2 border-blue-500 mt-3 bg-white font-bold  text-md focus:ring-0" name="medium" />
                                             </td>
                                             <td className="pr-6  flex pb-2">
                                                 <p className="ml-6 mt-4 ">Thumbtack</p>
@@ -129,7 +130,7 @@ export default function Email() {
                                         </tr>
                                         <tr className="bg-white dark:bg-gray-800 text-gray-700">
                                             <td className="pl-0 pr-0 w-8 pb-2">
-                                                <input type="checkbox" className="ml-6 text-blue-500 max-[768px]:ml-6 max-[768px]:mb-2 border-2 border-blue-500 mt-3 bg-white font-bold  text-md" name="medium" />
+                                                <input type="checkbox" className="ml-6 text-blue-500 max-[768px]:ml-6 max-[768px]:mb-2 border-2 border-blue-500 mt-3 bg-white font-bold  text-md focus:ring-0" name="medium" />
                                             </td>
                                             <td className="pr-6  flex pb-2">
                                                 <p className="ml-6 mt-4 ">Thumbtack</p>
@@ -147,7 +148,7 @@ export default function Email() {
                                         </tr>
                                         <tr className="bg-white dark:bg-gray-800 text-gray-700">
                                             <td className="pl-0 pr-0 w-8 pb-2">
-                                                <input type="checkbox" className="ml-6 text-blue-500 max-[768px]:ml-6 max-[768px]:mb-2 border-2 border-blue-500 mt-3 bg-white font-bold  text-md" name="medium" />
+                                                <input type="checkbox" className="ml-6 text-blue-500 max-[768px]:ml-6 max-[768px]:mb-2 border-2 border-blue-500 mt-3 bg-white font-bold  text-md focus:ring-0" name="medium" />
                                             </td>
                                             <td className="pr-6  flex pb-2">
                                                 <p className="ml-6 mt-4 ">Thumbtack</p>
@@ -165,7 +166,7 @@ export default function Email() {
                                         </tr>
                                         <tr className="bg-white dark:bg-gray-800 text-gray-700">
                                             <td className="pl-0 pr-0 w-8 pb-2">
-                                                <input type="checkbox" className="ml-6 text-blue-500 max-[768px]:ml-6 max-[768px]:mb-2 border-2 border-blue-500 mt-3 bg-white font-bold  text-md" name="medium" />
+                                                <input type="checkbox" className="ml-6 text-blue-500 max-[768px]:ml-6 max-[768px]:mb-2 border-2 border-blue-500 mt-3 bg-white font-bold  text-md focus:ring-0" name="medium" />
                                             </td>
                                             <td className="pr-6  flex pb-2">
                                                 <p className="ml-6 mt-4 ">Thumbtack</p>
@@ -183,7 +184,7 @@ export default function Email() {
                                         </tr>
                                         <tr className="bg-white dark:bg-gray-800 text-gray-700">
                                             <td className="pl-0 pr-0 w-8 pb-2">
-                                                <input type="checkbox" className="ml-6 text-blue-500 max-[768px]:ml-6 max-[768px]:mb-2 border-2 border-blue-500 mt-3 bg-white font-bold  text-md" name="medium" />
+                                                <input type="checkbox" className="ml-6 text-blue-500 max-[768px]:ml-6 max-[768px]:mb-2 border-2 border-blue-500 mt-3 bg-white font-bold  text-md focus:ring-0" name="medium" />
                                             </td>
                                             <td className="pr-6  flex pb-2">
                                                 <p className="ml-6 mt-4 ">Thumbtack</p>
@@ -201,7 +202,7 @@ export default function Email() {
                                         </tr>
                                         <tr className="bg-white dark:bg-gray-800 text-gray-700">
                                             <td className="pl-0 pr-0 w-8 pb-2">
-                                                <input type="checkbox" className="ml-6 text-blue-500 max-[768px]:ml-6 max-[768px]:mb-2 border-2 border-blue-500 mt-3 bg-white font-bold  text-md" name="medium" />
+                                                <input type="checkbox" className="ml-6 text-blue-500 max-[768px]:ml-6 max-[768px]:mb-2 border-2 border-blue-500 mt-3 bg-white font-bold  text-md focus:ring-0" name="medium" />
                                             </td>
                                             <td className="pr-6  flex pb-2">
                                                 <p className="ml-6 mt-4 ">Thumbtack</p>
@@ -219,7 +220,7 @@ export default function Email() {
                                         </tr>
                                         <tr className="bg-white dark:bg-gray-800 text-gray-700">
                                             <td className="pl-0 pr-0 w-8 pb-2">
-                                                <input type="checkbox" className="ml-6 text-blue-500 max-[768px]:ml-6 max-[768px]:mb-2 border-2 border-blue-500 mt-3 bg-white font-bold  text-md" name="medium" />
+                                                <input type="checkbox" className="ml-6 text-blue-500 max-[768px]:ml-6 max-[768px]:mb-2 border-2 border-blue-500 mt-3 bg-white font-bold  text-md focus:ring-0" name="medium" />
                                             </td>
                                             <td className="pr-6  flex pb-2">
                                                 <p className="ml-6 mt-4 ">Thumbtack</p>
@@ -237,7 +238,7 @@ export default function Email() {
                                         </tr>
                                         <tr className="bg-white dark:bg-gray-800 text-gray-700">
                                             <td className="pl-0 pr-0 w-8 pb-2">
-                                                <input type="checkbox" className="ml-6 text-blue-500 max-[768px]:ml-6 max-[768px]:mb-2 border-2 border-blue-500 mt-3 bg-white font-bold  text-md" name="medium" />
+                                                <input type="checkbox" className="ml-6 text-blue-500 max-[768px]:ml-6 max-[768px]:mb-2 border-2 border-blue-500 mt-3 bg-white font-bold  text-md focus:ring-0" name="medium" />
                                             </td>
                                             <td className="pr-6  flex pb-2">
                                                 <p className="ml-6 mt-4 ">Thumbtack</p>
@@ -255,7 +256,7 @@ export default function Email() {
                                         </tr>
                                         <tr className="bg-white dark:bg-gray-800 text-gray-700">
                                             <td className="pl-0 pr-0 w-8 pb-2">
-                                                <input type="checkbox" className="ml-6 text-blue-500 max-[768px]:ml-6 max-[768px]:mb-2 border-2 border-blue-500 mt-3 bg-white font-bold  text-md" name="medium" />
+                                                <input type="checkbox" className="ml-6 text-blue-500 max-[768px]:ml-6 max-[768px]:mb-2 border-2 border-blue-500 mt-3 bg-white font-bold  text-md focus:ring-0" name="medium" />
                                             </td>
                                             <td className="pr-6  flex pb-2">
                                                 <p className="ml-6 mt-4 ">Thumbtack</p>
