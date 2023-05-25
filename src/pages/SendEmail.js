@@ -37,7 +37,7 @@ export default function SendEmail() {
         data.message = htmlData
         data.userId = userId
         console.log(data)
-        async function sendEmail(){
+        async function sendEmail() {
             setloader(true)
             const result = await AxiosInstance({
                 'url': '/send-email',
@@ -109,27 +109,29 @@ export default function SendEmail() {
                                             <label htmlFor="comment" className="sr-only">Your comment</label>
                                             <input type="email" {...register("toEmail", { required: true })} className="w-full text-black bg-white border-b-2 border-l-0  border-r-0  border-t-0 border-blue-200 focus:outline-0  italic rounded-t-lg text-md px-4 py-2 " placeholder="To: " />
                                             <input type="text" {...register("subject")} className="w-full text-black bg-white border-t-0 border-b-2  border-l-0  border-r-0 border-blue-200  focus:outline-0  italic  text-md px-4 py-2" placeholder="Subject:" />
-                                            <Editor
-                                                toolbarClassName="toolbarClassName"
-                                                wrapperClassName="m "
-                                                editorClassName="editorClassName"
-                                                wrapperStyle={{ height: 300 }}
-                                                toolbar={{
-                                                    options: ['inline', 'list', 'textAlign', 'history'],
-                                                    inline: { inDropdown: false },
-                                                    list: { inDropdown: false },
-                                                    textAlign: { inDropdown: false },
-                                                    history: { inDropdown: false },
-                                                }}
-                                                name="message"
-                                                editorState={editorState}
-                                                onEditorStateChange={handleChange}
-                                            />
+                                            <div className='editor'>
+                                                <Editor
+                                                    toolbarClassName="toolbarClassName"
+                                                    wrapperClassName="m "
+                                                    editorClassName="editorClassName"
+                                                    wrapperStyle={{ height: 300 }}
+                                                    toolbar={{
+                                                        options: ['inline', 'list', 'textAlign', 'history'],
+                                                        inline: { inDropdown: false },
+                                                        list: { inDropdown: false },
+                                                        textAlign: { inDropdown: false },
+                                                        history: { inDropdown: false },
+                                                    }}
+                                                    name="message"
+                                                    editorState={editorState}
+                                                    onEditorStateChange={handleChange}
+                                                />
+                                            </div>
                                         </div>
                                         <div className="min-[480px]:flex items-center justify-between px-3 border-t-2 border-blue-300 dark:border-blue-300">
                                             <div className="min-[480px]:flex pl-0 space-x-1 sm:pl-2">
                                                 <span className="inline-flex justify-center items-center p-1 text-black rounded cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600">
-                                                    <BsFileEarmark className='' size={20} color='black'/>
+                                                    <BsFileEarmark className='' size={20} color='black' />
                                                     <select className="text-sm cursor-pointer focus:ring-0 font-bold text-black bg-transparent border-none" >
                                                         <option value='Template'>Template</option>
                                                         <option vaue='One'>One</option>
@@ -137,9 +139,9 @@ export default function SendEmail() {
                                                     </select>
                                                 </span>
                                                 <span className="cursor-pointer inline-flex justify-center items-center p-1 text-black rounded cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600">
-                                                   
+
                                                     <Dropdown
-                                                        label={<><BsFilePlus size={20} color='black' /> <span className="mr-4 cursor-pointer text-sm focus:ring-0  font-bold text-black bg-transparent ml-2 border-none " value='Fields'>Fields</span><IoMdArrowDropdown/></>}
+                                                        label={<><BsFilePlus size={20} color='black' /> <span className="mr-4 cursor-pointer text-sm focus:ring-0  font-bold text-black bg-transparent ml-2 border-none " value='Fields'>Fields</span><IoMdArrowDropdown /></>}
                                                         dismissOnClick={false}
                                                         style={{ backgroundColor: 'transparent', color: 'black', outline: 'none', border: 'none' }}
                                                     >

@@ -2,8 +2,7 @@ import React, { useEffect } from 'react'
 import '../../node_modules/react-image-gallery/styles/css/image-gallery.css';
 import ImageGallery from 'react-image-gallery';
 
-
-export default function GallerySlider(props) {
+export default function GallerySlider(props){
     const { image } = props
     //const [imageData, setimageData] = React.useState([]);
     const ImageArray = []

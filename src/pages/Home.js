@@ -39,7 +39,10 @@ export default function Home() {
                 <nav className="min-[320px]:invisible min-[620px]:visible bg-white px-2 sm:px-4 py-4 dark:bg-gray-900 fixed w-full z-20 top-0 left-0">
                     <div className=" flex flex-wrap items-center justify-between w-4/5 mg-auto">
                         <h2 className="text-2xl font-bold dark:text-black text-blue-600">Art Index</h2>
-                        {isLogin() === true ? '' : (
+                        {isLogin() === true ? (<p className='flex'>
+                                <a href='/artwork' className='text-sm font-bold py-2 mr-10 cursor-pointer' >Dashboard</a>
+                       
+                            </p>) : (
                             <p className='flex'>
                                 <p className='text-sm font-bold py-2 mr-10 cursor-pointer' onClick={handleLogin} >Log In</p>
                                 <p className='text-sm font-bold py-2 px-8 bg-emerald-300 rounded-full cursor-pointer' onClick={handleJoin}>/Join</p>

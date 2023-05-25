@@ -10,9 +10,9 @@ aside#sidebar-multi-level-sidebar {
   background-color: white !important;
 }
 
-.rdw-editor-main {
+/* .rdw-editor-main {
   overflow: hidden !important;
-}
+} */
 
 svg.Demo-cloud {
   display: none !important;
@@ -204,7 +204,7 @@ span.tag-wrapper.ReactTags__tag {
 }
 
 .rdw-editor-main {
-  height: AUTO !important;
+  height: 85% !important;
 }
 
 svg.ml-2.h-4.w-4 {
