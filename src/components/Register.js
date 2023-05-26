@@ -108,7 +108,7 @@ export default function Register(props) {
                 <span className='flex justify-between items-center w-full mg-auto'>
                 <p></p>
                     <span className='flex mt-10'>
-                        <button className='text-sm cursor-pointer text-black font-bold py-2 px-8 rounded-full' >Login</button>
+                        <button className='text-sm cursor-pointer text-black font-bold py-2 px-8 rounded-full' disabled={true}>Login</button>
                         <button type="submit" className="text-sm cursor-pointer text-black border-2 border-emerald-300 font-bold py-2 px-8 bg-emerald-300 rounded-full">
                             Signup
                         </button>

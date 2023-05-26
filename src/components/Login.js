@@ -90,7 +90,7 @@ export default function Login(props) {
                     {/* <p className='underline text-blue-700 text-sm mt-10'>Forget passwordword?</p> */}
                     <p></p>
                     <p className='flex mt-10'>
-                        <button className='text-sm cursor-pointer text-black font-bold py-2 px-8 rounded-full' >Signup</button>
+                        <button className='text-sm cursor-pointer text-black font-bold py-2 px-8 rounded-full'disabled={true} >Signup</button>
                         <button type='submit' className='text-sm cursor-pointer text-black border-2 border-emerald-300 font-bold py-2 px-8 bg-emerald-300 rounded-full'>/Login</button>
                     </p>
                 </span>
