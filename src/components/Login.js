@@ -5,6 +5,7 @@ import { AxiosInstance } from '../utils';
 import { yupResolver } from "@hookform/resolvers/yup"
 import { Base64 } from "js-base64";
 import { useNavigate } from "react-router-dom";
+
 export default function Login(props) {
     const [inccorectLogin, setinccorectLogin] = React.useState('');
     const navigate = useNavigate();
@@ -107,8 +108,8 @@ export default function Login(props) {
                     {errors.password && errors.password.message}
                 </p>
                 <span className='flex justify-between items-center w-full mg-auto'>
-                    {/* <p className='underline text-blue-700 text-sm mt-10'>Forget passwordword?</p> */}
-                    <p></p>
+                   
+                 
                     <p className='flex mt-10'>
                         <button className='text-sm cursor-pointer text-black font-bold py-2 px-8 rounded-full' disabled={true} >Signup</button>
                         <button type='submit' className='text-sm cursor-pointer text-black border-2 border-emerald-300 font-bold py-2 px-8 bg-emerald-300 rounded-full'>/Login</button>
