@@ -85,15 +85,14 @@ export default function Login(props) {
                 },
                 body: JSON.stringify({ accessToken }),
             })
-                .then(response => {
-                    // Handle the response from the server
-                })
-                .catch(error => {
+            .then(response => {
+                  console.log(response)
+            })
+            .catch(error => {
                     console.error('Error:', error);
-                });
+            });
         });
     };
-  
     return (
         <>
             <h1 className='text-center font-bold text-gray-700 text-xl'>Welcome to ArtIndex !</h1>
