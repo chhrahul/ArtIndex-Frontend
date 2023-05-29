@@ -17,6 +17,7 @@
     "draftjs-to-html": "^0.9.1",
     "flowbite": "^1.6.4",
     "flowbite-react": "^0.4.2",
+    "googleapis": "^118.0.0",
     "jquery": "^3.6.4",
     "js-base64": "^3.7.5",
     "nodemailer": "^6.9.2",

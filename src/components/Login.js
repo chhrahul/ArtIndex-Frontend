@@ -6,28 +6,22 @@ import { yupResolver } from "@hookform/resolvers/yup"
 import { Base64 } from "js-base64";
 import { useNavigate } from "react-router-dom";
 export default function Login(props) {
-    const [inccorectLogin, setinccorectLogin] = React.useState();
-    
-
+    const [inccorectLogin, setinccorectLogin] = React.useState('');
     const navigate = useNavigate();
     const onSubmit = data1 => {
         async function Login() {
             data1.password = Base64.encode(data1.password)
             const result = await AxiosInstance(
-
                 {
                     'url': '/login-user',
                     'method': 'post',
                     'data': data1
                 }
             )
-            const {  status } = result.data
+            const { status } = result.data
             if (status) {
                 //const userData = result.data;
-                
-
             } else {
-                
                 const userData = result.data;
                 const LoginData = userData.data;
                 //console.log(LoginData[0]._id)
@@ -37,23 +31,24 @@ export default function Login(props) {
                     localStorage.setItem('userEmail', JSON.stringify(LoginData[0].email));
                     localStorage.setItem('userName', JSON.stringify(LoginData[0].name));
                     navigate("/artwork");
-                }else if(userData.message === 'IncorrectPassword'){
-                    setinccorectLogin("Please enter the correct password")
+                } else if (userData.message === 'IncorrectPassword') {
+                    setinccorectLogin("Please enter the correct user name and password")
                 }
+                else if (userData.message === 'Error in user login.') {
+                    setinccorectLogin("Please enter the correct user name and password")
+                }
+
+                console.log(userData.message)
                 //alert(userData.message)
             }
-
         }
         Login()
     };
-
     let yupRules = {
         name: Yup.string().required('This field is required'),
         password: Yup.string().required('This field is required'),
     };
-
     const schemaValidation = Yup.object().shape(yupRules)
-
     const {
         register,
         handleSubmit,
@@ -61,14 +56,39 @@ export default function Login(props) {
     } = useForm({
         resolver: yupResolver(schemaValidation)
     });
-
+    const loadGoogleAPI = () => {
+        return new Promise((resolve, reject) => {
+            const script = document.createElement('script');
+            script.src = 'https://apis.google.com/js/api.js';
+            script.async = true;
+            script.onload = resolve;
+            script.onerror = reject;
+            document.head.appendChild(script);
+        });
+    };
+    React.useEffect(() => {
+        loadGoogleAPI().then(() => {
+            window.gapi.load('auth2', () => {
+                window.gapi.auth2.init({
+                    client_id: '731019835589-6ff8j6hb3k7paort3etsrjbfq1rmbb5m.apps.googleusercontent.com',
+                    redirect_uri: 'https://developers.google.com/oauthplayground',
+                    scope: 'email',
+                });
+            });
+        });
+    }, []);
+    const handleLogin = () => {
+        window.gapi.auth2.getAuthInstance().signIn().then(googleUser => {
+            const accessToken = googleUser.getAuthResponse().access_token;
+            // Rest of the code...
+        });
+    };
 
     return (
         <>
-
             <h1 className='text-center font-bold text-gray-700 text-xl'>Welcome to ArtIndex !</h1>
-            <p className='text-center text-gray-700 font-medium mb-4'>Please enter your username and passwordword to login</p>
-            {inccorectLogin ? (<><span className='text-red-600 text-sm mt-10'>Please enter the correct password</span></>) : ''}
+            <p className='text-center text-gray-700 font-medium mb-4'>Please enter your username and password to login</p>
+            {inccorectLogin ? (<><span className='text-red-600 text-sm mt-10'>Please enter the correct username and password</span></>) : ''}
             <form onSubmit={handleSubmit(onSubmit)}>
                 <input type='text'
                     className='mt-5 rounded-md text-gray-700 italic border-2 border-blue-700 w-full py-2'
@@ -90,10 +110,12 @@ export default function Login(props) {
                     {/* <p className='underline text-blue-700 text-sm mt-10'>Forget passwordword?</p> */}
                     <p></p>
                     <p className='flex mt-10'>
-                        <button className='text-sm cursor-pointer text-black font-bold py-2 px-8 rounded-full'disabled={true} >Signup</button>
+                        <button className='text-sm cursor-pointer text-black font-bold py-2 px-8 rounded-full' disabled={true} >Signup</button>
                         <button type='submit' className='text-sm cursor-pointer text-black border-2 border-emerald-300 font-bold py-2 px-8 bg-emerald-300 rounded-full'>/Login</button>
                     </p>
                 </span>
+
+                <button onClick={handleLogin}>Login with Google</button>
             </form>
 
 
