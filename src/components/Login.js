@@ -25,9 +25,7 @@ export default function Login(props) {
             } else {
                 const userData = result.data;
                 const LoginData = userData.data;
-                //console.log(LoginData[0]._id)
                 if (userData.message === 'Login successfull') {
-                    //setIsSubmitted(true)
                     localStorage.setItem('userId', LoginData[0]._id);
                     localStorage.setItem('userEmail', JSON.stringify(LoginData[0].email));
                     localStorage.setItem('userName', JSON.stringify(LoginData[0].name));
@@ -38,9 +36,7 @@ export default function Login(props) {
                 else if (userData.message === 'Error in user login.') {
                     setinccorectLogin("Please enter the correct user name and password")
                 }
-
                 console.log(userData.message)
-                //alert(userData.message)
             }
         }
         Login()
@@ -72,7 +68,7 @@ export default function Login(props) {
             window.gapi.load('auth2', () => {
                 window.gapi.auth2.init({
                     client_id: '731019835589-6ff8j6hb3k7paort3etsrjbfq1rmbb5m.apps.googleusercontent.com',
-                    redirect_uri: 'https://main.d26n8wj3j35m97.amplifyapp.com/artwork',
+                    redirect_uri: 'https://main.d26n8wj3j35m97.amplifyapp.com/artwork/',
                     scope: 'email',
                 });
             });
@@ -81,10 +77,23 @@ export default function Login(props) {
     const handleLogin = () => {
         window.gapi.auth2.getAuthInstance().signIn().then(googleUser => {
             const accessToken = googleUser.getAuthResponse().access_token;
-            // Rest of the code...
+            // Send the access token to your Node.js server
+            fetch('/api/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ accessToken }),
+            })
+                .then(response => {
+                    // Handle the response from the server
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
         });
     };
-
+  
     return (
         <>
             <h1 className='text-center font-bold text-gray-700 text-xl'>Welcome to ArtIndex !</h1>
@@ -108,19 +117,14 @@ export default function Login(props) {
                     {errors.password && errors.password.message}
                 </p>
                 <span className='flex justify-between items-center w-full mg-auto'>
-                   
                     <p></p>
                     <p className='flex mt-10'>
                         <button className='text-sm cursor-pointer text-black font-bold py-2 px-8 rounded-full' disabled={true} >Signup</button>
                         <button type='submit' className='text-sm cursor-pointer text-black border-2 border-emerald-300 font-bold py-2 px-8 bg-emerald-300 rounded-full'>/Login</button>
                     </p>
                 </span>
-
                 <button onClick={handleLogin}>Login with Google</button>
             </form>
-
-
-
         </>
     )
 }
