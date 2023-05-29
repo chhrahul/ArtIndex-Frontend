@@ -68,7 +68,7 @@ export default function Login(props) {
             window.gapi.load('auth2', () => {
                 window.gapi.auth2.init({
                     client_id: '731019835589-6ff8j6hb3k7paort3etsrjbfq1rmbb5m.apps.googleusercontent.com',
-                    redirect_uri: 'https://main.d26n8wj3j35m97.amplifyapp.com/artwork/',
+                    redirect_uri: 'https://main.d26n8wj3j35m97.amplifyapp.com',
                     scope: 'email',
                 });
             });
@@ -86,10 +86,10 @@ export default function Login(props) {
                 body: JSON.stringify({ accessToken }),
             })
             .then(response => {
-                  console.log(response)
+                console.log(response)
             })
             .catch(error => {
-                    console.error('Error:', error);
+                console.error('Error:', error);
             });
         });
     };
