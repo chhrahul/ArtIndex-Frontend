@@ -109,7 +109,7 @@ export default function Login(props) {
                 </p>
                 <span className='flex justify-between items-center w-full mg-auto'>
                    
-                 
+                    <p></p>
                     <p className='flex mt-10'>
                         <button className='text-sm cursor-pointer text-black font-bold py-2 px-8 rounded-full' disabled={true} >Signup</button>
                         <button type='submit' className='text-sm cursor-pointer text-black border-2 border-emerald-300 font-bold py-2 px-8 bg-emerald-300 rounded-full'>/Login</button>
