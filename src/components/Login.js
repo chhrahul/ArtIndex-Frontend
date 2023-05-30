@@ -5,7 +5,7 @@ import { AxiosInstance } from '../utils';
 import { yupResolver } from "@hookform/resolvers/yup"
 import { Base64 } from "js-base64";
 import { useNavigate } from "react-router-dom";
-import { signIn } from '@google/gis-jwt';
+
 
 export default function Login(props) {
     const [inccorectLogin, setinccorectLogin] = React.useState('');
