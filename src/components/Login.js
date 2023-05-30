@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function Login(props) {
     const [inccorectLogin, setinccorectLogin] = React.useState('');
-    const [error, setError] = useState(null);
+    const [error, setError] = React.useState(null);
     const navigate = useNavigate();
     const onSubmit = data1 => {
         async function Login() {
