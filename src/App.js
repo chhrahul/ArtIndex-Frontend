@@ -18,6 +18,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 import EditArtwork from './pages/EditArtwork';
 import EditContact from './pages/EditContact';
 import SentEmail from './pages/SentEmail';
+import GoogleEmails from './pages/GoogleEmails';
 
 function App() {
 
@@ -47,6 +48,7 @@ function App() {
       <Routes>
         <Route exact path="/home" element={<Home />} />
         <Route exact path="/" element={<Home />} />
+        <Route exact path="/GoogleEmails" element={<GoogleEmails />} />
         <Route element={<ProtectedRoute />}>
           <Route exact path="/contact" element={<Contacts />} />
           <Route exact path="/contact/create" element={<NewContact />} />
