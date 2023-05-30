@@ -17,15 +17,19 @@ export default function GoogleEmails() {
     return (
         <div>
             <h1>Email List</h1>
-            <ul>
-                {emails.map((email) => (
-                    <li key={email.id}>
-                        <div>From: {email.payload.headers.find((header) => header.name === 'From').value}</div>
-                        <div>Subject: {email.payload.headers.find((header) => header.name === 'Subject').value}</div>
-                        <div>Snippet: {email.snippet}</div>
-                    </li>
-                ))}
-            </ul>
+            {Array.isArray(emails) ? (
+                <ul>
+                    {emails.map((email) => (
+                        <li key={email.id}>
+                            <div>From: {email.payload.headers.find((header) => header.name === 'From').value}</div>
+                            <div>Subject: {email.payload.headers.find((header) => header.name === 'Subject').value}</div>
+                            <div>Snippet: {email.snippet}</div>
+                        </li>
+                    ))}
+                </ul>
+            ) : (
+                <p>No emails found</p>
+            )}
         </div>
     )
 }
