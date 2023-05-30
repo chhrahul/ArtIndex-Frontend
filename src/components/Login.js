@@ -5,9 +5,11 @@ import { AxiosInstance } from '../utils';
 import { yupResolver } from "@hookform/resolvers/yup"
 import { Base64 } from "js-base64";
 import { useNavigate } from "react-router-dom";
+import { signIn } from '@google/gis-jwt';
 
 export default function Login(props) {
     const [inccorectLogin, setinccorectLogin] = React.useState('');
+    const [error, setError] = useState(null);
     const navigate = useNavigate();
     const onSubmit = data1 => {
         async function Login() {
@@ -66,11 +68,18 @@ export default function Login(props) {
     React.useEffect(() => {
         loadGoogleAPI().then(() => {
             window.gapi.load('auth2', () => {
-                window.gapi.auth2.init({
-                    client_id: '731019835589-6ff8j6hb3k7paort3etsrjbfq1rmbb5m.apps.googleusercontent.com',
-                    redirect_uri: 'https://main.d26n8wj3j35m97.amplifyapp.com/emails',
-                    scope: 'email',
-                });
+                try {
+                    window.gapi.auth2.init({
+                        client_id: '731019835589-6ff8j6hb3k7paort3etsrjbfq1rmbb5m.apps.googleusercontent.com',
+                        redirect_uri: 'https://main.d26n8wj3j35m97.amplifyapp.com/emails',
+                        scope: 'https://www.googleapis.com/auth/gmail.readonly',
+
+                    });
+                } catch (error) {
+                    console.error('Error initializing Google auth2:', error);
+                    setError(error)
+                    // Handle the error or display an error message to the user
+                }
             });
         });
     }, []);
@@ -85,12 +94,12 @@ export default function Login(props) {
                 },
                 body: JSON.stringify({ accessToken }),
             })
-            .then(response => {
-                console.log(response)
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
+                .then(response => {
+                    console.log(response)
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
         });
     };
     return (
@@ -122,6 +131,7 @@ export default function Login(props) {
                         <button type='submit' className='text-sm cursor-pointer text-black border-2 border-emerald-300 font-bold py-2 px-8 bg-emerald-300 rounded-full'>/Login</button>
                     </p>
                 </span>
+                {error && <p>Error: {error.error}</p>}
                 <button onClick={handleLogin}>Login with Google</button>
             </form>
         </>
