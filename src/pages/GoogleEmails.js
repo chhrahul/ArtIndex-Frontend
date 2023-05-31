@@ -6,55 +6,55 @@ export default function GoogleEmails() {
     const [emails, setEmails] = useState([]);
     const [loading, setLoading] = useState(false);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const handleGoogleLoginSuccess = async (googleUser) => {
-        const idToken = googleUser.getAuthResponse().id_token;
+    // const handleGoogleLoginSuccess = async (googleUser) => {
+    //     const idToken = googleUser.getAuthResponse().id_token;
     
-        try {
-          // Send the ID token to your server for verification
-          const response = await axios.post('/api/google/login', { idToken });
-          console.log(response.data);
-        } catch (error) {
-          console.error('Error logging in with Google:', error);
-        }
-      };
+    //     try {
+    //       // Send the ID token to your server for verification
+    //       const response = await axios.post('/api/google/login', { idToken });
+    //       console.log(response.data);
+    //     } catch (error) {
+    //       console.error('Error logging in with Google:', error);
+    //     }
+    //   };
     
-      const handleGoogleLoginFailure = (error) => {
-        console.error('Google login failed:', error);
-      };
+    //   const handleGoogleLoginFailure = (error) => {
+    //     console.error('Google login failed:', error);
+    //   };
     
-      const handleGoogleButtonClick = () => {
-        console.log('Google button clicked!');
-      };
+    //   const handleGoogleButtonClick = () => {
+    //     console.log('Google button clicked!');
+    //   };
     
-      const responseGoogle = async (response) => {
-        console.log(response);
-        if (response && response.code) {
-          setLoading(true);
-          try {
-            // Replace the API endpoint with your backend endpoint for handling Google authentication
-            const authResponse = await AxiosInstance.get(`/auth/google/callback?code=${response.code}`);
-            setIsLoggedIn(true);
-            // You may store the access token or perform any additional actions after successful authentication
-          } catch (error) {
-            console.error('Error authenticating:', error);
-          }
-          setLoading(false);
-        } else {
-          console.error('Google authentication failed.');
-        }
-      };
+    //   const responseGoogle = async (response) => {
+    //     console.log(response);
+    //     if (response && response.code) {
+    //       setLoading(true);
+    //       try {
+    //         // Replace the API endpoint with your backend endpoint for handling Google authentication
+    //         const authResponse = await AxiosInstance.get(`/auth/google/callback?code=${response.code}`);
+    //         setIsLoggedIn(true);
+    //         // You may store the access token or perform any additional actions after successful authentication
+    //       } catch (error) {
+    //         console.error('Error authenticating:', error);
+    //       }
+    //       setLoading(false);
+    //     } else {
+    //       console.error('Google authentication failed.');
+    //     }
+    //   };
     
-      const retrieveEmails = async () => {
-        setLoading(true);
-        try {
-          // Replace the API endpoint with your backend endpoint for retrieving emails
-          const response = await AxiosInstance.get('/Googleemails');
-          setEmails(response.data);
-        } catch (error) {
-          console.error('Error retrieving emails:', error);
-        }
-        setLoading(false);
-      };
+    //   const retrieveEmails = async () => {
+    //     setLoading(true);
+    //     try {
+    //       // Replace the API endpoint with your backend endpoint for retrieving emails
+    //       const response = await AxiosInstance.get('/Googleemails');
+    //       setEmails(response.data);
+    //     } catch (error) {
+    //       console.error('Error retrieving emails:', error);
+    //     }
+    //     setLoading(false);
+    //   };
     
 
    
