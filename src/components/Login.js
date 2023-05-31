@@ -55,6 +55,9 @@ export default function Login(props) {
     } = useForm({
         resolver: yupResolver(schemaValidation)
     });
+
+
+
     const loadGoogleAPI = () => {
         return new Promise((resolve, reject) => {
             const script = document.createElement('script');
@@ -74,7 +77,6 @@ export default function Login(props) {
                         redirect_uri: 'https://main.d26n8wj3j35m97.amplifyapp.com/emails',
                         //redirect_uri: 'https://localhost:4200/GoogleEmails',
                         scope: 'https://www.googleapis.com/auth/gmail.readonly',
-
                     });
                 } catch (error) {
                     console.error('Error initializing Google auth2:', error);
@@ -85,6 +87,7 @@ export default function Login(props) {
     }, []);
     const handleLogin = () => {
         window.gapi.auth2.getAuthInstance().signIn().then(googleUser => {
+            console.log(googleUser.getAuthResponse(),'tessst')
             const accessToken = googleUser.getAuthResponse().access_token;
             // Send the access token to your Node.js server
             fetch('/api/login', {
