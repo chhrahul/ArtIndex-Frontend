@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import GoogleLoginButton from '../components/GoogleButton';
+
 import { AxiosInstance } from '../utils';
 export default function GoogleEmails() {
-    const [emails, setEmails] = useState([]);
-    const [loading, setLoading] = useState(false);
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    // const [emails, setEmails] = useState([]);
+    // const [loading, setLoading] = useState(false);
+    // const [isLoggedIn, setIsLoggedIn] = useState(false);
     // const handleGoogleLoginSuccess = async (googleUser) => {
     //     const idToken = googleUser.getAuthResponse().id_token;
     
