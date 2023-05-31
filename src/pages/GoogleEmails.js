@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import GoogleLoginButton from '../components/GoogleLoginButton';
+import GoogleLoginButton from '../components/GoogleButton';
 import { AxiosInstance } from '../utils';
 export default function GoogleEmails() {
     const [emails, setEmails] = useState([]);
