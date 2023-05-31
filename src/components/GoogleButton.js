@@ -6,7 +6,7 @@ export default function GoogleButton({ onSuccess, onFailure }) {
           // Initialize Google Sign-In client
           gapi.load('auth2', () => {
             gapi.auth2.init({
-              client_id: 'YOUR_CLIENT_ID',
+              client_id: '731019835589-6ff8j6hb3k7paort3etsrjbfq1rmbb5m.apps.googleusercontent.com',
             });
           });
     
