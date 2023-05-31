@@ -1,26 +1,40 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { GoogleButton } from 'react-google-button';
+import GoogleLoginButton from '../components/GoogleLoginButton';
 import { AxiosInstance } from '../utils';
 export default function GoogleEmails() {
     const [emails, setEmails] = useState([]);
     const [loading, setLoading] = useState(false);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
-    function handleGoogleButtonClick(event) {
-        // Perform your desired action here
-        console.log('Google button clicked!');
-        // You can access the event data if needed
-        console.log(event);
-      }
+    const handleGoogleLoginSuccess = async (googleUser) => {
+        const idToken = googleUser.getAuthResponse().id_token;
     
-    const responseGoogle = async (response) => {
+        try {
+          // Send the ID token to your server for verification
+          const response = await axios.post('/api/google/login', { idToken });
+          console.log(response.data);
+        } catch (error) {
+          console.error('Error logging in with Google:', error);
+        }
+      };
+    
+      const handleGoogleLoginFailure = (error) => {
+        console.error('Google login failed:', error);
+      };
+    
+      const handleGoogleButtonClick = () => {
+        console.log('Google button clicked!');
+      };
+    
+      const responseGoogle = async (response) => {
         console.log(response);
-       return
         if (response && response.code) {
           setLoading(true);
           try {
-            await AxiosInstance.get(`/auth/google/callback?code=${response.code}`);
+            // Replace the API endpoint with your backend endpoint for handling Google authentication
+            const authResponse = await AxiosInstance.get(`/auth/google/callback?code=${response.code}`);
             setIsLoggedIn(true);
+            // You may store the access token or perform any additional actions after successful authentication
           } catch (error) {
             console.error('Error authenticating:', error);
           }
@@ -33,6 +47,7 @@ export default function GoogleEmails() {
       const retrieveEmails = async () => {
         setLoading(true);
         try {
+          // Replace the API endpoint with your backend endpoint for retrieving emails
           const response = await AxiosInstance.get('/Googleemails');
           setEmails(response.data);
         } catch (error) {
@@ -40,7 +55,6 @@ export default function GoogleEmails() {
         }
         setLoading(false);
       };
- 
     
 
    
@@ -65,7 +79,10 @@ export default function GoogleEmails() {
             )}
           </div>
         ) : (
-            <GoogleButton onClick={handleGoogleButtonClick} />
+            <GoogleLoginButton
+        onSuccess={handleGoogleLoginSuccess}
+        onFailure={handleGoogleLoginFailure}
+      />
         )}
       </>
     )
