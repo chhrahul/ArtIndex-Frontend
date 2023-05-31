@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { GoogleLogin } from 'react-google-login';
+import { GoogleButton } from 'react-google-button';
 import { AxiosInstance } from '../utils';
 export default function GoogleEmails() {
     const [emails, setEmails] = useState([]);
@@ -9,6 +9,8 @@ export default function GoogleEmails() {
     
     
     const responseGoogle = async (response) => {
+        console.log(response);
+       return
         if (response && response.code) {
           setLoading(true);
           try {
@@ -33,7 +35,8 @@ export default function GoogleEmails() {
         }
         setLoading(false);
       };
-      
+ 
+    
 
    
     return (
@@ -57,13 +60,7 @@ export default function GoogleEmails() {
             )}
           </div>
         ) : (
-          <GoogleLogin
-            clientId="YOUR_CLIENT_ID" // Replace with your Google OAuth2 client ID
-            buttonText="Login with Google"
-            onSuccess={responseGoogle}
-            onFailure={responseGoogle}
-            cookiePolicy={'single_host_origin'}
-          />
+            <GoogleButton onClick={responseGoogle} />
         )}
       </>
     )
