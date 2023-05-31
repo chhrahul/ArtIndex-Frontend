@@ -6,7 +6,12 @@ export default function GoogleEmails() {
     const [emails, setEmails] = useState([]);
     const [loading, setLoading] = useState(false);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
-    
+    function handleGoogleButtonClick(event) {
+        // Perform your desired action here
+        console.log('Google button clicked!');
+        // You can access the event data if needed
+        console.log(event);
+      }
     
     const responseGoogle = async (response) => {
         console.log(response);
@@ -60,7 +65,7 @@ export default function GoogleEmails() {
             )}
           </div>
         ) : (
-            <GoogleButton onClick={responseGoogle} />
+            <GoogleButton onClick={handleGoogleButtonClick} />
         )}
       </>
     )
