@@ -88,6 +88,7 @@ export default function Login(props) {
     const handleLogin = () => {
         window.gapi.auth2.getAuthInstance().signIn().then(googleUser => {
             console.log(googleUser.getAuthResponse(),'tessst')
+            console.log('tesssting')
             const accessToken = googleUser.getAuthResponse().access_token;
             // Send the access token to your Node.js server
             fetch('/api/login', {
