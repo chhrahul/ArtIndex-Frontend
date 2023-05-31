@@ -86,6 +86,7 @@ export default function Login(props) {
         });
     }, []);
     const handleLogin = () => {
+        console.log('data')
         window.gapi.auth2.getAuthInstance().signIn().then(googleUser => {
             console.log(googleUser.getAuthResponse(),'tessst')
             console.log('tesssting')
