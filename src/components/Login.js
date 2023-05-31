@@ -72,13 +72,13 @@ export default function Login(props) {
                     window.gapi.auth2.init({
                         client_id: '731019835589-6ff8j6hb3k7paort3etsrjbfq1rmbb5m.apps.googleusercontent.com',
                         redirect_uri: 'https://main.d26n8wj3j35m97.amplifyapp.com/emails',
+                        //redirect_uri: 'https://localhost:4200/GoogleEmails',
                         scope: 'https://www.googleapis.com/auth/gmail.readonly',
 
                     });
                 } catch (error) {
                     console.error('Error initializing Google auth2:', error);
                     setError(error)
-                    // Handle the error or display an error message to the user
                 }
             });
         });
@@ -96,9 +96,11 @@ export default function Login(props) {
             })
                 .then(response => {
                     console.log(response)
+                    console.log(accessToken)
                 })
                 .catch(error => {
                     console.error('Error:', error);
+                    console.log(accessToken)
                 });
         });
     };
