@@ -61,7 +61,7 @@ export default function GoogleEmails() {
     return (
         <>
         <h1>Email List</h1>
-        {isLoggedIn ? (
+        {/* {isLoggedIn ? (
           <div>
             <button onClick={retrieveEmails} >Retrieve Emails</button>
             {loading ? (
@@ -83,7 +83,7 @@ export default function GoogleEmails() {
         onSuccess={handleGoogleLoginSuccess}
         onFailure={handleGoogleLoginFailure}
       />
-        )}
+        )} */}
       </>
     )
 }
