@@ -92,9 +92,9 @@ export default function Login(props) {
             console.log('tesssting')
             const accessToken = googleUser.getAuthResponse().access_token;
             // Send the access token to your Node.js server
-            fetch('/api/login', {
+            fetch('/google/login', {
                 method: 'POST',
-                headers: {
+                headers: {  
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({ accessToken }),
