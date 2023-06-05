@@ -5,12 +5,34 @@ import { AxiosInstance } from '../utils';
 import { yupResolver } from "@hookform/resolvers/yup"
 import { Base64 } from "js-base64";
 import { useNavigate } from "react-router-dom";
+//import { LoginSocialGoogle } from 'reactjs-social-login'
 
 
 export default function Login(props) {
     const [inccorectLogin, setinccorectLogin] = React.useState('');
     const [error, setError] = React.useState(null);
     const navigate = useNavigate();
+
+    // const handleGoogleLoginSuccessfull = async ({ provider, data }) => {
+    //     console.log('data', data)
+    //     console.log('provider', provider)
+    // }
+
+    // const handleLoginWithError = async ({ error }) => {
+    //     console.log(error?.message)
+    // }
+
+    // const loginGoogleProps = {
+    //     "client_id": '731019835589-6ff8j6hb3k7paort3etsrjbfq1rmbb5m.apps.googleusercontent.com',
+    //     "redirect_uri": 'https://main.d26n8wj3j35m97.amplifyapp.com/emails',
+    //     "scope": "openid profile email",
+    //     "discoveryDocs": "claims_supported",
+    //     "access_type": "online",
+    //     "onResolve": handleGoogleLoginSuccessfull,
+    //     "onReject": handleLoginWithError,
+    // }
+
+
     const onSubmit = data1 => {
         async function Login() {
             data1.password = Base64.encode(data1.password)
@@ -43,10 +65,14 @@ export default function Login(props) {
         }
         Login()
     };
+
+
     let yupRules = {
         name: Yup.string().required('This field is required'),
         password: Yup.string().required('This field is required'),
     };
+
+
     const schemaValidation = Yup.object().shape(yupRules)
     const {
         register,
@@ -58,72 +84,6 @@ export default function Login(props) {
 
 
 
-
-    const loadGoogleAPI = () => {
-        return new Promise((resolve, reject) => {
-            const script = document.createElement('script');
-            script.src = 'https://apis.google.com/js/api.js';
-            script.async = true;
-            script.onload = resolve;
-            script.onerror = reject;
-            document.head.appendChild(script);
-        });
-    };
-
-    const handleLogin = () => {
-        console.log('data');
-        window.gapi.auth2.getAuthInstance().signIn()
-            .then(googleUser => {
-                console.log('Google User:', googleUser);
-                const authResponse = googleUser.getAuthResponse(true);
-                if (authResponse && authResponse.access_token) {
-                    const accessToken = authResponse.access_token;
-                    console.log('Access Token:', accessToken);
-
-                    // Send the access token to your Node.js server
-                    fetch('/api/login', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({ accessToken }),
-                    })
-                        .then(response => {
-                            console.log(response);
-                        })
-                        .catch(error => {
-                            console.error('Error:', error);
-                        });
-                } else {
-                    console.error('Access token not found.');
-                }
-            })
-            .catch(error => {
-                if (error.error === 'popup_closed_by_user') {
-                    console.log('User closed the sign-in popup.');
-                    // Display an error message or take appropriate action
-                } else {
-                    console.error('Error signing in:', error);
-                }
-            });
-    };
-
-    React.useEffect(() => {
-        loadGoogleAPI().then(() => {
-            window.gapi.load('auth2', () => {
-                try {
-                    window.gapi.auth2.init({
-                        client_id: '731019835589-6ff8j6hb3k7paort3etsrjbfq1rmbb5m.apps.googleusercontent.com',
-                        redirect_uri: 'https://main.d26n8wj3j35m97.amplifyapp.com/emails',
-                        //redirect_uri: 'https://localhost:4200/GoogleEmails',
-                        scope: 'https://www.googleapis.com/auth/gmail.readonly',
-                    });
-                } catch (error) {
-                    console.error('Error initializing Google auth2:', error);
-                }
-            });
-        });
-    }, []);
     return (
         <>
             <h1 className='text-center font-bold text-gray-700 text-xl'>Welcome to ArtIndex !</h1>
@@ -154,7 +114,10 @@ export default function Login(props) {
                     </p>
                 </span>
                 {error && <p>Error: {error.error}</p>}
-                <button onClick={handleLogin}>Login with Google</button>
+                {/* <button onClick={handleLogin}>Login with Google</button> */}
+                {/* <LoginSocialGoogle {...loginGoogleProps}>
+                <span className='flex justify-between items-center w-full mg-auto'>cLICK HERE</span>
+                </LoginSocialGoogle> */}
             </form>
         </>
     )

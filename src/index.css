@@ -216,3 +216,9 @@ svg.ml-2.h-4.w-4 {
 .image-gallery-thumbnail-inner img{
   height: 70px !important;
 }
+.time{
+  width:20% !important;
+}
+.message{
+  width:50% !important;
+}

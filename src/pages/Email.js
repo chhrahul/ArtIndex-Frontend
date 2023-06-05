@@ -5,25 +5,149 @@ import { FiFileText } from "react-icons/fi";
 import { FiInbox } from "react-icons/fi";
 import { FiSend } from "react-icons/fi";
 import { FiArchive } from "react-icons/fi";
-import { FaLock } from "react-icons/fa";
 import { HiOutlinePencil } from "react-icons/hi2";
-import { FaAngleLeft } from "react-icons/fa";
-import { FaAngleRight } from "react-icons/fa";
+import { LoginSocialGoogle } from 'reactjs-social-login'
+import { AxiosInstance } from '../utils';
+import { useNavigate } from 'react-router-dom';
 // import { useNavigate, useLocation } from 'react-router-dom';
 
 export default function Email() {
-   
+    const [getResult, setResult] = React.useState([]);
+    const [Loading, setloader] = React.useState(true);
+    const [authenticate, setauthenticate] = React.useState(false);
+    const [renderData, setrenderData] = React.useState([]);
+    const [clearserach, setclearserach] = React.useState(false);
+    const [searchInput, setSearchInput] = React.useState('');
+    let APIData = getResult
+    const HtmlToReactParser = require('html-to-react').Parser;
+    let htmlToReactParser = new HtmlToReactParser();
+    const navigate = useNavigate();
+
+    const handleGoogleLoginSuccessfull = async ({ provider, data }) => {
+
+        const access_token = data.access_token
+        console.log('data', data)
+        console.log('provider', provider)
+        localStorage.setItem('access_token', data.access_token);
+    }
+
+    const handleLoginWithError = async ({ error }) => {
+        console.log(error?.message)
+    }
+    const access_token = localStorage.getItem("access_token")
+    var data = JSON.stringify({ 'access_token': access_token })
+    const fetchInfo = () => {
+
+        async function getData() {
+
+            try {
+                const result = await AxiosInstance({
+                    url: '/mail/inbox',
+                    method: 'post',
+                    data: data
+                });
+                console.log(result.data.mailData, 'result');
+                if (result) {
+                    setResult(result.data.mailData);
+                    setloader(false);
+                    setauthenticate(false)
+                } else {
+                    console.log('Hi');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+
+                setauthenticate(true)
+                // Handle the error condition, such as showing an error message or taking appropriate action
+            }
+        }
+        getData()
+    };
+    React.useEffect(() => {
+        fetchInfo();
+
+    }, []);
+    React.useEffect(() => {
+
+        setrenderData(getResult)
+    }, [getResult])
+    console.log(data, 'data')
+    const loginGoogleProps = {
+        "client_id": '731019835589-6ff8j6hb3k7paort3etsrjbfq1rmbb5m.apps.googleusercontent.com',
+        "redirect_uri": 'https://main.d26n8wj3j35m97.amplifyapp.com/emails',
+        "scope": "openid profile email",
+        "discoveryDocs": "claims_supported",
+        "access_type": "online",
+        "onResolve": handleGoogleLoginSuccessfull,
+        "onReject": handleLoginWithError,
+    }
+
+
+    const ViewRow = async (id) => {
+        const ViewData = getResult.find(apidata => {
+            return apidata.id === id
+        })
+        navigate("/email/single", { state: ViewData });
+    }
+
+    const searchItems = (searchValue) => {
+        setSearchInput(searchValue)
+        setclearserach(true)
+        if (searchInput !== '') {
+            const filteredData = APIData.filter((item) => {
+                return Object.values(item).join('').toLowerCase().includes(searchInput.toLowerCase())
+            })
+            setrenderData(filteredData)
+        }
+        else {
+            setrenderData(APIData)
+        }
+    }
+    const ref = React.useRef(null);
+    const ResetSearch = () => {
+        setrenderData(getResult)
+        ref.current.value = '';
+        setclearserach(false)
+    }
+    const StatusClick = (searchValue) => {
+        // APIData.availability
+        const SearchValue = searchValue
+        console.log(SearchValue)
+        // const filteredData = getResult.filter(apidata => {
+        //     return apidata.isUnread === true
+        // })
+        if (SearchValue === 'Read') {
+            const filteredData = getResult.filter(apidata => {
+                return apidata.isUnread === false
+            })
+            setrenderData(filteredData)
+        }
+        if (SearchValue === 'Unread') {
+            const filteredData = getResult.filter(apidata => {
+                return apidata.isUnread === true
+            })
+            setrenderData(filteredData)
+        }
+        if (SearchValue === 'All') {
+            setrenderData(getResult)
+        }
+    }
+
     const [message, setmessage] = React.useState('');
     const EmailMessage = localStorage.getItem("emailMessage")
 
     React.useEffect(() => {
         setmessage(EmailMessage)
         setTimeout(() => {
-            setmessage('')  
+            setmessage('')
             localStorage.removeItem("emailMessage");
 
         }, 3000);
     }, [])
+
+    const Refresh = () => {
+        fetchInfo();
+    }
     return (
         <>
             <div className="min-[480px]:pt-10 sm:ml-48 min-[480px]:top-20 bg-gray-200 h-full min-[480px]:ml-40" >
@@ -32,14 +156,14 @@ export default function Email() {
                         <h2 className="dark:text-black text-3xl  mb-4 pl-6" >Email </h2>
                         <form className="flex items-center">
                             <label htmlFor="voice-search" className="sr-only">Search</label>
-                            <div className="relative min-[480px]:ml-8  max-[480px]:ml-2">
+                            <div className="relative min-[480px]:ml-8  max-[480px]:ml-4">
                                 <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                                     <svg aria-hidden="true" className="w-4 h-4 text-white dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clipRule="evenodd"></path></svg>
                                 </div>
-                                <input type="text" id="voice-search" className=" bg-blue-500 border border-gray-300 text-white text-sm rounded-full focus:ring-blue-500 focus:border-blue-500 block  pl-10 p-1.5  placeholder-white dark:placeholder-white dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search" required />
-                                <button type="button" className="absolute inset-y-0 right-0 flex items-center pr-2">
-                                    <svg className="h-5 w-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">  <circle cx="12" cy="12" r="10" />  <line x1="15" y1="9" x2="9" y2="15" />  <line x1="9" y1="9" x2="15" y2="15" /></svg>
-                                </button>
+                                <input type="text" ref={ref} id="artworkSearch" className="bg-blue-500 border-2 border-blue-500 text-white text-sm rounded-full focus:ring-blue-500 focus:border-blue-500 block  pl-10 p-1.5  text-white placeholder-white dark:placeholder-white dark:text-white focus:ring-blue-500 focus:bg-blue-500 hover:bg-blue-500 dark:bg-blue-500 dark:text-white" placeholder="" onChange={(e) => searchItems(e.target.value)} />
+                                {clearserach ? (<button type="button" className="absolute inset-y-0 right-0 flex items-center pr-2" onClick={() => ResetSearch()}>
+                                    <svg className="h-5 w-5  text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">  <circle cx="12" cy="12" r="10" />  <line x1="15" y1="9" x2="9" y2="15" />  <line x1="9" y1="9" x2="15" y2="15" /></svg>
+                                </button>) : ''}
                             </div>
                         </form>
                     </div>
@@ -48,29 +172,82 @@ export default function Email() {
                 <div className="filters mb-4 min-[480px]:ml-16">
                     <div className='flex '>
                         <span className="text-sm font-semibold mr-4 ml-6 flex items-center"><IoFilterOutline /> Filter:</span>
-                        <select className="text-sm font-semibold bg-transparent mr-2 border-none max-[480px]:ml-4" >
-                            <option>Mark</option>
-                            <option>One</option>
-                            <option>Two</option>
+                        <select className="text-sm font-semibold bg-transparent mr-2 border-none max-[480px]:ml-4 focus:ring-0" onChange={(e) => StatusClick(e.target.value)}>
+                            <option value='All'>All</option>
+                            <option value='Read'>Read</option>
+                            <option value='Unread'>Unread</option>
                         </select>
 
-                        <span className="text-sm font-semibold mr-4 ml-4 flex items-center">< FiRotateCw size={18} /></span>
+                        <span className="text-sm font-semibold mr-4 ml-4 flex items-center cursor-pointer" onClick={() => Refresh()}>< FiRotateCw size={18} /></span>
                     </div>
                 </div>
-                <div className='grid grid-cols-12 gap-0'>
+                <div className='grid grid-cols-12 gap-0 min-h-screen'>
                     <div className='col-span-1 w-8 ml-5 mt-6'>
                         <a href='/email/send'><HiOutlinePencil size={26} className='ml-2 my-6' /></a>
                         <a href='/emails'><FiInbox size={26} className='ml-2 my-6' /></a>
                         <a href=''><FiFileText size={26} className='ml-2 my-6' /></a>
                         <a href='/email/sent'><FiSend size={26} className='ml-2 my-6' /></a>
-                        <a href=''><FiArchive size={26} className='ml-2 my-6' /></a>
+                        <a href='/email/trash'><FiArchive size={26} className='ml-2 my-6' /></a>
                     </div>
                     <div className="col-span-11 p-4 border-1 border-blue-400 border-dashed mr-6  dark:border-blue-700 h-full top-20 bg-white">
 
                         <div className="mt-8  mr-2 mb-8">
                             <div className="relative overflow-x-auto">
-                                {message ?(<h3 className='text-center font-bold mb-4 '>{message}</h3>):''}
-                                <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400 ">
+                                {message ? (<h3 className='text-center font-bold mb-4 '>{message}</h3>) : ''}
+                                {authenticate ?
+                                    <LoginSocialGoogle {...loginGoogleProps}>
+                                        <span className="mr-2 mt-2 mb-10 text-center items-center w-full cursor-pointer">
+                                            <p className="inline-block px-4 py-1.5 mb-4 text-white bg-blue-600 rounded-full  text-centerd" aria-current="page">Please Authenticate</p>
+                                        </span>
+
+                                    </LoginSocialGoogle>
+                                    : ''
+                                }
+
+                                {renderData && renderData?.map((data1, index) => {
+                                    return (
+                                        <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400 ">
+                                            <thead className="text-sm underline text-gray-900  dark:text-gray-400">
+                                            </thead>
+                                            <tbody>
+                                                <tr className="bg-white dark:bg-gray-800 text-gray-700">
+                                                    <td className="pl-0 pr-0 w-8 pb-2 "><input type="checkbox" className="ml-6 text-blue-500 max-[768px]:ml-6 max-[768px]:mb-2 border-2 border-blue-500 mt-3 bg-white font-bold  text-md" name="medium" />
+                                                    </td>
+                                                
+                                                    {data1.isUnread ? <td className='w-4'> <img className="h-3 rounded-full w-3 mt-1 ml-2" src="/dot.jpg" alt="Gmail" /></td> : <td className='w-4'></td>}
+                                                    <td className="pr-6  flex pb-2 w-20">
+                                                        <p className="ml-6 mt-4 cursor-pointer" onClick={() => ViewRow(data1.id)}>{data1.from}</p>
+                                                    </td>
+                                                    <td className="px-6 pb-2 message">
+                                                        <p className="ml-6 mt-4 text-sm font-bold cursor-pointer" onClick={() => ViewRow(data1.id)}>
+                                                            {data1.subject}
+
+                                                            <span className="font-normal text-gray-400">
+                                                                {/* {htmlToReactParser.parse(data1.messageBody)} */}
+                                                            </span>
+                                                        </p>
+                                                    </td>
+                                                    {/* <td className="px-6 pb-2 w-28">
+                                                        <span className='flex items-center mt-3'><span className='mr-2 fill-blue-500'><FaLock className='fill-blue-500' /></span>PRIVATE</span>
+                                                    </td> */}
+
+                                                    <td className="px-6 pb-2 time" >
+                                                        <span className='font-bold'>{data1.formattedTime}</span>
+                                                    </td>
+
+                                                </tr>
+
+
+
+
+                                            </tbody>
+                                        </table>
+                                    );
+                                })
+
+                                }
+
+                                {/* <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400 ">
                                     <thead className="text-sm underline text-gray-900  dark:text-gray-400">
                                     </thead>
                                     <tbody>
@@ -276,13 +453,13 @@ export default function Email() {
 
 
                                     </tbody>
-                                </table>
+                                </table> */}
                                 <hr className="min-[480px]:ml-8 h-px my-4 ml-16 bg-gray-700 border border-gray-300 dark:bg-gray-700"></hr>
-                                <span className='flex justify-between'>
+                                {/* <span className='flex justify-between'>
                                     <span className='flex items-center ml-8 '><span><FaAngleLeft /></span><span className='ml-2 font-bold'>Newer</span></span>
                                     <span className='ml-8 font-bold mr-2'>50-95 of 1,734</span>
                                     <span className='flex items-center'><span className='ml-8 font-bold mr-2'>Older</span><span><FaAngleRight /></span></span>
-                                </span>
+                                </span> */}
                             </div>
                         </div>
                     </div>

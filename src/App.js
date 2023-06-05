@@ -19,6 +19,8 @@ import EditArtwork from './pages/EditArtwork';
 import EditContact from './pages/EditContact';
 import SentEmail from './pages/SentEmail';
 import GoogleEmails from './pages/GoogleEmails';
+import TrashEmail from './pages/TrashEmail';
+import SingleEmail from './pages/SingleEmail';
 
 function App() {
 
@@ -57,6 +59,8 @@ function App() {
           <Route exact path="/emails" element={<Email />} />
           <Route exact path="/email/sent" element={<SentEmail />} />
           <Route exact path="/email/send" element={<SendEmail />} />
+          <Route exact path="/email/trash" element={<TrashEmail />} />
+          <Route exact path="/email/single" element={<SingleEmail />} />
           <Route exact path="/event/edit" element={<EditEvent />} />
           <Route exact path="/calendar" element={<Calendar />} />
           <Route exact path="/Logout" />
