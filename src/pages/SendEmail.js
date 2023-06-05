@@ -22,7 +22,6 @@ export default function SendEmail() {
     const [Loading, setloader] = React.useState(false);
     const handleChange = (data) => {
         setEditorState(data);
-
     }
     var htmlData = React.useMemo(
         () => draftToHtml(convertToRaw(editorState.getCurrentContent())),
@@ -36,7 +35,7 @@ export default function SendEmail() {
         data.AttachmentName = AttachmentName;
         data.message = htmlData
         data.userId = userId
-        console.log(data)
+        //console.log(data)
         async function sendEmail() {
             setloader(true)
             const result = await AxiosInstance({
@@ -45,8 +44,8 @@ export default function SendEmail() {
                 'data': data
             })
             const { status, message } = result.data
-            console.log(message)
-            console.log(status)
+            // console.log(message)
+            // console.log(status)
             if (status) {
                 console.log('200')
                 setTimeout(() => {
@@ -54,7 +53,7 @@ export default function SendEmail() {
                     localStorage.setItem('emailMessage', "Email Send Successfully!!");
                 }, 3000);
             } else {
-                console.log('400')
+                // console.log('400')
                 alert(message)
             }
         }
@@ -71,6 +70,11 @@ export default function SendEmail() {
             setFiles(response)
         }
     }
+    const StatusClick = (selectedValue) => {
+        // Handle the selected value here
+        console.log(selectedValue);
+        // Perform any necessary actions based on the selected value
+    };
     return (
         <>
             <div className="min-[480px]:pt-10 sm:ml-48 min-[480px]:top-20 bg-gray-200 h-full min-[480px]:ml-40" >
@@ -84,9 +88,9 @@ export default function SendEmail() {
                     <div className='col-span-1 w-8 ml-5 mt-6 max-[480px]:flex'>
                         <a href='/email/send'><HiOutlinePencil size={26} className='ml-2 my-6' /></a>
                         <a href='/emails'><FiInbox size={26} className='ml-2 my-6' /></a>
-                        <a href=''><FiFileText size={26} className='ml-2 my-6' /></a>
+                        <a href='/email/draft'><FiFileText size={26} className='ml-2 my-6' /></a>
                         <a href='/email/sent'><FiSend size={26} className='ml-2 my-6' /></a>
-                        <a href=''><FiArchive size={26} className='ml-2 my-6' /></a>
+                        <a href='/email/trash'><FiArchive size={26} className='ml-2 my-6' /></a>
                     </div>
                     <div className="col-span-11 max-[480px]:col-span-10 mb-10 p-4 border-1 border-blue-400 border-dashed mr-6 dark:border-blue-700 h-full top-20 bg-white">
                         <div className="mt-8 mr-2 mb-8">
@@ -142,32 +146,33 @@ export default function SendEmail() {
 
                                                     <Dropdown
                                                         label={<><BsFilePlus size={20} color='black' /> <span className="mr-4 cursor-pointer text-sm focus:ring-0  font-bold text-black bg-transparent ml-2 border-none " value='Fields'>Fields</span><IoMdArrowDropdown /></>}
-                                                        dismissOnClick={false}
+                                                        dismissOnClick={false} onChange={(e) => StatusClick(e.target.value)}
                                                         style={{ backgroundColor: 'transparent', color: 'black', outline: 'none', border: 'none' }}
                                                     >
                                                         <Dropdown.Item>
-                                                            <button type="button" className="cursor-pointer ml-4 mr-4 text-sm focus:ring-0  font-bold text-black bg-transparent mr-6 border-none ">
+                                                            <button type="button" value="FirstName" className="cursor-pointer ml-4 mr-4 text-sm focus:ring-0  font-bold text-black bg-transparent mr-6 border-none ">
                                                                 FirstName
                                                             </button>
                                                         </Dropdown.Item>
 
                                                         <Dropdown.Item>
-                                                            <button type="button" className="cursor-pointer ml-4 mr-4 text-sm focus:ring-0  font-bold text-black bg-transparent mr-6 border-none ">
+                                                            <button type="button" value="FirstName" className="cursor-pointer ml-4 mr-4 text-sm focus:ring-0  font-bold text-black bg-transparent mr-6 border-none ">
                                                                 LastName
                                                             </button>
                                                         </Dropdown.Item>
+                                                        
                                                         <Dropdown.Item>
-                                                            <button type="button" className="cursor-pointer ml-4 mr-4 text-sm focus:ring-0  font-bold text-black bg-transparent mr-6 border-none ">
+                                                            <button type="button" value="FirstName" className="cursor-pointer ml-4 mr-4 text-sm focus:ring-0  font-bold text-black bg-transparent mr-6 border-none ">
                                                                 City
                                                             </button>
                                                         </Dropdown.Item>
                                                         <Dropdown.Item>
-                                                            <button type="button" className="cursor-pointer ml-4 mr-4 text-sm focus:ring-0  font-bold text-black bg-transparent mr-6 border-none ">
+                                                            <button type="button" value="FirstName" className="cursor-pointer ml-4 mr-4 text-sm focus:ring-0  font-bold text-black bg-transparent mr-6 border-none ">
                                                                 Company
                                                             </button>
                                                         </Dropdown.Item>
                                                         <Dropdown.Item>
-                                                            <button type="button" className="cursor-pointer ml-4 mr-4 text-sm focus:ring-0  font-bold text-black bg-transparent mr-6 border-none ">
+                                                            <button type="button" value="FirstName" className="cursor-pointer ml-4 mr-4 text-sm focus:ring-0  font-bold text-black bg-transparent mr-6 border-none ">
                                                                 Title
                                                             </button>
                                                         </Dropdown.Item>
@@ -183,7 +188,7 @@ export default function SendEmail() {
                                     </div>
                                 </div>
                                 <div className='ml-2 mt-6 flex items-center justify-between'>
-                                    <label type="button" for="getFile" onclick="document.getElementById('getFile').click()" className="cursor-pointer  text-gray bg-transparent border-2 border-green-400 focus:outline-none focus:ring-4 focus:ring-green-400 font-medium rounded-full text-sm px-4 py-1 text-center mr-8 mb-2" >Attach</label>
+                                    <label type="button" htmlFor="getFile" onClick="document.getElementById('getFile').click()" className="cursor-pointer  text-gray bg-transparent border-2 border-green-400 focus:outline-none focus:ring-4 focus:ring-green-400 font-medium rounded-full text-sm px-4 py-1 text-center mr-8 mb-2" >Attach</label>
                                     <input type="file" id="getFile" className='hidden' onChange={handleChangeImage} />
                                     <span className='min-[480px]:flex'>
                                         <button type="button" className="cursor-pointer text-white bg-slate-400 border-2 border-slate-400 focus:outline-none focus:ring-4 focus:ring-slate-400 font-medium rounded-full text-sm px-6 py-1 text-center mr-6 mb-2 dark:border-slate-400 dark:hover:bg-slate-400 dark:focus:ring-slate-400" >Discard</button>

@@ -17,11 +17,11 @@ export default function EditArtwork() {
 
     const location = useLocation();
     const data = location.state;
-
+    console.log(data.image)
     React.useEffect(() => {
         setFiles(data.image)
         setTags(data.tags)
-
+console.log(data.image)
     }, [data])
 
     const onSubmit = data1 => {

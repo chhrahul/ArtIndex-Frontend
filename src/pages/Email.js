@@ -19,8 +19,8 @@ export default function Email() {
     const [clearserach, setclearserach] = React.useState(false);
     const [searchInput, setSearchInput] = React.useState('');
     let APIData = getResult
-    const HtmlToReactParser = require('html-to-react').Parser;
-    let htmlToReactParser = new HtmlToReactParser();
+    // const HtmlToReactParser = require('html-to-react').Parser;
+    // let htmlToReactParser = new HtmlToReactParser();
     const navigate = useNavigate();
 
     const handleGoogleLoginSuccessfull = async ({ provider, data }) => {
@@ -28,7 +28,7 @@ export default function Email() {
         const access_token = data.access_token
         console.log('data', data)
         console.log('provider', provider)
-        localStorage.setItem('access_token', data.access_token);
+        localStorage.setItem('access_token', access_token);
     }
 
     const handleLoginWithError = async ({ error }) => {
@@ -68,7 +68,6 @@ export default function Email() {
 
     }, []);
     React.useEffect(() => {
-
         setrenderData(getResult)
     }, [getResult])
     console.log(data, 'data')
@@ -81,15 +80,12 @@ export default function Email() {
         "onResolve": handleGoogleLoginSuccessfull,
         "onReject": handleLoginWithError,
     }
-
-
     const ViewRow = async (id) => {
         const ViewData = getResult.find(apidata => {
             return apidata.id === id
         })
         navigate("/email/single", { state: ViewData });
     }
-
     const searchItems = (searchValue) => {
         setSearchInput(searchValue)
         setclearserach(true)
@@ -161,9 +157,9 @@ export default function Email() {
                                     <svg aria-hidden="true" className="w-4 h-4 text-white dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clipRule="evenodd"></path></svg>
                                 </div>
                                 <input type="text" ref={ref} id="artworkSearch" className="bg-blue-500 border-2 border-blue-500 text-white text-sm rounded-full focus:ring-blue-500 focus:border-blue-500 block  pl-10 p-1.5  text-white placeholder-white dark:placeholder-white dark:text-white focus:ring-blue-500 focus:bg-blue-500 hover:bg-blue-500 dark:bg-blue-500 dark:text-white" placeholder="" onChange={(e) => searchItems(e.target.value)} />
-                                {clearserach ? (<button type="button" className="absolute inset-y-0 right-0 flex items-center pr-2" onClick={() => ResetSearch()}>
+                                { clearserach ? ( <button type="button" className="absolute inset-y-0 right-0 flex items-center pr-2" onClick={() => ResetSearch()}>
                                     <svg className="h-5 w-5  text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">  <circle cx="12" cy="12" r="10" />  <line x1="15" y1="9" x2="9" y2="15" />  <line x1="9" y1="9" x2="15" y2="15" /></svg>
-                                </button>) : ''}
+                                </button>) : '' }
                             </div>
                         </form>
                     </div>
@@ -185,7 +181,7 @@ export default function Email() {
                     <div className='col-span-1 w-8 ml-5 mt-6'>
                         <a href='/email/send'><HiOutlinePencil size={26} className='ml-2 my-6' /></a>
                         <a href='/emails'><FiInbox size={26} className='ml-2 my-6' /></a>
-                        <a href=''><FiFileText size={26} className='ml-2 my-6' /></a>
+                        <a href='/email/draft'><FiFileText size={26} className='ml-2 my-6' /></a>
                         <a href='/email/sent'><FiSend size={26} className='ml-2 my-6' /></a>
                         <a href='/email/trash'><FiArchive size={26} className='ml-2 my-6' /></a>
                     </div>
@@ -213,26 +209,21 @@ export default function Email() {
                                                 <tr className="bg-white dark:bg-gray-800 text-gray-700">
                                                     <td className="pl-0 pr-0 w-8 pb-2 "><input type="checkbox" className="ml-6 text-blue-500 max-[768px]:ml-6 max-[768px]:mb-2 border-2 border-blue-500 mt-3 bg-white font-bold  text-md" name="medium" />
                                                     </td>
-                                                
-                                                    {data1.isUnread ? <td className='w-4'> <img className="h-3 rounded-full w-3 mt-1 ml-2" src="/dot.jpg" alt="Gmail" /></td> : <td className='w-4'></td>}
-                                                    <td className="pr-6  flex pb-2 w-20">
-                                                        <p className="ml-6 mt-4 cursor-pointer" onClick={() => ViewRow(data1.id)}>{data1.from}</p>
+                                                    {data1.isUnread ? <td className='w-4'> <img className="h-2 rounded-full w-2 mt-1 ml-2" src="/dot.png" alt="Gmail" /></td> : <td className='w-4'></td>}
+                                                    <td className="pr-6  flex pb-2 w-56">
+                                                        <p className="ml-6 mt-4 cursor-pointer" onClick={() => ViewRow(data1.id)}>{ data1.from.substring(0, data1.from.indexOf('<')).trim() }</p>
                                                     </td>
                                                     <td className="px-6 pb-2 message">
                                                         <p className="ml-6 mt-4 text-sm font-bold cursor-pointer" onClick={() => ViewRow(data1.id)}>
-                                                            {data1.subject}
-
+                                                            {data1.subject}                                                          
                                                             <span className="font-normal text-gray-400">
                                                                 {/* {htmlToReactParser.parse(data1.messageBody)} */}
                                                             </span>
                                                         </p>
                                                     </td>
-                                                    {/* <td className="px-6 pb-2 w-28">
-                                                        <span className='flex items-center mt-3'><span className='mr-2 fill-blue-500'><FaLock className='fill-blue-500' /></span>PRIVATE</span>
-                                                    </td> */}
-
-                                                    <td className="px-6 pb-2 time" >
-                                                        <span className='font-bold'>{data1.formattedTime}</span>
+                                               
+                                                    <td className="px-4 pb-2 time" >
+                                                        <span className='font-bold'>{data1.formattedTime}   {data1.formattedDate}</span>
                                                     </td>
 
                                                 </tr>
@@ -454,8 +445,8 @@ export default function Email() {
 
                                     </tbody>
                                 </table> */}
-                                <hr className="min-[480px]:ml-8 h-px my-4 ml-16 bg-gray-700 border border-gray-300 dark:bg-gray-700"></hr>
-                                {/* <span className='flex justify-between'>
+                                {/* <hr className="min-[480px]:ml-8 h-px my-4 ml-16 bg-gray-700 border border-gray-300 dark:bg-gray-700"></hr>
+                                <span className='flex justify-between'>
                                     <span className='flex items-center ml-8 '><span><FaAngleLeft /></span><span className='ml-2 font-bold'>Newer</span></span>
                                     <span className='ml-8 font-bold mr-2'>50-95 of 1,734</span>
                                     <span className='flex items-center'><span className='ml-8 font-bold mr-2'>Older</span><span><FaAngleRight /></span></span>

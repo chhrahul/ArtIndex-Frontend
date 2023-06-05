@@ -5,10 +5,7 @@ import { FiFileText } from "react-icons/fi";
 import { FiInbox } from "react-icons/fi";
 import { FiSend } from "react-icons/fi";
 import { FiArchive } from "react-icons/fi";
-import { FaLock } from "react-icons/fa";
 import { HiOutlinePencil } from "react-icons/hi2";
-import { FaAngleLeft } from "react-icons/fa";
-import { FaAngleRight } from "react-icons/fa";
 import { LoginSocialGoogle } from 'reactjs-social-login'
 import { AxiosInstance } from '../utils';
 import { useNavigate } from 'react-router-dom';
@@ -28,7 +25,7 @@ export default function TrashEmail() {
         const access_token = data.access_token
         console.log('data', data)
         console.log('provider', provider)
-        localStorage.setItem('access_token', data.access_token);
+        localStorage.setItem('access_token', access_token);
     }
 
     const handleLoginWithError = async ({ error }) => {
@@ -46,7 +43,7 @@ export default function TrashEmail() {
                     method: 'post',
                     data: data
                 });
-                console.log(result.data.mailData, 'result');
+                console.log(result.data.mailData,'result');
                 if (result) {
                     setResult(result.data.mailData);
                     setloader(false);
@@ -56,7 +53,6 @@ export default function TrashEmail() {
                 }
             } catch (error) {
                 console.error('Error:', error);
-
                 setauthenticate(true)
                 // Handle the error condition, such as showing an error message or taking appropriate action
             }
@@ -65,7 +61,6 @@ export default function TrashEmail() {
     };
     React.useEffect(() => {
         fetchInfo();
-
     }, []);
     React.useEffect(() => {
 
@@ -73,6 +68,7 @@ export default function TrashEmail() {
     }, [getResult])
     console.log(data, 'data')
     const loginGoogleProps = {
+
         "client_id": '731019835589-6ff8j6hb3k7paort3etsrjbfq1rmbb5m.apps.googleusercontent.com',
         "redirect_uri": 'https://main.d26n8wj3j35m97.amplifyapp.com/emails',
         "scope": "openid profile email",
@@ -123,14 +119,14 @@ export default function TrashEmail() {
                                 <input type="text" ref={ref} id="artworkSearch" className="bg-blue-500 border-2 border-blue-500 text-white text-sm rounded-full focus:ring-blue-500 focus:border-blue-500 block  pl-10 p-1.5  text-white placeholder-white dark:placeholder-white dark:text-white focus:ring-blue-500 focus:bg-blue-500 hover:bg-blue-500 dark:bg-blue-500 dark:text-white" placeholder="" onChange={(e) => searchItems(e.target.value)} />
                                 {clearserach ? (<button type="button" className="absolute inset-y-0 right-0 flex items-center pr-2" onClick={() => ResetSearch()}>
                                     <svg className="h-5 w-5  text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">  <circle cx="12" cy="12" r="10" />  <line x1="15" y1="9" x2="9" y2="15" />  <line x1="9" y1="9" x2="15" y2="15" /></svg>
-                                </button>) : ''}
+                                </button>) : '' }
                             </div>
                         </form>
                     </div>
                 </div>
                 <hr className=" min-[480px]:ml-24 h-px my-2  bg-gray-700 border border-gray-300 dark:bg-gray-700"></hr>
                 <div className="filters mb-4 min-[480px]:ml-16">
-                    <div className='flex '>
+                    <div className='flex'>
                         <span className="text-sm font-semibold mr-4 ml-6 flex items-center"><IoFilterOutline /> Filter:</span>
                         <select className="text-sm font-semibold bg-transparent mr-2 border-none max-[480px]:ml-4" >
                             <option>Mark</option>
@@ -145,7 +141,7 @@ export default function TrashEmail() {
                     <div className='col-span-1 w-8 ml-5 mt-6'>
                         <a href='/email/send'><HiOutlinePencil size={26} className='ml-2 my-6' /></a>
                         <a href='/emails'><FiInbox size={26} className='ml-2 my-6' /></a>
-                        <a href=''><FiFileText size={26} className='ml-2 my-6' /></a>
+                        <a href='/email/draft'><FiFileText size={26} className='ml-2 my-6' /></a>
                         <a href='/email/sent'><FiSend size={26} className='ml-2 my-6' /></a>
                         <a href='/email/trash'><FiArchive size={26} className='ml-2 my-6' /></a>
                     </div>
@@ -153,8 +149,6 @@ export default function TrashEmail() {
 
                         <div className="mt-8  mr-2 mb-8">
                             <div className="relative overflow-x-auto">
-
-
 
                                 {authenticate ?
                                     <LoginSocialGoogle {...loginGoogleProps}>
@@ -165,6 +159,7 @@ export default function TrashEmail() {
                                     </LoginSocialGoogle>
                                     : ''
                                 }
+                                
                                 {/* {Loading ? (<>
                                     <div className=" items-center h-64 w-full">
                                         <div className="absolute -translate-x-1/2 -translate-y-1/2 top-2/4 left-1/2">
@@ -179,6 +174,7 @@ export default function TrashEmail() {
                                     </div>
                                 </>
                                 ) : ''} */}
+
                                 {renderData && renderData?.map((data1, index) => {
                                     return (
                                         <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400 ">

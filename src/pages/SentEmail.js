@@ -24,8 +24,8 @@ export default function SentEmail() {
     const handleGoogleLoginSuccessfull = async ({ provider, data }) => {
 
         const access_token = data.access_token
-        console.log('data', data)
-        console.log('provider', provider)
+        // console.log('data', data)
+        // console.log('provider', provider)
         localStorage.setItem('access_token', data.access_token);
     }
 
@@ -44,7 +44,7 @@ export default function SentEmail() {
                     method: 'post',
                     data: data
                 });
-                console.log(result.data.mailData, 'result');
+               // console.log(result.data.mailData, 'result');
                 if (result) {
                     setResult(result.data.mailData);
                     setloader(false);
@@ -54,7 +54,6 @@ export default function SentEmail() {
                 }
             } catch (error) {
                 console.error('Error:', error);
-
                 setauthenticate(true)
                 // Handle the error condition, such as showing an error message or taking appropriate action
             }
@@ -70,7 +69,9 @@ export default function SentEmail() {
 
         setrenderData(getResult)
     }, [getResult])
-    console.log(data, 'data')
+
+    //console.log(data, 'data')
+
     const loginGoogleProps = {
         "client_id": '731019835589-6ff8j6hb3k7paort3etsrjbfq1rmbb5m.apps.googleusercontent.com',
         "redirect_uri": 'https://main.d26n8wj3j35m97.amplifyapp.com/emails',
@@ -144,7 +145,7 @@ export default function SentEmail() {
                     <div className='col-span-1 w-8 ml-5 mt-6'>
                         <a href='/email/send'><HiOutlinePencil size={26} className='ml-2 my-6' /></a>
                         <a href='/emails'><FiInbox size={26} className='ml-2 my-6' /></a>
-                        <a href=''><FiFileText size={26} className='ml-2 my-6' /></a>
+                        <a href='/email/draft'><FiFileText size={26} className='ml-2 my-6' /></a>
                         <a href='/email/sent'><FiSend size={26} className='ml-2 my-6' /></a>
                         <a href='/email/trash'><FiArchive size={26} className='ml-2 my-6' /></a>
                     </div>
@@ -186,15 +187,15 @@ export default function SentEmail() {
                                                     <td className="pl-0 pr-0 w-8 pb-2 "><input type="checkbox" className="ml-6 text-blue-500 max-[768px]:ml-6 max-[768px]:mb-2 border-2 border-blue-500 mt-3 bg-white font-bold  text-md" name="medium" />
                                                     </td>
                                                     <td className="pr-6  flex pb-2 w-20">
-                                                        <p className="ml-6 mt-4 cursor-pointer" onClick={() => ViewRow(data1.id)}>{data1.to}</p>
+                                                        <p className="ml-6 mt-4 cursor-pointer" onClick={() => ViewRow(data1.id)}>To:{data1.to}</p>
                                                     </td>
                                                     <td className="px-6 pb-2 message">
                                                         <p className="ml-6 mt-4 text-sm font-bold cursor-pointer" onClick={() => ViewRow(data1.id)}>
                                                             {data1.subject}
-                                                           
+{/*                                                            
                                                             <span className="font-normal text-gray-400">
                                                             {htmlToReactParser.parse(data1.messageBody)}
-                                                            </span>
+                                                            </span> */}
                                                         </p>
                                                     </td>
                                                     {/* <td className="px-6 pb-2 w-28">
@@ -423,8 +424,8 @@ export default function SentEmail() {
 
                                     </tbody>
                                 </table> */}
-                                <hr className="min-[480px]:ml-8 h-px my-4 ml-16 bg-gray-700 border border-gray-300 dark:bg-gray-700"></hr>
-                                {/* <span className='flex justify-between'>
+                                {/* <hr className="min-[480px]:ml-8 h-px my-4 ml-16 bg-gray-700 border border-gray-300 dark:bg-gray-700"></hr>
+                                <span className='flex justify-between'>
                                     <span className='flex items-center ml-8 '><span><FaAngleLeft /></span><span className='ml-2 font-bold'>Newer</span></span>
                                     <span className='ml-8 font-bold mr-2'>50-95 of 1,734</span>
                                     <span className='flex items-center'><span className='ml-8 font-bold mr-2'>Older</span><span><FaAngleRight /></span></span>

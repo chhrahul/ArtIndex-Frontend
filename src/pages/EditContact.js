@@ -140,7 +140,6 @@ export default function EditContact() {
   const handleImages = {
     files,
     setfiles,
-
   }
   //console.log(data.phoneNumber)
   return (
@@ -171,7 +170,7 @@ export default function EditContact() {
           <div className="">
             <div className="inline-flex">
 
-              <form onSubmit={handleSubmit(onSubmit)} className=' inline-flex'>
+              <form onSubmit={handleSubmit(onSubmit)} className='inline-flex'>
                 <div className="w-28">
                   <img className="w-28 h-28 rounded-full" {...handleImages} src={files ? files : '/profile.png'} alt="Profile" />
                   <input type="file"

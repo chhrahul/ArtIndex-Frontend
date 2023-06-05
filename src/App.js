@@ -21,6 +21,7 @@ import SentEmail from './pages/SentEmail';
 import GoogleEmails from './pages/GoogleEmails';
 import TrashEmail from './pages/TrashEmail';
 import SingleEmail from './pages/SingleEmail';
+import DraftEmails from './pages/DraftEmails';
 
 function App() {
 
@@ -61,6 +62,7 @@ function App() {
           <Route exact path="/email/send" element={<SendEmail />} />
           <Route exact path="/email/trash" element={<TrashEmail />} />
           <Route exact path="/email/single" element={<SingleEmail />} />
+          <Route exact path="/email/draft" element={<DraftEmails />} />
           <Route exact path="/event/edit" element={<EditEvent />} />
           <Route exact path="/calendar" element={<Calendar />} />
           <Route exact path="/Logout" />
