@@ -62,7 +62,7 @@ export default function SingleEmail() {
                             <div className="">
                                 <button onClick={handleGoBack}><FaArrowLeft /></button>
                                 <p className='text-xl font-semibold ml-20 mb-4'>{data.subject}</p>
-                                <span className='flex'>
+                                <span className='flex mt-4 mb-4'>
                                     <img className="h-10 rounded-full w-10 ml-4" src="/GoogleUser.png" alt="Gmail" />
                                     <span className='ml-2'>
                                         <p className='text-normal ml-4 font-semibold'>{data.from}</p>
@@ -103,7 +103,7 @@ export default function SingleEmail() {
                                 <hr /> */}
 
                                 <div className="ml-20 mt-8 mb-8 h-32 w-32">
-                                
+                                {data.attachments.length > 0  ?  <h4 className='mb-4'>Attachments:</h4> :''}
                                     {data.attachments &&
                                         data.attachments.map((attachment) => (
                                             <div key={attachment.attachmentId}>
