@@ -103,7 +103,7 @@ export default function SingleEmail() {
                                 <hr /> */}
 
                                 <div className="ml-20 mt-8 mb-8 h-32 w-32">
-                                {data.attachments ?  <h4 className='mb-4'>Attachments:</h4> :''}
+                                
                                     {data.attachments &&
                                         data.attachments.map((attachment) => (
                                             <div key={attachment.attachmentId}>
