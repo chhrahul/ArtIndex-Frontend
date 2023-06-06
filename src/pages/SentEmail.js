@@ -12,63 +12,77 @@ import { useNavigate } from 'react-router-dom';
 
 export default function SentEmail() {
     const [getResult, setResult] = React.useState([]);
-    const [Loading, setloader] = React.useState(true);
+    const [Loading, setloader] = React.useState(false);
     const [renderData, setrenderData] = React.useState([]);
     const [authenticate, setauthenticate] = React.useState(false);
     const [clearserach, setclearserach] = React.useState(false);
     const [searchInput, setSearchInput] = React.useState('');
+    const [token, setToken] = React.useState('');
     const HtmlToReactParser = require('html-to-react').Parser;
     let htmlToReactParser = new HtmlToReactParser();
     const navigate = useNavigate();
     let APIData = getResult
     const handleGoogleLoginSuccessfull = async ({ provider, data }) => {
 
-        const access_token = data.access_token
-        // console.log('data', data)
-        // console.log('provider', provider)
         localStorage.setItem('access_token', data.access_token);
-    }
+        const access_token = localStorage.getItem("access_token")
+        if (data.access_token) {
+            // setloader(true);
+            setauthenticate(false)
+            getData(data.access_token);
+        }
 
+    }
     const handleLoginWithError = async ({ error }) => {
         console.log(error?.message)
     }
+
     const access_token = localStorage.getItem("access_token")
     var data = JSON.stringify({ 'access_token': access_token })
+
     const fetchInfo = () => {
-
-        async function getData() {
-
-            try {
-                const result = await AxiosInstance({
-                    url: '/mail/sent',
-                    method: 'post',
-                    data: data
-                });
-               // console.log(result.data.mailData, 'result');
-                if (result) {
-                    setResult(result.data.mailData);
-                    setloader(false);
-                    setauthenticate(false)
-                } else {
-                    console.log('Hi');
-                }
-            } catch (error) {
-                console.error('Error:', error);
-                setauthenticate(true)
-                // Handle the error condition, such as showing an error message or taking appropriate action
-            }
-        }
         getData()
     };
-    React.useEffect(() => {
-        fetchInfo();
-        
 
+    async function getData(accessToken) {
+        setloader(true);
+        var data = JSON.stringify({ 'access_token': accessToken })
+        try {
+            const result = await AxiosInstance({
+                url: '/mail/sent',
+                method: 'post',
+                data: data
+            });
+            if (result) {
+                console.log('getdata', result)
+                setResult(result.data.mailData);
+                setloader(false);
+                setauthenticate(false)
+            } else {
+                console.log('Hi');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            setauthenticate(true)
+            setloader(false)
+            // Handle the error condition, such as showing an error message or taking appropriate action
+        }
+    }
+
+    React.useEffect(() => {
+        // fetchInfo();
+        const access_token = localStorage.getItem("access_token")
+        getData(access_token);
+        if (access_token === '') {
+            setloader(false)
+        }
     }, []);
-    React.useEffect(() => {
 
+    React.useEffect(() => {
+        console.log('there is data')
         setrenderData(getResult)
     }, [getResult])
+
 
     //console.log(data, 'data')
 
@@ -81,7 +95,7 @@ export default function SentEmail() {
         "onResolve": handleGoogleLoginSuccessfull,
         "onReject": handleLoginWithError,
     }
-   
+
 
     const ViewRow = async (id) => {
         const ViewData = getResult.find(apidata => {
@@ -163,7 +177,7 @@ export default function SentEmail() {
                                     </LoginSocialGoogle>
                                     : ''
                                 }
-                                {/* {Loading ? (<>
+                                {Loading ? (<>
                                     <div className=" items-center h-64 w-full">
                                         <div className="absolute -translate-x-1/2 -translate-y-1/2 top-2/4 left-1/2">
                                             <div role="status">
@@ -176,7 +190,7 @@ export default function SentEmail() {
                                         </div>
                                     </div>
                                 </>
-                                ) : ''} */}
+                                ) : ''}
                                 {renderData && renderData?.map((data1, index) => {
                                     return (
                                         <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400 ">
@@ -192,7 +206,8 @@ export default function SentEmail() {
                                                     <td className="px-6 pb-2 message">
                                                         <p className="ml-6 mt-4 text-sm font-bold cursor-pointer" onClick={() => ViewRow(data1.id)}>
                                                             {data1.subject}
-{/*                                                            
+                                                           
+                                                            {/*                                                            
                                                             <span className="font-normal text-gray-400">
                                                             {htmlToReactParser.parse(data1.messageBody)}
                                                             </span> */}

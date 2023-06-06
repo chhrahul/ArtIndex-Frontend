@@ -11,7 +11,7 @@ import { AxiosInstance } from '../utils';
 import { useNavigate } from 'react-router-dom';
 export default function TrashEmail() {
     const [getResult, setResult] = React.useState([]);
-    const [Loading, setloader] = React.useState(true);
+    const [Loading, setloader] = React.useState(false);
     const [authenticate, setauthenticate] = React.useState(false);
     const [renderData, setrenderData] = React.useState([]);
     const [clearserach, setclearserach] = React.useState(false);
@@ -26,6 +26,11 @@ export default function TrashEmail() {
         console.log('data', data)
         console.log('provider', provider)
         localStorage.setItem('access_token', access_token);
+        if (data.access_token) {
+            //setloader(true);
+            setauthenticate(false)
+            getData(data.access_token);
+        }
     }
 
     const handleLoginWithError = async ({ error }) => {
@@ -34,33 +39,38 @@ export default function TrashEmail() {
     const access_token = localStorage.getItem("access_token")
     var data = JSON.stringify({ 'access_token': access_token })
     const fetchInfo = () => {
-
-        async function getData() {
-
-            try {
-                const result = await AxiosInstance({
-                    url: '/mail/trash',
-                    method: 'post',
-                    data: data
-                });
-                console.log(result.data.mailData,'result');
-                if (result) {
-                    setResult(result.data.mailData);
-                    setloader(false);
-                    setauthenticate(false)
-                } else {
-                    console.log('Hi');
-                }
-            } catch (error) {
-                console.error('Error:', error);
-                setauthenticate(true)
-                // Handle the error condition, such as showing an error message or taking appropriate action
-            }
-        }
         getData()
     };
+    async function getData(accessToken) {
+        setloader(true);
+        var data = JSON.stringify({ 'access_token': accessToken })
+        try {
+            const result = await AxiosInstance({
+                url: '/mail/trash',
+                method: 'post',
+                data: data
+            });
+            console.log(result.data.mailData, 'result');
+            if (result) {
+                setResult(result.data.mailData);
+                setloader(false);
+                setauthenticate(false)
+            } else {
+                console.log('Hi');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            setauthenticate(true)
+            setloader(false)
+            // Handle the error condition, such as showing an error message or taking appropriate action
+        }
+    }
     React.useEffect(() => {
-        fetchInfo();
+        const access_token = localStorage.getItem("access_token")
+        getData(access_token);
+        if(access_token === ''){
+            setloader(false)
+        }
     }, []);
     React.useEffect(() => {
 
@@ -119,7 +129,7 @@ export default function TrashEmail() {
                                 <input type="text" ref={ref} id="artworkSearch" className="bg-blue-500 border-2 border-blue-500 text-white text-sm rounded-full focus:ring-blue-500 focus:border-blue-500 block  pl-10 p-1.5  text-white placeholder-white dark:placeholder-white dark:text-white focus:ring-blue-500 focus:bg-blue-500 hover:bg-blue-500 dark:bg-blue-500 dark:text-white" placeholder="" onChange={(e) => searchItems(e.target.value)} />
                                 {clearserach ? (<button type="button" className="absolute inset-y-0 right-0 flex items-center pr-2" onClick={() => ResetSearch()}>
                                     <svg className="h-5 w-5  text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">  <circle cx="12" cy="12" r="10" />  <line x1="15" y1="9" x2="9" y2="15" />  <line x1="9" y1="9" x2="15" y2="15" /></svg>
-                                </button>) : '' }
+                                </button>) : ''}
                             </div>
                         </form>
                     </div>
@@ -159,8 +169,8 @@ export default function TrashEmail() {
                                     </LoginSocialGoogle>
                                     : ''
                                 }
-                                
-                                {/* {Loading ? (<>
+
+                                {Loading ? (<>
                                     <div className=" items-center h-64 w-full">
                                         <div className="absolute -translate-x-1/2 -translate-y-1/2 top-2/4 left-1/2">
                                             <div role="status">
@@ -173,7 +183,7 @@ export default function TrashEmail() {
                                         </div>
                                     </div>
                                 </>
-                                ) : ''} */}
+                                ) : ''}
 
                                 {renderData && renderData?.map((data1, index) => {
                                     return (
