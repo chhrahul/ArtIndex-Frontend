@@ -103,7 +103,7 @@ export default function SingleEmail() {
                                 <hr /> */}
 
                                 <div className="ml-20 mt-8 mb-8 h-32 w-32">
-                                {data.attachments.length > 0 ? <h4 className='mb-4'>Attachments:</h4> : '' }
+                                    {data.attachments.length > 0 ? <h4 className='mb-4'>Attachments:</h4> : ''}
                                     {data.attachments &&
                                         data.attachments.map((attachment) => (
                                             <div key={attachment.attachmentId}>
@@ -112,10 +112,14 @@ export default function SingleEmail() {
                                                     <div>
                                                         <img src={attachment.attachmentUrl} alt={attachment.filename} />
                                                         <a href={attachment.attachmentUrl} download={attachment.filename}>
-                                                            <p className='flex justify-between'><IoMdDownload className='mt-2' /> <div className=''>{attachment.filename}</div></p>
+                                                            <p className='flex justify-between'>
+                                                                <IoMdDownload className='mt-2' />
+                                                                <div className=''>{attachment.filename}</div>
+                                                            </p>
                                                         </a>
                                                     </div>
                                                 )}
+
                                                 {attachment.mimeType === 'application/pdf' && (
                                                     <div className='h-32 w-32'>
                                                         <iframe src={attachment.attachmentUrl} title={attachment.filename} />

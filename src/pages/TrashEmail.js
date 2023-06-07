@@ -88,7 +88,7 @@ export default function TrashEmail() {
 
         "client_id": '731019835589-6ff8j6hb3k7paort3etsrjbfq1rmbb5m.apps.googleusercontent.com',
         "redirect_uri": 'https://main.d26n8wj3j35m97.amplifyapp.com/emails',
-        "scope": "openid profile email",
+        "scope": "https://www.googleapis.com/auth/gmail.readonly",
         "discoveryDocs": "claims_supported",
         "access_type": "online",
         "onResolve": handleGoogleLoginSuccessfull,
@@ -142,7 +142,7 @@ export default function TrashEmail() {
                     </div>
                 </div>
                 <hr className=" min-[480px]:ml-24 h-px my-2  bg-gray-700 border border-gray-300 dark:bg-gray-700"></hr>
-                <div className="filters mb-4 min-[480px]:ml-16">
+                {/* <div className="filters mb-4 min-[480px]:ml-16">
                     <div className='flex'>
                         <span className="text-sm font-semibold mr-4 ml-6 flex items-center"><IoFilterOutline /> Filter:</span>
                         <select className="text-sm font-semibold bg-transparent mr-2 border-none max-[480px]:ml-4" >
@@ -153,7 +153,7 @@ export default function TrashEmail() {
 
                         <span className="text-sm font-semibold mr-4 ml-4 flex items-center">< FiRotateCw size={18} /></span>
                     </div>
-                </div>
+                </div> */}
                 <div className='grid grid-cols-12 gap-0 min-h-screen'>
                     <div className='col-span-1 w-8 ml-5 mt-6'>
                         <a href='/email/send'><HiOutlinePencil size={26} className='ml-2 my-6' /></a>
@@ -208,9 +208,9 @@ export default function TrashEmail() {
                                                         <p className="ml-6 mt-4 text-sm font-bold cursor-pointer" onClick={() => ViewRow(data1.id)}>
                                                             {data1.subject}
 
-                                                            <span className="font-normal text-gray-400">
+                                                            {/* <span className="font-normal text-gray-400">
                                                                 {htmlToReactParser.parse(data1.messageBody)}
-                                                            </span>
+                                                            </span> */}
                                                         </p>
                                                     </td>
                                                     {/* <td className="px-6 pb-2 w-28">

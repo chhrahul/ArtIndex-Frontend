@@ -43,8 +43,6 @@ export default function Email() {
     const access_token = localStorage.getItem("access_token")
     var data = JSON.stringify({ 'access_token': access_token })
     const fetchInfo = () => {
-
-       
         const access_token = localStorage.getItem("access_token")
         getData(access_token);
     };
@@ -161,7 +159,9 @@ export default function Email() {
     }, [])
 
     const Refresh = () => {
-        fetchInfo();
+        setrenderData('')
+        const access_token = localStorage.getItem("access_token")
+        getData(access_token);
     }
     return (
         <>
