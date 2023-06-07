@@ -17,6 +17,7 @@ export default function DraftEmails() {
     const [renderData, setrenderData] = React.useState([]);
     const [clearserach, setclearserach] = React.useState(false);
     const [searchInput, setSearchInput] = React.useState('');
+    const [message, setMessage] = React.useState('');
     let APIData = getResult
     const HtmlToReactParser = require('html-to-react').Parser;
     let htmlToReactParser = new HtmlToReactParser();
@@ -43,30 +44,36 @@ export default function DraftEmails() {
     };
     async function getData(accessToken) {
         setloader(true);
-        var data = JSON.stringify({ 'access_token': accessToken })
+        var data = JSON.stringify({ access_token: accessToken });
         try {
-            const result = await AxiosInstance({
-                url: '/mail/drafts',
-                method: 'post',
-                data: data
-            });
-            console.log(result.data.mailData, 'result');
-            if (result) {
-                setResult(result.data.mailData);
-                setloader(false);
-                setauthenticate(false);
-            } else {
-                console.log('Hi');
-            }
+          const result = await AxiosInstance({
+            url: '/mail/drafts',
+            method: 'post',
+            data: data,
+          });
+          console.log(result, 'result');
+      
+          if (result && result.data && result.data.mailData) {
+            setResult(result.data.mailData);
+            setloader(false);
+            setauthenticate(false);
+          } else {
+            // Handle the case where draft emails are not found
+            console.log('Draft emails not found');
+            setloader(false);
+            setauthenticate(false);
+            setMessage('There is not any mail in Draft !!')
+            // Show an alert message or take appropriate action to inform the user
+          }
         } catch (error) {
-            setloader(false)
-
-            console.error('Error:', error);
-            setauthenticate(true)
-            setloader(false)
-            // Handle the error condition, such as showing an error message or taking appropriate action
+          setloader(false);
+          console.error('Error:', error);
+          setauthenticate(true);
+          setloader(false);
+          // Handle the error condition, such as showing an error message or taking appropriate action
         }
-    }
+      }
+      
     React.useEffect(() => {
         const access_token = localStorage.getItem("access_token")
         getData(access_token);
@@ -163,6 +170,7 @@ export default function DraftEmails() {
 
                     <div className="mt-8  mr-2 mb-8">
                         <div className="relative overflow-x-auto">
+                            {message?<p className='text-center font-bold'>{message}</p>:''}
                             {authenticate ?
                                 <LoginSocialGoogle {...loginGoogleProps}>
                                     <span className="mr-2 mt-2 mb-10 text-center items-center w-full cursor-pointer">

@@ -18,6 +18,7 @@ export default function SentEmail() {
     const [clearserach, setclearserach] = React.useState(false);
     const [searchInput, setSearchInput] = React.useState('');
     const [token, setToken] = React.useState('');
+    const [message, setMessage] = React.useState('');
     const HtmlToReactParser = require('html-to-react').Parser;
     let htmlToReactParser = new HtmlToReactParser();
     const navigate = useNavigate();
@@ -53,20 +54,25 @@ export default function SentEmail() {
                 method: 'post',
                 data: data
             });
-            if (result) {
-                console.log('getdata', result)
+            if (result && result.data && result.data.mailData) {
                 setResult(result.data.mailData);
                 setloader(false);
-                setauthenticate(false)
-            } else {
-                console.log('Hi');
+                setauthenticate(false);
+              } else {
+                // Handle the case where draft emails are not found
+                console.log('Sent emails not found');
+                setloader(false);
+                setauthenticate(false);
+                setMessage('There is not any mail in Sent !!')
+                // Show an alert message or take appropriate action to inform the user
+              }
+            } catch (error) {
+              setloader(false);
+              console.error('Error:', error);
+              setauthenticate(true);
+              setloader(false);
+              // Handle the error condition, such as showing an error message or taking appropriate action
             }
-        } catch (error) {
-            console.error('Error:', error);
-            setauthenticate(true)
-            setloader(false)
-            // Handle the error condition, such as showing an error message or taking appropriate action
-        }
     }
 
     React.useEffect(() => {
@@ -167,7 +173,7 @@ export default function SentEmail() {
 
                         <div className="mt-8  mr-2 mb-8">
                             <div className="relative overflow-x-auto">
-
+                            {message?<p className='text-center font-bold'>{message}</p>:''}
                                 {authenticate ?
                                     <LoginSocialGoogle {...loginGoogleProps}>
                                         <span className="mr-2 mt-2 mb-10 text-center items-center w-full cursor-pointer">

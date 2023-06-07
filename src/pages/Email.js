@@ -18,6 +18,7 @@ export default function Email() {
     const [renderData, setrenderData] = React.useState([]);
     const [clearserach, setclearserach] = React.useState(false);
     const [searchInput, setSearchInput] = React.useState('');
+    const [messageforApi, setMessageforApi] = React.useState('');
     let APIData = getResult
     // const HtmlToReactParser = require('html-to-react').Parser;
     // let htmlToReactParser = new HtmlToReactParser();
@@ -57,17 +58,23 @@ export default function Email() {
                 data: data
             });
             console.log(result.data.mailData, 'result');
-            if (result) {
+            if (result && result.data && result.data.mailData) {
                 setResult(result.data.mailData);
                 setloader(false);
-                setauthenticate(false)
+                setauthenticate(false);
             } else {
-                console.log('Hi');
+                // Handle the case where draft emails are not found
+                console.log('Inbox emails not found');
+                setloader(false);
+                setauthenticate(false);
+                setMessageforApi('There is not any mail in Inbox !!')
+                // Show an alert message or take appropriate action to inform the user
             }
         } catch (error) {
+            setloader(false);
             console.error('Error:', error);
-            setloader(false)
-            setauthenticate(true)
+            setauthenticate(true);
+            setloader(false);
             // Handle the error condition, such as showing an error message or taking appropriate action
         }
     }
@@ -201,6 +208,7 @@ export default function Email() {
 
                         <div className="mt-8  mr-2 mb-8">
                             <div className="relative overflow-x-auto">
+                            {messageforApi?<p className='text-center font-bold'>{messageforApi}</p>:''}
                                 {message ? (<h3 className='text-center font-bold mb-4 '>{message}</h3>) : ''}
                                 {authenticate ?
                                     <LoginSocialGoogle {...loginGoogleProps}>

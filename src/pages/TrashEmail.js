@@ -16,6 +16,7 @@ export default function TrashEmail() {
     const [renderData, setrenderData] = React.useState([]);
     const [clearserach, setclearserach] = React.useState(false);
     const [searchInput, setSearchInput] = React.useState('');
+    const [message, setMessage] = React.useState('');
     const HtmlToReactParser = require('html-to-react').Parser;
     let htmlToReactParser = new HtmlToReactParser();
     const navigate = useNavigate();
@@ -51,24 +52,30 @@ export default function TrashEmail() {
                 data: data
             });
             console.log(result.data.mailData, 'result');
-            if (result) {
+            if (result && result.data && result.data.mailData) {
                 setResult(result.data.mailData);
                 setloader(false);
-                setauthenticate(false)
+                setauthenticate(false);
             } else {
-                console.log('Hi');
+                // Handle the case where draft emails are not found
+                console.log('Trash emails not found');
+                setloader(false);
+                setauthenticate(false);
+                setMessage('There is not any mail in Trash !!')
+                // Show an alert message or take appropriate action to inform the user
             }
         } catch (error) {
+            setloader(false);
             console.error('Error:', error);
-            setauthenticate(true)
-            setloader(false)
+            setauthenticate(true);
+            setloader(false);
             // Handle the error condition, such as showing an error message or taking appropriate action
         }
     }
     React.useEffect(() => {
         const access_token = localStorage.getItem("access_token")
         getData(access_token);
-        if(access_token === ''){
+        if (access_token === '') {
             setloader(false)
         }
     }, []);
@@ -159,7 +166,7 @@ export default function TrashEmail() {
 
                         <div className="mt-8  mr-2 mb-8">
                             <div className="relative overflow-x-auto">
-
+                                {message ? <p className='text-center font-bold'>{message}</p> : ''}
                                 {authenticate ?
                                     <LoginSocialGoogle {...loginGoogleProps}>
                                         <span className="mr-2 mt-2 mb-10 text-center items-center w-full cursor-pointer">
