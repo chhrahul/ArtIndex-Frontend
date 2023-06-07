@@ -83,7 +83,55 @@ export default function Login(props) {
     });
 
 
+    // const loadGoogleAPI = () => {
+    //     return new Promise((resolve, reject) => {
+    //         const script = document.createElement('script');
+    //         script.src = 'https://apis.google.com/js/api.js';
+    //         script.async = true;
+    //         script.onload = resolve;
+    //         script.onerror = reject;
+    //         document.head.appendChild(script);
+    //     });
+    // };
+    // React.useEffect(() => {
+    //     loadGoogleAPI().then(() => {
+    //         window.gapi.load('auth2', () => {
+    //             try {
+    //                 window.gapi.auth2.init({
+    //                     client_id: '731019835589-6ff8j6hb3k7paort3etsrjbfq1rmbb5m.apps.googleusercontent.com',
+    //                     redirect_uri: 'https://main.d26n8wj3j35m97.amplifyapp.com/emails',
+    //                     //redirect_uri: 'https://localhost:4200/GoogleEmails',
+    //                     scope: 'https://www.googleapis.com/auth/gmail.readonly',
 
+    //                 });
+    //             } catch (error) {
+    //                 console.error('Error initializing Google auth2:', error);
+    //                 setError(error)
+    //             }
+    //         });
+    //     });
+    // }, []);
+    // const handleLogin = () => {
+    //     window.gapi.auth2.getAuthInstance().signIn().then(googleUser => {
+    //         const accessToken = googleUser.getAuthResponse().access_token;
+    //         // Send the access token to your Node.js server
+    //         fetch('/api/login', {
+    //             method: 'POST',
+    //             headers: {
+    //                 'Content-Type': 'application/json',
+    //             },
+    //             body: JSON.stringify({ accessToken }),
+    //         })
+    //             .then(response => {
+    //                 console.log(response)
+    //                 console.log(accessToken)
+    //             })
+    //             .catch(error => {
+    //                 console.error('Error:', error);
+    //                 console.log(accessToken)
+    //             });
+    //     });
+    // };
     return (
         <>
             <h1 className='text-center font-bold text-gray-700 text-xl'>Welcome to ArtIndex !</h1>
@@ -114,6 +162,7 @@ export default function Login(props) {
                     </p>
                 </span>
                 {error && <p>Error: {error.error}</p>}
+                {/* <button onClick={handleLogin}>Login with Google</button> */}
                 {/* <button onClick={handleLogin}>Login with Google</button> */}
                 {/* <LoginSocialGoogle {...loginGoogleProps}>
                 <span className='flex justify-between items-center w-full mg-auto'>cLICK HERE</span>
