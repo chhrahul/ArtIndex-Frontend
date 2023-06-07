@@ -21,6 +21,9 @@ export default function SendEmail() {
     const [files, setFiles] = React.useState([]);
     const [AttachmentName, setAttachmentName] = React.useState('');
     const [Loading, setloader] = React.useState(false);
+    const [getResult, setResult] = React.useState([]);
+    const [searchInput, setSearchInput] = React.useState('');
+    const [filteredResults, setFilteredResults] = React.useState([]);
     const handleChange = (data) => {
         setEditorState(data);
     }
@@ -60,6 +63,44 @@ export default function SendEmail() {
         }
         sendEmail()
     };
+
+    // Contacts Start
+    const fetchInfo = () => {
+        const userId = localStorage.getItem("userId")
+        var data = JSON.stringify({ 'id': userId })
+        async function getData() {
+            const result = await AxiosInstance(
+                {
+                    'url': '/get-contacts',
+                    'method': 'post',
+                    'data': data
+                }
+            )
+            if (result) {
+                setResult(result.data.data)
+                setloader(false)
+            }
+        }
+        getData()
+    };
+    React.useEffect(() => {
+        fetchInfo();
+        console.log(getResult, 'getResult')
+    }, []);
+    const searchItems = (searchValue) => {
+        setSearchInput(searchValue);
+        if (searchInput !== '') {
+            const filteredData = getResult.filter((item) => {
+                return item.Email && Object.values(item.Email).some((email) => email.includes(searchInput));
+            });
+            setFilteredResults(filteredData);
+        } else {
+            setFilteredResults(getResult);
+        }
+    };
+
+
+    // Contacts End
     function handleChangeImage(e) {
         let response = ""
         let filesItem = e.target.files;
@@ -112,8 +153,10 @@ export default function SendEmail() {
                                     <div className="w-full mb-4 border-2 border-blue-300 rounded-lg bg-gray-50 dark:bg-blue-500 dark:border-gray-600">
                                         <div className="bg-white rounded-t-lg dark:bg-gray-800">
                                             <label htmlFor="comment" className="sr-only">Your comment</label>
-                                            <input type="email" {...register("toEmail", { required: true })} className="w-full text-black bg-white border-b-2 border-l-0  border-r-0  border-t-0 border-blue-200 focus:outline-0  italic rounded-t-lg text-md px-4 py-2 " placeholder="To: " />
+                                            <input type="email" {...register("toEmail", { required: true })} onChange={(e) => searchItems(e.target.value)} className="w-full text-black bg-white border-b-2 border-l-0  border-r-0  border-t-0 border-blue-200 focus:outline-0  italic rounded-t-lg text-md px-4 py-2 " placeholder="To: " />
+                                            
                                             <input type="text" {...register("subject")} className="w-full text-black bg-white border-t-0 border-b-2  border-l-0  border-r-0 border-blue-200  focus:outline-0  italic  text-md px-4 py-2" placeholder="Subject:" />
+
                                             <div className='editor'>
                                                 <Editor
                                                     toolbarClassName="toolbarClassName"
@@ -130,10 +173,10 @@ export default function SendEmail() {
                                                     name="message"
                                                     editorState={editorState}
                                                     onEditorStateChange={handleChange}
-                                                  
+
                                                 />
                                             </div>
-                                           
+
                                         </div>
                                         <div className="min-[480px]:flex items-center justify-between px-3 border-t-2 border-blue-300 dark:border-blue-300">
                                             <div className="min-[480px]:flex pl-0 space-x-1 sm:pl-2">
@@ -147,7 +190,7 @@ export default function SendEmail() {
                                                 </span>
                                                 <span className="cursor-pointer inline-flex justify-center items-center p-1 text-black rounded cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600">
 
-                                                    <Dropdown 
+                                                    <Dropdown
                                                         label={<><BsFilePlus size={20} color='black' /> <span className="mr-4 cursor-pointer text-sm focus:ring-0  font-bold text-black bg-transparent ml-2 border-none " value='Fields'>Fields</span><IoMdArrowDropdown /></>}
                                                         dismissOnClick={false} onChange={(e) => StatusClick(e.target.value)}
                                                         style={{ backgroundColor: 'transparent', color: 'black', outline: 'none', border: 'none' }}
@@ -163,7 +206,7 @@ export default function SendEmail() {
                                                                 LastName
                                                             </button>
                                                         </Dropdown.Item>
-                                                        
+
                                                         <Dropdown.Item>
                                                             <button type="button" value="FirstName" className="cursor-pointer ml-4 mr-4 text-sm focus:ring-0  font-bold text-black bg-transparent mr-6 border-none ">
                                                                 City
@@ -191,7 +234,7 @@ export default function SendEmail() {
                                     </div>
                                 </div>
                                 <div className='ml-2 mt-6 flex items-center justify-between'>
-                                    <label type="button" htmlFor="getFile" onClick="document.getElementById('getFile').click()" className="cursor-pointer  text-gray bg-transparent border-2 border-green-400 focus:outline-none focus:ring-4 focus:ring-green-400 font-medium rounded-full text-sm px-4 py-1 text-center mr-8 mb-2" >Attach</label>
+                                    <label type="button" htmlFor="getFile" className="cursor-pointer  text-gray bg-transparent border-2 border-green-400 focus:outline-none focus:ring-4 focus:ring-green-400 font-medium rounded-full text-sm px-4 py-1 text-center mr-8 mb-2" >Attach</label>
                                     <input type="file" id="getFile" className='hidden' onChange={handleChangeImage} />
                                     <span className='min-[480px]:flex'>
                                         <button type="button" className="cursor-pointer text-white bg-slate-400 border-2 border-slate-400 focus:outline-none focus:ring-4 focus:ring-slate-400 font-medium rounded-full text-sm px-6 py-1 text-center mr-6 mb-2 dark:border-slate-400 dark:hover:bg-slate-400 dark:focus:ring-slate-400" >Discard</button>
