@@ -91,7 +91,7 @@ export default function Email() {
     const loginGoogleProps = {
         "client_id": '731019835589-6ff8j6hb3k7paort3etsrjbfq1rmbb5m.apps.googleusercontent.com',
         "redirect_uri": 'https://main.d26n8wj3j35m97.amplifyapp.com/emails',
-        "scope": "https://www.googleapis.com/auth/gmail.readonly",
+        "scope": 'https://www.googleapis.com/auth/gmail.readonly https://www.googleapis.com/auth/gmail.send',
         "discoveryDocs": "claims_supported",
         "access_type": "online",
         "onResolve": handleGoogleLoginSuccessfull,

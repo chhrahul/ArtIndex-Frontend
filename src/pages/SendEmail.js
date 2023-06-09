@@ -20,6 +20,8 @@ import { Button, Modal } from 'flowbite-react';
 import { IoFilterOutline } from "react-icons/io5";
 import { useLocation } from 'react-router-dom';
 import { HiTrash } from "react-icons/hi";
+import { LoginSocialGoogle } from 'reactjs-social-login'
+
 export default function SendEmail() {
     const [editorState, setEditorState] = React.useState(EditorState.createEmpty());
     const [files, setFiles] = React.useState([]);
@@ -118,6 +120,8 @@ export default function SendEmail() {
     React.useEffect(() => {
         fetchInfo();
     }, []);
+
+
 
     // const searchItems = (searchValue) => {
     //     setSearchInput(searchValue);
@@ -282,7 +286,7 @@ export default function SendEmail() {
 
     // Listen for changes in datafromContact and navigate once the state is updated
     React.useEffect(() => {
-        if(datafromContact){
+        if (datafromContact) {
             navigate("/email/send", { state: datafromContact });
             setEmailIDs(getResult.filter(item => datafromContact.includes(item._id)))
             const filteredEmailIDs = getResult
@@ -291,9 +295,65 @@ export default function SendEmail() {
             setEmailAddress(filteredEmailIDs);
             setfilteredResultsforModal(getResult.filter(item => datafromContact.includes(item._id)))
         }
-        
+
 
     }, [datafromContact, getResult]);
+
+
+    // Access Token Start
+    const handleGoogleLoginSuccessfull = async ({ provider, data }) => {
+
+        const access_token = data.access_token
+        
+        localStorage.setItem('access_token', access_token);
+        
+    }
+
+    async function getData(accessToken) {
+        setloader(true);
+        var data = JSON.stringify({ 'access_token': accessToken })
+        try {
+            const result = await AxiosInstance({
+                url: '/mail/accessToken',
+                method: 'post',
+                data: data
+            });
+         
+            if (result) {
+               console.log(result)
+            } else {
+               
+                // Show an alert message or take appropriate action to inform the user
+            }
+        } catch (error) {
+            
+            console.error('Error:', error);
+           
+            // Handle the error condition, such as showing an error message or taking appropriate action
+        }
+    }
+
+    const handleLoginWithError = async ({ error }) => {
+        console.log(error?.message)
+    }
+    const loginGoogleProps = {
+        "client_id": '731019835589-6ff8j6hb3k7paort3etsrjbfq1rmbb5m.apps.googleusercontent.com',
+        "redirect_uri": 'https://main.d26n8wj3j35m97.amplifyapp.com/emails',
+        "scope": 'https://www.googleapis.com/auth/gmail.readonly https://www.googleapis.com/auth/gmail.send',
+        "discoveryDocs": "claims_supported",
+        "access_type": "online",
+        "onResolve": handleGoogleLoginSuccessfull,
+        "onReject": handleLoginWithError,
+    }
+  
+    // Access Token End
+    const handleEmail = () => {
+        // Navigate to the new page with the array values
+        const access_token = localStorage.getItem("access_token")
+        getData(access_token);
+      
+      };
+    
     return (
         <>
             <div className="min-[480px]:pt-10 sm:ml-48 min-[480px]:top-20 bg-gray-200 h-full min-[480px]:ml-40" >
@@ -324,6 +384,13 @@ export default function SendEmail() {
                                 </div>
                             </>
                             ) : ''}
+                            <LoginSocialGoogle {...loginGoogleProps}>
+                                <span className="mr-2 mt-2 mb-10 text-center items-center w-full cursor-pointer">
+                                    <p className="inline-block px-4 py-1.5 mb-4 text-white bg-blue-600 rounded-full  text-centerd" aria-current="page">Please Authenticate</p>
+                                </span>
+
+                            </LoginSocialGoogle>
+<button onClick={handleEmail}>Send Email</button>
                             <form onSubmit={handleSubmit(onSubmit)}>
                                 {errors.toEmail && <span className='text-red-500'>The Email field is required </span>}
                                 <div className={Loading ? 'ml-2 mt-4 opacity-20' : 'ml-2 mt-4'}>
