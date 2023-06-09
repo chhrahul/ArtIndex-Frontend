@@ -11,11 +11,15 @@ import { AxiosInstance } from '../utils'
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
-import { EditorState, convertToRaw } from "draft-js";
+import { EditorState, convertToRaw, convertFromHTML, ContentState } from "draft-js";
 import draftToHtml from "draftjs-to-html";
 import { Dropdown } from 'flowbite-react';
 import { IoMdArrowDropdown } from "react-icons/io";
-import MailTemplate from '../components/MailTemplate';
+import { IoMdArrowDropup } from "react-icons/io";
+import { Button, Modal } from 'flowbite-react';
+import { IoFilterOutline } from "react-icons/io5";
+import { useLocation } from 'react-router-dom';
+import { HiTrash } from "react-icons/hi";
 export default function SendEmail() {
     const [editorState, setEditorState] = React.useState(EditorState.createEmpty());
     const [files, setFiles] = React.useState([]);
@@ -24,22 +28,48 @@ export default function SendEmail() {
     const [getResult, setResult] = React.useState([]);
     const [searchInput, setSearchInput] = React.useState('');
     const [filteredResults, setFilteredResults] = React.useState([]);
+    const [selectedEmails, setSelectedEmails] = React.useState([]);
+    const [EmailIDs, setEmailIDs] = React.useState([]);
+    const [EmailAddress, setEmailAddress] = React.useState([]);
+    const [newHtml, setnewHtml] = React.useState('');
+    const [NameArrow, setNameArrow] = React.useState(true);
+    const [companyArrow, setcompanyArrow] = React.useState(true);
+    const [Titlearrow, setTitlearrow] = React.useState(true);
+    const [filteredResultsforModal, setfilteredResultsforModal] = React.useState([]);
+
+
+    const location = useLocation();
+    const [datafromContact, setdatafromContact] = React.useState(location.state);
+    const data = location.state;
+    console.log(data)
+
     const handleChange = (data) => {
         setEditorState(data);
+
+        console.log(data)
     }
+
     var htmlData = React.useMemo(
         () => draftToHtml(convertToRaw(editorState.getCurrentContent())),
         [editorState]
     );
+    //console.log(htmlData)
+
     const navigate = useNavigate();
     const { register, handleSubmit, formState: { errors } } = useForm();
     const userId = localStorage.getItem("userId")
     const onSubmit = data => {
+        console.log(data)
         data.Attachment = files;
         data.AttachmentName = AttachmentName;
         data.message = htmlData
         data.userId = userId
-        //console.log(data)
+
+        if (EmailAddress.length > 0) {
+
+            data.toEmail = EmailAddress.join(',');
+        }
+
         async function sendEmail() {
             setloader(true)
             const result = await AxiosInstance({
@@ -60,6 +90,7 @@ export default function SendEmail() {
                 // console.log('400')
                 alert(message)
             }
+
         }
         sendEmail()
     };
@@ -83,22 +114,45 @@ export default function SendEmail() {
         }
         getData()
     };
+
     React.useEffect(() => {
         fetchInfo();
-        console.log(getResult, 'getResult')
     }, []);
-    const searchItems = (searchValue) => {
-        setSearchInput(searchValue);
-        if (searchInput !== '') {
-            const filteredData = getResult.filter((item) => {
-                return item.Email && Object.values(item.Email).some((email) => email.includes(searchInput));
-            });
-            setFilteredResults(filteredData);
-        } else {
-            setFilteredResults(getResult);
-        }
-    };
 
+    // const searchItems = (searchValue) => {
+    //     setSearchInput(searchValue);
+    //     if (searchInput !== '') {
+    //         const filteredData = getResult.filter((item) => {
+    //             return item.Email && Object.values(item.Email).some((email) => email.includes(searchInput));
+    //         });
+    //         setFilteredResults(filteredData);
+    //     } else {
+    //         setFilteredResults(getResult);
+    //     }
+    // };
+
+    // const handleRowClick = (email) => {
+    //     // Check if the email is already selected
+    //     if (selectedEmails.includes(email)) {
+    //         // Remove the email from the selectedEmails array
+    //         setSelectedEmails(selectedEmails.filter((selectedEmail) => selectedEmail !== email));
+    //     } else {
+    //         // Add the email to the selectedEmails array
+    //         setSelectedEmails([...selectedEmails, email]);
+    //     }
+    // };
+
+    React.useEffect(() => {
+        if (datafromContact) {
+            setEmailIDs(getResult.filter(item => datafromContact.includes(item._id)))
+            const filteredEmailIDs = getResult
+                .filter(item => data.includes(item._id))
+                .flatMap(item => item.Email);
+            setEmailAddress(filteredEmailIDs);
+            setfilteredResultsforModal(EmailIDs)
+        }
+        console.log(EmailIDs)
+    }, [getResult])
 
     // Contacts End
     function handleChangeImage(e) {
@@ -112,11 +166,134 @@ export default function SendEmail() {
             setFiles(response)
         }
     }
-    const StatusClick = (selectedValue) => {
-        // Handle the selected value here
+
+
+    const [selectedValue, setSelectedValue] = React.useState("");
+    const handleSelectChange = (event) => {
+        setSelectedValue(event.target.value);
         console.log(selectedValue);
-        // Perform any necessary actions based on the selected value
+        if (htmlData) {
+            console.log(htmlData, 'inside');
+        }
+        let wrappedHTML = '';
+
+        if (event.target.value === 'FirstName') {
+            wrappedHTML = htmlData + "<span class='text-bold' id='FirstName'>FIRST__NAME</span>";
+            setnewHtml(wrappedHTML);
+        }
+        if (event.target.value === 'LastName') {
+            wrappedHTML = htmlData + "<span class='text-bold' id='LastName'>LAST__NAME</span>";
+            setnewHtml(wrappedHTML);
+        }
+        if (event.target.value === 'City') {
+            wrappedHTML = htmlData + "<span class='text-bold' id='City'>__CITY</span>";
+            setnewHtml(wrappedHTML);
+        }
+        if (event.target.value === 'Company') {
+            wrappedHTML = htmlData + "<span class='text-bold' id='Company'>__COMPANY</span>";
+            setnewHtml(wrappedHTML);
+        }
+        if (event.target.value === 'Title') {
+            wrappedHTML = htmlData + "<span class='text-bold' id='Title'>JOB__TITLE</span>";
+            setnewHtml(wrappedHTML);
+        }
+
+        console.log(selectedValue, 'sfsef');
+        console.log(typeof (wrappedHTML))
+
+        const appendedContent = convertFromHTML(wrappedHTML); // Use wrappedHTML instead of newHtml
+        const newContentState = ContentState.createFromBlockArray(
+            appendedContent.contentBlocks,
+            appendedContent.entityMap
+        );
+        const newEditorState = EditorState.push(
+            editorState,
+            newContentState,
+            'insert-fragment'
+        );
+
+        // Update the editor state with the appended HTML
+        handleChange(newEditorState);
     };
+
+
+
+    const handleDropdownChange = (event) => {
+        setSelectedValue(event.target.value);
+
+    };
+
+    // Define the function to handle the button click
+    const [showModal, setShowModal] = React.useState(false);
+    const handleOnClick = () => {
+        setShowModal(true)
+    }
+    const handleOnClose = () => {
+        setShowModal(false)
+    }
+
+
+    const NameClick = () => {
+        const strAscendingName = [...EmailIDs].sort((a, b) =>
+            a.FirstName > b.FirstName ? 1 : -1,
+        );
+        setfilteredResultsforModal(strAscendingName)
+        setNameArrow(false)
+        if (NameArrow === false) {
+            setNameArrow(true)
+            const strDescendingName = [...EmailIDs].sort((a, b) =>
+                a.FirstName > b.FirstName ? -1 : 1,
+            );
+            setfilteredResultsforModal(strDescendingName)
+        }
+    }
+    const CompanyClick = () => {
+        const strAscendingcmpny = [...EmailIDs].sort((a, b) =>
+            a.Company > b.Company ? 1 : -1,
+        );
+        setfilteredResultsforModal(strAscendingcmpny)
+        setcompanyArrow(false)
+        if (companyArrow === false) {
+            setcompanyArrow(true)
+            const strDescendingName = [...EmailIDs].sort((a, b) =>
+                a.Company > b.Company ? -1 : 1,
+            );
+            setfilteredResultsforModal(strDescendingName)
+        }
+    }
+    const TitleClick = () => {
+        const strAscendingTitle = [...EmailIDs].sort((a, b) =>
+            a.Title > b.Title ? 1 : -1,
+        );
+        setfilteredResultsforModal(strAscendingTitle)
+        setTitlearrow(false)
+
+        if (Titlearrow === false) {
+            setTitlearrow(true)
+            const strDescendingName = [...EmailIDs].sort((a, b) =>
+                a.Title > b.Title ? -1 : 1,
+            );
+            setfilteredResultsforModal(strDescendingName)
+        }
+    }
+    const DeleteRow = async (id) => {
+        setdatafromContact((prevData) => prevData.filter((itemId) => itemId !== id));
+    };
+
+    // Listen for changes in datafromContact and navigate once the state is updated
+    React.useEffect(() => {
+        if(datafromContact){
+            navigate("/email/send", { state: datafromContact });
+            setEmailIDs(getResult.filter(item => datafromContact.includes(item._id)))
+            const filteredEmailIDs = getResult
+                .filter(item => datafromContact.includes(item._id))
+                .flatMap(item => item.Email);
+            setEmailAddress(filteredEmailIDs);
+            setfilteredResultsforModal(getResult.filter(item => datafromContact.includes(item._id)))
+        }
+        
+
+    }, [datafromContact, getResult]);
     return (
         <>
             <div className="min-[480px]:pt-10 sm:ml-48 min-[480px]:top-20 bg-gray-200 h-full min-[480px]:ml-40" >
@@ -153,14 +330,53 @@ export default function SendEmail() {
                                     <div className="w-full mb-4 border-2 border-blue-300 rounded-lg bg-gray-50 dark:bg-blue-500 dark:border-gray-600">
                                         <div className="bg-white rounded-t-lg dark:bg-gray-800">
                                             <label htmlFor="comment" className="sr-only">Your comment</label>
-                                            <input type="email" {...register("toEmail", { required: true })} onChange={(e) => searchItems(e.target.value)} className="w-full text-black bg-white border-b-2 border-l-0  border-r-0  border-t-0 border-blue-200 focus:outline-0  italic rounded-t-lg text-md px-4 py-2 " placeholder="To: " />
-                                            
+                                            {/* <input type="email" {...register("toEmail", { required: true })} onChange={(e) => searchItems(e.target.value)} className="w-full text-black bg-white border-b-2 border-l-0  border-r-0  border-t-0 border-blue-200 focus:outline-0  italic rounded-t-lg text-md px-4 py-2 " placeholder="To: " /> */}
+                                            {EmailIDs && EmailIDs.length > 0 ? (
+                                                <>
+                                                    <ul className="flex justify-between w-full text-black bg-white border-b-2 border-l-0 border-r-0 border-t-0 border-blue-200 focus:outline-0 italic rounded-t-lg text-md px-4 py-2">
+                                                        <span className="flex">
+                                                            <li className="font-bold mr-4 mt-2">To:</li>
+                                                            {EmailIDs.slice(0, 4).map(item => (
+                                                                <li key={item._id} className="mr-4 flex border border-blue-300 rounded-l-full rounded-r-full px-2 pt-1">
+                                                                    <img className="h-7 rounded-full w-7" src={item.ProfileImage ? item.ProfileImage : '/GoogleUser.png'} alt="Profile" />
+                                                                    <p className="inline-block px-2 py-1 text-base text-black font-bold" aria-current="page">
+                                                                        {item.FirstName} {item.LastName}
+                                                                    </p>
+                                                                </li>
+                                                            ))}
+                                                        </span>
+                                                        {EmailIDs.length > 4 && (
+                                                            <span className="font-bold text-blue-500 text-sm mt-2 cursor-pointer" onClick={handleOnClick}>
+                                                                Manage List
+                                                            </span>
+                                                        )}
+                                                    </ul>
+                                                </>
+                                            ) : (
+                                                <input type="email" {...register("toEmail")} className="w-full text-black bg-white border-b-2 border-l-0 border-r-0 border-t-0 border-blue-200 focus:outline-0 italic rounded-t-lg text-md px-4 py-2" placeholder="To:" />
+                                            )}
+
+                                            {/* {
+                                                filteredResults.length > 0 ? (
+                                                    filteredResults && filteredResults.map((data) => {
+                                                        return (
+                                                            <div className=''>
+                                                                <tr className="bg-white dark:bg-gray-800 text-gray-700">
+                                                                    <td className="px-6 py-4 cursor-pointer" onClick={() => handleRowClick(data._id)}>
+                                                                        {data.Email}
+                                                                    </td>
+                                                                </tr>
+                                                            </div>
+                                                        );
+                                                    })
+                                                ) : ''
+                                            } */}
                                             <input type="text" {...register("subject")} className="w-full text-black bg-white border-t-0 border-b-2  border-l-0  border-r-0 border-blue-200  focus:outline-0  italic  text-md px-4 py-2" placeholder="Subject:" />
 
                                             <div className='editor'>
                                                 <Editor
                                                     toolbarClassName="toolbarClassName"
-                                                    wrapperClassName="m "
+                                                    wrapperClassName="wrapperClassName"
                                                     editorClassName="editorClassName"
                                                     wrapperStyle={{ height: 300 }}
                                                     toolbar={{
@@ -173,9 +389,9 @@ export default function SendEmail() {
                                                     name="message"
                                                     editorState={editorState}
                                                     onEditorStateChange={handleChange}
-
                                                 />
                                             </div>
+
 
                                         </div>
                                         <div className="min-[480px]:flex items-center justify-between px-3 border-t-2 border-blue-300 dark:border-blue-300">
@@ -184,13 +400,25 @@ export default function SendEmail() {
                                                     <BsFileEarmark className='' size={20} color='black' />
                                                     <select className="text-sm cursor-pointer focus:ring-0 font-bold text-black bg-transparent border-none" >
                                                         <option value='Template'>Template</option>
-                                                        <option vaue='One'>One</option>
-                                                        <option vaue='Two'>Two</option>
+                                                        <option value='One'>One</option>
+                                                        <option value='Two'>Two</option>
                                                     </select>
                                                 </span>
                                                 <span className="cursor-pointer inline-flex justify-center items-center p-1 text-black rounded cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600">
+                                                    <BsFilePlus size={20} color='black' className='disabled:text-gray-400' />
+                                                    <select disabled={EmailIDs.length === 0} className="text-sm cursor-pointer focus:ring-0 font-bold text-black disabled:text-gray-400 bg-transparent border-none"
 
-                                                    <Dropdown
+                                                        onChange={handleSelectChange} >
+                                                        <option className="cursor-pointer ml-4 mr-4 text-sm focus:ring-0  font-bold text-black bg-transparent mr-6 border-none ">Fileds</option>
+                                                        <option value='FirstName' className="cursor-pointer ml-4 mr-4 pt-4 text-sm focus:ring-0  font-bold text-black bg-transparent mr-6 border-none ">FirstName</option>
+                                                        <option value='LastName' className="cursor-pointer ml-4 mr-4 text-sm focus:ring-0  font-bold text-black bg-transparent mr-6 border-none ">LastName</option>
+                                                        <option value='City' className="cursor-pointer ml-4 mr-4 text-sm focus:ring-0  font-bold text-black bg-transparent mr-6 border-none ">City</option>
+                                                        <option value='Company' className="cursor-pointer ml-4 mr-4 text-sm focus:ring-0  font-bold text-black bg-transparent mr-6 border-none ">Company</option>
+                                                        <option value='Title' className="cursor-pointer ml-4 mr-4 text-sm focus:ring-0  font-bold text-black bg-transparent mr-6 border-none ">Title</option>
+
+                                                    </select>
+
+                                                    {/* <Dropdown
                                                         label={<><BsFilePlus size={20} color='black' /> <span className="mr-4 cursor-pointer text-sm focus:ring-0  font-bold text-black bg-transparent ml-2 border-none " value='Fields'>Fields</span><IoMdArrowDropdown /></>}
                                                         dismissOnClick={false} onChange={(e) => StatusClick(e.target.value)}
                                                         style={{ backgroundColor: 'transparent', color: 'black', outline: 'none', border: 'none' }}
@@ -227,7 +455,7 @@ export default function SendEmail() {
                                                                 Email
                                                             </button>
                                                         </Dropdown.Item>
-                                                    </Dropdown>
+                                                    </Dropdown> */}
                                                 </span>
                                             </div>
                                         </div>
@@ -240,12 +468,102 @@ export default function SendEmail() {
                                         <button type="button" className="cursor-pointer text-white bg-slate-400 border-2 border-slate-400 focus:outline-none focus:ring-4 focus:ring-slate-400 font-medium rounded-full text-sm px-6 py-1 text-center mr-6 mb-2 dark:border-slate-400 dark:hover:bg-slate-400 dark:focus:ring-slate-400" >Discard</button>
                                         <button type="submit" onClick={() => { }} className="cursor-pointer text-white bg-green-400 border-2 border-green-400 focus:outline-none focus:ring-4 focus:ring-green-400 font-medium rounded-full text-sm px-6 py-1 text-center mr-2 mb-2 dark:bg-green-400 dark:hover:bg-green-400 dark:focus:ring-green-400" >Send</button>
                                     </span>
+
                                 </div>
                             </form>
                         </div>
                     </div>
                 </div>
             </div>
+
+
+
+            <Modal
+                show={showModal}
+                size="4xl"
+                onClose={handleOnClose}
+            >
+
+                <Modal.Body>
+                    <div className="space-y-6">
+                        {filteredResultsforModal && filteredResultsforModal.length > 0 ? (
+                            <>
+                                <div className="filters">
+
+                                    <div className='min-[480px]:flex justify-between'>
+                                        <span className='flex'>
+                                            <span className="text-xs font-semibold mr-4 flex items-center">
+                                                <IoFilterOutline className='mr-2' />  Filter:</span>
+                                            <button className="text-xs  flex  font-semibold bg-transparent mr-4 border-none max-[480px]:ml-4 mt-1" onClick={() => NameClick()}>
+                                                Name<span className='mt-1 ml-1'> {NameArrow ? (<IoMdArrowDropdown />) : (<IoMdArrowDropup />)}</span>
+                                            </button>
+                                            <button className="text-xs  flex  font-semibold bg-transparent mr-4 border-none max-[480px]:ml-4 mt-1" onClick={() => CompanyClick()}>
+                                                Company <span className='mt-1 ml-1'>{companyArrow ? (<IoMdArrowDropdown />) : (<IoMdArrowDropup />)}</span>
+                                            </button>
+                                            <button className="text-xs  flex font-semibold bg-transparent mr-4 border-none max-[480px]:ml-4 mt-1" onClick={() => TitleClick()}>
+                                                Title<span className='mt-1 ml-1'>{Titlearrow ? (<IoMdArrowDropdown />) : (<IoMdArrowDropup />)}</span>
+                                            </button>
+                                        </span>
+                                        <span className='cursor-pointer'
+                                            color="gray"
+                                            onClick={handleOnClose}
+                                        >
+                                            X
+                                        </span>
+
+                                    </div>
+                                </div>
+
+                                <hr className="my-0 bg-gray-700 border border-gray-300 dark:bg-gray-700"></hr>
+                                <div className="relative overflow-x-auto overflow-y-auto">
+                                    {filteredResultsforModal.map(item => (
+
+
+                                        <table className="w-full text-xs text-left text-gray-500 dark:text-gray-400">
+
+                                            <tbody>
+                                                <tr className="bg-white dark:bg-gray-800 text-gray-700">
+
+                                                    <td className=" py-4 flex items-center  w-44">
+                                                        <img className="h-10  rounded-full w-10" src={item.ProfileImage ? item.ProfileImage : '/profile.png'} alt="Girl in a jacket" />
+                                                        <p className="ml-6 text-xs font-bold   text-black">{item.FirstName} {item.LastName}</p>
+                                                    </td>
+                                                    <td className="text-xs px-6 ">
+                                                        {item.Email}
+                                                    </td>
+                                                    <td className="text-xs px-6 pr-4 w-40 w-48">
+                                                        {item.PhoneNumber}
+                                                    </td>
+                                                    <td className="text-xs px-6 pr-4 w-20">
+                                                        {item.Title}
+                                                    </td>
+                                                    <td className="text-xs px-6 pr-4 w-32">
+                                                        {item.Company}
+                                                    </td>
+                                                    <td className=''><span className='cursor-pointer' onClick={() => DeleteRow(item._id)}><HiTrash /></span></td>
+
+                                                </tr>
+
+
+
+
+                                            </tbody>
+                                        </table>
+
+
+
+                                    ))}
+                                </div >
+
+
+
+                            </>) : ''
+                        }
+                    </div>
+
+                </Modal.Body >
+
+            </Modal >
         </>
     )
 }

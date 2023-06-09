@@ -16,8 +16,10 @@ export default function Contacts() {
     const [Titlearrow, setTitlearrow] = React.useState(true);
     const [clearserach, setclearserach] = React.useState(false);
     const [Loading, setloader] = React.useState(true);
+    const [selectedIds, setSelectedIds] = React.useState([]);
+    const [isButtonEnabled, setIsButtonEnabled] = React.useState(false);
     const APIData = getResult
-    
+
     const navigate = useNavigate();
     const searchItems = (searchValue) => {
         setclearserach(true)
@@ -116,13 +118,39 @@ export default function Contacts() {
     React.useEffect(() => {
         setmessage(contactMessage)
         setTimeout(() => {
-            setmessage('')  
+            setmessage('')
             localStorage.removeItem("contactMessage");
 
         }, 3000);
     }, [])
 
+    // for Emails Start
 
+
+    const handleCheckboxChange = (e, id) => {
+        const isChecked = e.target.checked;
+
+        if (isChecked) {
+            setSelectedIds(prevIds => [...prevIds, id]);
+        } else {
+            setSelectedIds(prevIds => prevIds.filter(prevId => prevId !== id));
+        }
+    };
+
+    console.log(selectedIds, 'selectedIds')
+
+
+
+  const handleButtonClicked = () => {
+    // Navigate to the new page with the array values
+    navigate("/email/send", { state: selectedIds });
+  
+  };
+  React.useEffect(() => {
+    setIsButtonEnabled(selectedIds.length > 0);
+  }, [selectedIds]);
+
+    // for Emails End
     return (
         <>
             <div className="min-[480px]:pt-10 sm:ml-48 min-[480px]:top-10 bg-gray-200 h-full" >
@@ -160,7 +188,13 @@ export default function Contacts() {
                 <hr className="min-[480px]:ml-5 h-px my-2 bg-gray-700 border border-gray-300 dark:bg-gray-700"></hr>
                 <div className="filters mb-4">
                     <div className='min-[480px]:flex '>
-                        <input type="text" id="voice" className="ml-8 w-36 placeholder-gray-400 bg-transparent border-2 border-gray-300 text-gary text-sm rounded-full focus:ring-gary-400 focus:border-gray-400 block  pl-7 pr-7 p-1  placeholder-text-gray dark:focus:ring-gray-500 dark:focus:border-gray-500" placeholder="Group Email" readOnly />
+                       
+                        
+                        <button type="button"
+                        className="ml-8 w-36 placeholder-gray-400 bg-transparent border-blue-500 text-black  border-2 disabled:border-gray-300 text-gary text-sm rounded-full focus:ring-blue-500 focus:border-blue-500 block  pl-7 pr-7 p-1  disabled:text-gray-400 dark:focus:ring-gray-500 dark:focus:border-gray-500" disabled={!isButtonEnabled}
+                        onClick={handleButtonClicked}>
+                        Group Email
+                        </button>
                         <span className="text-sm font-semibold mr-4 ml-6 flex items-center mt-1"><IoFilterOutline className='mr-2' /> Filter:</span>
                         <button className="text-sm font-semibold bg-transparent mr-6 border-none flex mt-2" onClick={() => NameClick()}> Name<span className='mt-1 ml-1'>{NameArrow ? (<IoMdArrowDropdown />) : (<IoMdArrowDropup />)}</span></button>
                         <button className="text-sm font-semibold bg-transparent mr-6 border-none flex mt-2" onClick={() => CompanyClick()}> Company<span className='mt-1 ml-1'>{companyArrow ? (<IoMdArrowDropdown />) : (<IoMdArrowDropup />)}</span></button>
@@ -170,7 +204,7 @@ export default function Contacts() {
                 <div className="p-4 min-h-screen border-1 border-blue-400 border-dashed mx-6 rounded-lg dark:border-blue-700 h-full top-20 bg-white">
                     <div className="mt-8 ml-2 mr-2 mb-8">
                         <div className="relative overflow-x-auto">
-                        {message ?(<h3 className='text-center font-bold mb-4 '>{message}</h3>):''}
+                            {message ? (<h3 className='text-center font-bold mb-4 '>{message}</h3>) : ''}
                             <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                                 {Loading ? (<>
                                     <div className=" items-center h-64 w-full">
@@ -185,7 +219,7 @@ export default function Contacts() {
                                         </div>
                                     </div>
                                 </>
-                                ) :filteredResults && APIData && filteredResults.length === 0 && APIData.length === 0 ? (
+                                ) : filteredResults && APIData && filteredResults.length === 0 && APIData.length === 0 ? (
                                     <p className="text-md text-center font-bold mt-20">No records exist!!</p>
                                 ) : null}
                                 <thead className="text-sm underline text-gray-900  dark:text-gray-400">
@@ -217,10 +251,16 @@ export default function Contacts() {
                                             filteredResults && filteredResults.map((data, index) => {
                                                 return (
                                                     <tr className="bg-white dark:bg-gray-800 text-gray-700">
-                                                        <td className="pl-0 pr-0 w-10 py-4"><input type="checkbox" className="focus:ring-0 ml-10 mr-10 outline-none text-blue-500 max-[768px]:ml-6 max-[768px]:mb-2 border-2 border-blue-500 mt-3 focus:bg-blue-500 focus:text-blue-500 bg-white text-md" name="medium" />
+                                                        <td className="pl-0 pr-0 w-10 py-4">
+                                                            <input
+                                                                type="checkbox"
+                                                                className="focus:ring-0 ml-10 mr-10 outline-none text-blue-500 max-[768px]:ml-6 max-[768px]:mb-2 border-2 border-blue-500 mt-3 focus:bg-blue-500 focus:text-blue-500 bg-white text-md"
+                                                                name="medium"
+                                                                onChange={(e) => handleCheckboxChange(e, data._id)}
+                                                            />
                                                         </td>
                                                         <td className="pr-6 py-4 flex">
-                                                            <img className="h-12 rounded-full w-12" src={data.ProfileImage ? data.ProfileImage : '/profile.png'} alt="Girl in a jacket" />
+                                                            <img className="h-12 rounded-full w-12" src={data.ProfileImage ? data.ProfileImage : '/GoogleUser.png'} alt="Girl in a jacket" />
                                                             <p className="ml-6 mt-4 text-base  font-bold text-black">{data.FirstName} {data.MiddleName} {data.LastName}</p>
                                                         </td>
                                                         <td className="px-6 py-4">
@@ -243,11 +283,17 @@ export default function Contacts() {
                                             getResult && getResult.map((data1, index) => {
                                                 return (
                                                     <tr className="bg-white dark:bg-gray-800 text-gray-700">
-                                                        <td className="pl-0 pr-0 w-10 py-4"><input type="checkbox" className="focus:ring-0 ml-10 mr-10 outline-none text-blue-500 max-[768px]:ml-6 max-[768px]:mb-2 border-2 border-blue-500 mt-3 focus:bg-blue-500 focus:text-blue-500 bg-white text-md" name="medium" />
+                                                        <td className="pl-0 pr-0 w-10 py-4">
+                                                            <input
+                                                                type="checkbox"
+                                                                className="focus:ring-0 ml-10 mr-10 outline-none text-blue-500 max-[768px]:ml-6 max-[768px]:mb-2 border-2 border-blue-500 mt-3 focus:bg-blue-500 focus:text-blue-500 bg-white text-md"
+                                                                name="medium"
+                                                                onChange={(e) => handleCheckboxChange(e, data1._id)}
+                                                            />
                                                         </td>
                                                         <td className="pr-6 py-4 flex">
 
-                                                            <img className="h-12 rounded-full w-12" src={data1.ProfileImage ? data1.ProfileImage : '/profile.png'} alt="Girl in a jacket" />
+                                                            <img className="h-12 rounded-full w-12" src={data1.ProfileImage ? data1.ProfileImage : '/GoogleUser.png'} alt="Girl in a jacket" />
                                                             <p className="ml-6 mt-4 text-base  font-bold text-black">{data1.FirstName} {data1.MiddleName} {data1.LastName}</p>
                                                         </td>
                                                         <td className="px-6 py-4">
