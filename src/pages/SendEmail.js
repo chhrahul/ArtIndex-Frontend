@@ -38,7 +38,7 @@ export default function SendEmail() {
     const [companyArrow, setcompanyArrow] = React.useState(true);
     const [Titlearrow, setTitlearrow] = React.useState(true);
     const [filteredResultsforModal, setfilteredResultsforModal] = React.useState([]);
-
+    const [authenticate, setauthenticate] = React.useState(false);
 
     const location = useLocation();
     const [datafromContact, setdatafromContact] = React.useState(location.state);
@@ -73,6 +73,8 @@ export default function SendEmail() {
         }
 
         async function sendEmail() {
+
+            data.access_token = localStorage.getItem("access_token")
             setloader(true)
             const result = await AxiosInstance({
                 'url': '/send-email',
@@ -80,16 +82,26 @@ export default function SendEmail() {
                 'data': data
             })
             const { status, message } = result.data
-            // console.log(message)
-            // console.log(status)
+            console.log(result.data.message)
             if (status) {
                 console.log('200')
+                if (result.data.message === 'Invalid access token') {
+                    setauthenticate(true)
+                } else {
+                    setTimeout(() => {
+                        navigate("/emails")
+                        localStorage.setItem('emailMessage', "Email Send Successfully!!");
+                    }, 3000);
+                }
+
+            } else {
+                console.log('400')
+                setauthenticate(true)
                 setTimeout(() => {
                     navigate("/emails")
-                    localStorage.setItem('emailMessage', "Email Send Successfully!!");
+                    localStorage.setItem('emailMessage', "Error While Sending Email");
                 }, 3000);
-            } else {
-                // console.log('400')
+
                 alert(message)
             }
 
@@ -118,8 +130,12 @@ export default function SendEmail() {
     };
 
     React.useEffect(() => {
+        const access_token = localStorage.getItem('access_token');
+        if (!access_token) {
+            setauthenticate(true);
+        }
         fetchInfo();
-    }, []);
+      }, []);
 
 
 
@@ -302,15 +318,17 @@ export default function SendEmail() {
 
     // Access Token Start
     const handleGoogleLoginSuccessfull = async ({ provider, data }) => {
-
         const access_token = data.access_token
-        
         localStorage.setItem('access_token', access_token);
-        
+
+        if (data.access_token) {
+            // setloader(true);
+            setauthenticate(false)
+        }
     }
 
     async function getData(accessToken) {
-        setloader(true);
+        // setloader(true);
         var data = JSON.stringify({ 'access_token': accessToken })
         try {
             const result = await AxiosInstance({
@@ -318,23 +336,24 @@ export default function SendEmail() {
                 method: 'post',
                 data: data
             });
-         
+
             if (result) {
-               console.log(result)
+                console.log(result)
             } else {
-               
+
                 // Show an alert message or take appropriate action to inform the user
             }
         } catch (error) {
-            
+
             console.error('Error:', error);
-           
+
             // Handle the error condition, such as showing an error message or taking appropriate action
         }
     }
 
     const handleLoginWithError = async ({ error }) => {
         console.log(error?.message)
+        setauthenticate(true);
     }
     const loginGoogleProps = {
         "client_id": '731019835589-6ff8j6hb3k7paort3etsrjbfq1rmbb5m.apps.googleusercontent.com',
@@ -345,15 +364,15 @@ export default function SendEmail() {
         "onResolve": handleGoogleLoginSuccessfull,
         "onReject": handleLoginWithError,
     }
-  
+
     // Access Token End
     const handleEmail = () => {
         // Navigate to the new page with the array values
         const access_token = localStorage.getItem("access_token")
         getData(access_token);
-      
-      };
-    
+
+    };
+
     return (
         <>
             <div className="min-[480px]:pt-10 sm:ml-48 min-[480px]:top-20 bg-gray-200 h-full min-[480px]:ml-40" >
@@ -384,46 +403,48 @@ export default function SendEmail() {
                                 </div>
                             </>
                             ) : ''}
-                            <LoginSocialGoogle {...loginGoogleProps}>
-                                <span className="mr-2 mt-2 mb-10 text-center items-center w-full cursor-pointer">
-                                    <p className="inline-block px-4 py-1.5 mb-4 text-white bg-blue-600 rounded-full  text-centerd" aria-current="page">Please Authenticate</p>
-                                </span>
+                            {authenticate ?
+                                <LoginSocialGoogle {...loginGoogleProps}>
+                                    <span className="mr-2 mt-2 mb-10 text-center items-center w-full cursor-pointer">
+                                        <p className="inline-block px-4 py-1.5 mb-4 text-white bg-blue-600 rounded-full  text-centerd" aria-current="page">Please Authenticate</p>
+                                    </span>
 
-                            </LoginSocialGoogle>
-<button onClick={handleEmail}>Send Email</button>
-                            <form onSubmit={handleSubmit(onSubmit)}>
-                                {errors.toEmail && <span className='text-red-500'>The Email field is required </span>}
-                                <div className={Loading ? 'ml-2 mt-4 opacity-20' : 'ml-2 mt-4'}>
-                                    <div className="w-full mb-4 border-2 border-blue-300 rounded-lg bg-gray-50 dark:bg-blue-500 dark:border-gray-600">
-                                        <div className="bg-white rounded-t-lg dark:bg-gray-800">
-                                            <label htmlFor="comment" className="sr-only">Your comment</label>
-                                            {/* <input type="email" {...register("toEmail", { required: true })} onChange={(e) => searchItems(e.target.value)} className="w-full text-black bg-white border-b-2 border-l-0  border-r-0  border-t-0 border-blue-200 focus:outline-0  italic rounded-t-lg text-md px-4 py-2 " placeholder="To: " /> */}
-                                            {EmailIDs && EmailIDs.length > 0 ? (
-                                                <>
-                                                    <ul className="flex justify-between w-full text-black bg-white border-b-2 border-l-0 border-r-0 border-t-0 border-blue-200 focus:outline-0 italic rounded-t-lg text-md px-4 py-2">
-                                                        <span className="flex">
-                                                            <li className="font-bold mr-4 mt-2">To:</li>
-                                                            {EmailIDs.slice(0, 4).map(item => (
-                                                                <li key={item._id} className="mr-4 flex border border-blue-300 rounded-l-full rounded-r-full px-2 pt-1">
-                                                                    <img className="h-7 rounded-full w-7" src={item.ProfileImage ? item.ProfileImage : '/GoogleUser.png'} alt="Profile" />
-                                                                    <p className="inline-block px-2 py-1 text-base text-black font-bold" aria-current="page">
-                                                                        {item.FirstName} {item.LastName}
-                                                                    </p>
-                                                                </li>
-                                                            ))}
-                                                        </span>
-                                                        {EmailIDs.length > 4 && (
-                                                            <span className="font-bold text-blue-500 text-sm mt-2 cursor-pointer" onClick={handleOnClick}>
-                                                                Manage List
-                                                            </span>
-                                                        )}
-                                                    </ul>
-                                                </>
-                                            ) : (
-                                                <input type="email" {...register("toEmail")} className="w-full text-black bg-white border-b-2 border-l-0 border-r-0 border-t-0 border-blue-200 focus:outline-0 italic rounded-t-lg text-md px-4 py-2" placeholder="To:" />
-                                            )}
+                                </LoginSocialGoogle>
+                                : (
 
-                                            {/* {
+                                    <form onSubmit={handleSubmit(onSubmit)}>
+                                        {errors.toEmail && <span className='text-red-500'>The Email field is required </span>}
+                                        <div className={Loading ? 'ml-2 mt-4 opacity-20' : 'ml-2 mt-4'}>
+                                            <div className="w-full mb-4 border-2 border-blue-300 rounded-lg bg-gray-50 dark:bg-blue-500 dark:border-gray-600">
+                                                <div className="bg-white rounded-t-lg dark:bg-gray-800">
+                                                    <label htmlFor="comment" className="sr-only">Your comment</label>
+                                                    {/* <input type="email" {...register("toEmail", { required: true })} onChange={(e) => searchItems(e.target.value)} className="w-full text-black bg-white border-b-2 border-l-0  border-r-0  border-t-0 border-blue-200 focus:outline-0  italic rounded-t-lg text-md px-4 py-2 " placeholder="To: " /> */}
+                                                    {EmailIDs && EmailIDs.length > 0 ? (
+                                                        <>
+                                                            <ul className="flex justify-between w-full text-black bg-white border-b-2 border-l-0 border-r-0 border-t-0 border-blue-200 focus:outline-0 italic rounded-t-lg text-md px-4 py-2">
+                                                                <span className="flex">
+                                                                    <li className="font-bold mr-4 mt-2">To:</li>
+                                                                    {EmailIDs.slice(0, 4).map(item => (
+                                                                        <li key={item._id} className="mr-4 flex border border-blue-300 rounded-l-full rounded-r-full px-2 pt-1">
+                                                                            <img className="h-7 rounded-full w-7" src={item.ProfileImage ? item.ProfileImage : '/GoogleUser.png'} alt="Profile" />
+                                                                            <p className="inline-block px-2 py-1 text-base text-black font-bold" aria-current="page">
+                                                                                {item.FirstName} {item.LastName}
+                                                                            </p>
+                                                                        </li>
+                                                                    ))}
+                                                                </span>
+                                                                {EmailIDs.length > 4 && (
+                                                                    <span className="font-bold text-blue-500 text-sm mt-2 cursor-pointer" onClick={handleOnClick}>
+                                                                        Manage List
+                                                                    </span>
+                                                                )}
+                                                            </ul>
+                                                        </>
+                                                    ) : (
+                                                        <input type="email" {...register("toEmail")} className="w-full text-black bg-white border-b-2 border-l-0 border-r-0 border-t-0 border-blue-200 focus:outline-0 italic rounded-t-lg text-md px-4 py-2" placeholder="To:" />
+                                                    )}
+
+                                                    {/* {
                                                 filteredResults.length > 0 ? (
                                                     filteredResults && filteredResults.map((data) => {
                                                         return (
@@ -438,54 +459,54 @@ export default function SendEmail() {
                                                     })
                                                 ) : ''
                                             } */}
-                                            <input type="text" {...register("subject")} className="w-full text-black bg-white border-t-0 border-b-2  border-l-0  border-r-0 border-blue-200  focus:outline-0  italic  text-md px-4 py-2" placeholder="Subject:" />
+                                                    <input type="text" {...register("subject")} className="w-full text-black bg-white border-t-0 border-b-2  border-l-0  border-r-0 border-blue-200  focus:outline-0  italic  text-md px-4 py-2" placeholder="Subject:" />
 
-                                            <div className='editor'>
-                                                <Editor
-                                                    toolbarClassName="toolbarClassName"
-                                                    wrapperClassName="wrapperClassName"
-                                                    editorClassName="editorClassName"
-                                                    wrapperStyle={{ height: 300 }}
-                                                    toolbar={{
-                                                        options: ['inline', 'list', 'textAlign', 'history'],
-                                                        inline: { inDropdown: false },
-                                                        list: { inDropdown: false },
-                                                        textAlign: { inDropdown: false },
-                                                        history: { inDropdown: false },
-                                                    }}
-                                                    name="message"
-                                                    editorState={editorState}
-                                                    onEditorStateChange={handleChange}
-                                                />
-                                            </div>
+                                                    <div className='editor'>
+                                                        <Editor
+                                                            toolbarClassName="toolbarClassName"
+                                                            wrapperClassName="wrapperClassName"
+                                                            editorClassName="editorClassName"
+                                                            wrapperStyle={{ height: 300 }}
+                                                            toolbar={{
+                                                                options: ['inline', 'list', 'textAlign', 'history'],
+                                                                inline: { inDropdown: false },
+                                                                list: { inDropdown: false },
+                                                                textAlign: { inDropdown: false },
+                                                                history: { inDropdown: false },
+                                                            }}
+                                                            name="message"
+                                                            editorState={editorState}
+                                                            onEditorStateChange={handleChange}
+                                                        />
+                                                    </div>
 
 
-                                        </div>
-                                        <div className="min-[480px]:flex items-center justify-between px-3 border-t-2 border-blue-300 dark:border-blue-300">
-                                            <div className="min-[480px]:flex pl-0 space-x-1 sm:pl-2">
-                                                <span className="inline-flex justify-center items-center p-1 text-black rounded cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600">
-                                                    <BsFileEarmark className='' size={20} color='black' />
-                                                    <select className="text-sm cursor-pointer focus:ring-0 font-bold text-black bg-transparent border-none" >
-                                                        <option value='Template'>Template</option>
-                                                        <option value='One'>One</option>
-                                                        <option value='Two'>Two</option>
-                                                    </select>
-                                                </span>
-                                                <span className="cursor-pointer inline-flex justify-center items-center p-1 text-black rounded cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600">
-                                                    <BsFilePlus size={20} color='black' className='disabled:text-gray-400' />
-                                                    <select disabled={EmailIDs.length === 0} className="text-sm cursor-pointer focus:ring-0 font-bold text-black disabled:text-gray-400 bg-transparent border-none"
+                                                </div>
+                                                <div className="min-[480px]:flex items-center justify-between px-3 border-t-2 border-blue-300 dark:border-blue-300">
+                                                    <div className="min-[480px]:flex pl-0 space-x-1 sm:pl-2">
+                                                        <span className="inline-flex justify-center items-center p-1 text-black rounded cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600">
+                                                            <BsFileEarmark className='' size={20} color='black' />
+                                                            <select className="text-sm cursor-pointer focus:ring-0 font-bold text-black bg-transparent border-none" >
+                                                                <option value='Template'>Template</option>
+                                                                <option value='One'>One</option>
+                                                                <option value='Two'>Two</option>
+                                                            </select>
+                                                        </span>
+                                                        <span className="cursor-pointer inline-flex justify-center items-center p-1 text-black rounded cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600">
+                                                            <BsFilePlus size={20} color='black' className='disabled:text-gray-400' />
+                                                            <select disabled={EmailIDs.length === 0} className="text-sm cursor-pointer focus:ring-0 font-bold text-black disabled:text-gray-400 bg-transparent border-none"
 
-                                                        onChange={handleSelectChange} >
-                                                        <option className="cursor-pointer ml-4 mr-4 text-sm focus:ring-0  font-bold text-black bg-transparent mr-6 border-none ">Fileds</option>
-                                                        <option value='FirstName' className="cursor-pointer ml-4 mr-4 pt-4 text-sm focus:ring-0  font-bold text-black bg-transparent mr-6 border-none ">FirstName</option>
-                                                        <option value='LastName' className="cursor-pointer ml-4 mr-4 text-sm focus:ring-0  font-bold text-black bg-transparent mr-6 border-none ">LastName</option>
-                                                        <option value='City' className="cursor-pointer ml-4 mr-4 text-sm focus:ring-0  font-bold text-black bg-transparent mr-6 border-none ">City</option>
-                                                        <option value='Company' className="cursor-pointer ml-4 mr-4 text-sm focus:ring-0  font-bold text-black bg-transparent mr-6 border-none ">Company</option>
-                                                        <option value='Title' className="cursor-pointer ml-4 mr-4 text-sm focus:ring-0  font-bold text-black bg-transparent mr-6 border-none ">Title</option>
+                                                                onChange={handleSelectChange} >
+                                                                <option className="cursor-pointer ml-4 mr-4 text-sm focus:ring-0  font-bold text-black bg-transparent mr-6 border-none ">Fileds</option>
+                                                                <option value='FirstName' className="cursor-pointer ml-4 mr-4 pt-4 text-sm focus:ring-0  font-bold text-black bg-transparent mr-6 border-none ">FirstName</option>
+                                                                <option value='LastName' className="cursor-pointer ml-4 mr-4 text-sm focus:ring-0  font-bold text-black bg-transparent mr-6 border-none ">LastName</option>
+                                                                <option value='City' className="cursor-pointer ml-4 mr-4 text-sm focus:ring-0  font-bold text-black bg-transparent mr-6 border-none ">City</option>
+                                                                <option value='Company' className="cursor-pointer ml-4 mr-4 text-sm focus:ring-0  font-bold text-black bg-transparent mr-6 border-none ">Company</option>
+                                                                <option value='Title' className="cursor-pointer ml-4 mr-4 text-sm focus:ring-0  font-bold text-black bg-transparent mr-6 border-none ">Title</option>
 
-                                                    </select>
+                                                            </select>
 
-                                                    {/* <Dropdown
+                                                            {/* <Dropdown
                                                         label={<><BsFilePlus size={20} color='black' /> <span className="mr-4 cursor-pointer text-sm focus:ring-0  font-bold text-black bg-transparent ml-2 border-none " value='Fields'>Fields</span><IoMdArrowDropdown /></>}
                                                         dismissOnClick={false} onChange={(e) => StatusClick(e.target.value)}
                                                         style={{ backgroundColor: 'transparent', color: 'black', outline: 'none', border: 'none' }}
@@ -523,21 +544,25 @@ export default function SendEmail() {
                                                             </button>
                                                         </Dropdown.Item>
                                                     </Dropdown> */}
-                                                </span>
+                                                        </span>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
-                                <div className='ml-2 mt-6 flex items-center justify-between'>
-                                    <label type="button" htmlFor="getFile" className="cursor-pointer  text-gray bg-transparent border-2 border-green-400 focus:outline-none focus:ring-4 focus:ring-green-400 font-medium rounded-full text-sm px-4 py-1 text-center mr-8 mb-2" >Attach</label>
-                                    <input type="file" id="getFile" className='hidden' onChange={handleChangeImage} />
-                                    <span className='min-[480px]:flex'>
-                                        <button type="button" className="cursor-pointer text-white bg-slate-400 border-2 border-slate-400 focus:outline-none focus:ring-4 focus:ring-slate-400 font-medium rounded-full text-sm px-6 py-1 text-center mr-6 mb-2 dark:border-slate-400 dark:hover:bg-slate-400 dark:focus:ring-slate-400" >Discard</button>
-                                        <button type="submit" onClick={() => { }} className="cursor-pointer text-white bg-green-400 border-2 border-green-400 focus:outline-none focus:ring-4 focus:ring-green-400 font-medium rounded-full text-sm px-6 py-1 text-center mr-2 mb-2 dark:bg-green-400 dark:hover:bg-green-400 dark:focus:ring-green-400" >Send</button>
-                                    </span>
+                                        <div className='ml-2 mt-6 flex items-center justify-between'>
+                                            <label type="button" htmlFor="getFile" className="cursor-pointer  text-gray bg-transparent border-2 border-green-400 focus:outline-none focus:ring-4 focus:ring-green-400 font-medium rounded-full text-sm px-4 py-1 text-center mr-8 mb-2" >Attach</label>
+                                            <input type="file" id="getFile" className='hidden' onChange={handleChangeImage} />
+                                            <span className='min-[480px]:flex'>
+                                                <button type="button" className="cursor-pointer text-white bg-slate-400 border-2 border-slate-400 focus:outline-none focus:ring-4 focus:ring-slate-400 font-medium rounded-full text-sm px-6 py-1 text-center mr-6 mb-2 dark:border-slate-400 dark:hover:bg-slate-400 dark:focus:ring-slate-400" >Discard</button>
+                                                <button type="submit" onClick={() => { }} className="cursor-pointer text-white bg-green-400 border-2 border-green-400 focus:outline-none focus:ring-4 focus:ring-green-400 font-medium rounded-full text-sm px-6 py-1 text-center mr-2 mb-2 dark:bg-green-400 dark:hover:bg-green-400 dark:focus:ring-green-400" >Send</button>
+                                            </span>
 
-                                </div>
-                            </form>
+                                        </div>
+                                    </form>
+                                )
+                            }
+                            {/* <button onClick={handleEmail}>Send Email</button> */}
+
                         </div>
                     </div>
                 </div>

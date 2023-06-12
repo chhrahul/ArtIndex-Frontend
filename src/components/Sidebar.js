@@ -112,6 +112,14 @@ export default function Sidebar() {
                             </NavLink>
                         </li>
                         <li>
+                            <NavLink to="/emails" className={({ isActive }) => (isActive ? 'active' : 'inactive').concat(" ", "flex items-center p-2 text-sm font-semibold text-black-900  dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700")}>
+                                <svg className="h-5 w-5 text-black" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />  <circle cx="8.5" cy="8.5" r="1.5" />  <polyline points="21 15 16 10 5 21" />
+                                </svg>
+                                <span className="flex-1 ml-3 whitespace-nowrap">Emails</span>
+                            </NavLink>
+                        </li>
+                        <li>
                             <NavLink to="/home" className={({ isActive }) => (isActive ? 'active' : 'inactive').concat(" ", "flex items-center p-2 text-sm font-semibold text-black-900  dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700")} onClick={signout} >
                                 <IoLogOutOutline size={26} />
                                 <span className="flex-1 ml-3 whitespace-nowrap">Logout</span>
